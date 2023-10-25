@@ -11,7 +11,7 @@ namespace Stage0
     {
         static partial void welcome8536() 
         {
-            Console.WriteLine("I am also here");
+            Console.WriteLine("I am also here!!!!1");
         }
     }
 }
