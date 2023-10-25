@@ -1,4 +1,6 @@
-﻿namespace Stage0;
+﻿//hellooooooo
+
+namespace Stage0;
 partial class Program
 {
     private static void Main(string[] args)
