@@ -1,4 +1,4 @@
-﻿//hellooooooo
+﻿
 
 namespace Stage0;
 partial class Program
