@@ -4,6 +4,7 @@ namespace DO;
 
 public record Task
 {
+<<<<<<< HEAD
     public int Id { get; set; }
     string Description { get; set; }
     string Ailas { get; set; }
@@ -18,6 +19,23 @@ public record Task
     string Remarks { get; set; }
     EngineerExperience‏ EngineerId { get; set; }
     int ComplexityLevl { get; set; }
+=======
+ public  int Id { get; set; } 
+    public string Description { get; set; }
+    public string Ailas { get; set; }
+    public bool IsMilestone { get; set; }
+    public DateTime CreatedAtDete { get; set; }
+    public DateTime StartDete { get; set; }
+    public DateTime? ScheduledDete { get; set; } = null;
+    public DateTime? ForecasDate { get; set; } =  null;
+    public DateTime DeadLineDate { get; set; }
+    public DateTime? CompleteDate { get; set; } = null;
+    public string Deliverables { get; set; }
+    public string Remarks { get; set; }
+    public int EngineerId { get; set; }
+    /*לא גמור*/
+    public EngineerExperience‏ ComplexityLevl { get; set; }
+>>>>>>> e4bca0acc3730ef202b902a5c3157bf0662dff91
 
     public Task()
     {
