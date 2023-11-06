@@ -17,15 +17,12 @@ public record Task
     public string Deliverables { get; set; }
     public string Remarks { get; set; }
     public int EngineerId { get; set; }
-   
     public EngineerExperience‏ ComplexityLevl { get; set; }
-
-
     public Task()
     {
 
     }
-    public Task(string Description, string Ailas, bool IsMilestone, DateTime CreatedAtDete, DateTime StartDete, DateTime ScheduledDete, DateTime ForecasDate,
+    public Task(int Id,string Description, string Ailas, bool IsMilestone, DateTime CreatedAtDete, DateTime StartDete, DateTime ScheduledDete, DateTime ForecasDate,
     DateTime DeadLineDate, DateTime CompleteDate, string Deliverables, string Remarks, int EngineerId, EngineerExperience‏ ComplexityLevl)
     {
         this.Id = Id;
