@@ -1,15 +1,15 @@
 ﻿
 
-namespace DO;
+namespace Do;
 
-public record dependency
+public record Dependency
 {
     int Id { get; set; }
     int DependentTask {  get; set; }
     int DependsTask {  get; set; }
 
-    public dependency() { }
-    public dependency(int Id, int DependentTask, int DependsTask) 
+    public Dependency() { }
+    public Dependency(int Id, int DependentTask, int DependsTask) 
     { 
         this.Id = Id;   
         this.DependentTask = DependentTask;     
