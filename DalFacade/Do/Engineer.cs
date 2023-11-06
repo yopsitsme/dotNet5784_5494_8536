@@ -12,6 +12,7 @@ public record Engineer
     public Engineer() { }
     public Engineer(string Name,string Email, EngineerExperience‏ Level,double Cost)
     {
+        this.Id = Id;   
         this.Name = Name;
         this.Email = Email;
         this.Level = Level;

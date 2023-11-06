@@ -22,19 +22,19 @@ public record Task
     {
 
     }
-    public Task(string Description, string Ailas, bool IsMilestone, DateTime CreatedAtDete, DateTime StartDete, DateTime ScheduledDete, DateTime ForecasDate,
-    DateTime DeadLineDate, DateTime CompleteDate, string Deliverables, string Remarks, int EngineerId, /EngineerExperience‏ ComplexityLevl)
+    public Task(int Id,string Description, string Ailas, bool IsMilestone, DateTime CreatedAtDete, DateTime StartDete, DateTime ScheduledDete, DateTime ForecasDate,
+    DateTime DeadLineDate, DateTime CompleteDate, string Deliverables, string Remarks, int EngineerId, EngineerExperience‏ ComplexityLevl)
     {
         this.Id = Id;
         this.Description = Description;
-        this.Ailas = Ailas;
+        this.Ailas = Ailas;     
         this.IsMilestone = IsMilestone;
-        this.CreatedAtDete = CreatedAtDete;
+        this.CreatedAtDete= CreatedAtDete;
         this.StartDete = StartDete;
-        this.ScheduledDete = ScheduledDete;
+        this.ScheduledDete= ScheduledDete;
         this.ForecasDate = ForecasDate;
         this.DeadLineDate = DeadLineDate;
-        this.Deliverables = Deliverables;
+        this.Deliverables = Deliverables; 
         this.Remarks = Remarks;
         this.EngineerId = EngineerId;
         this.CompleteDate = CompleteDate;
