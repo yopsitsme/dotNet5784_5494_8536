@@ -1,6 +1,6 @@
 ﻿
 
-namespace Do;
+namespace DO;
 
 public record Engineer
 {
