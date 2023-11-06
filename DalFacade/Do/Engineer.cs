@@ -4,12 +4,12 @@ namespace DO;
 
 public record Engineer
 {
-    int? Id { get; set; } = null;
-    string Name { get; set; }
-    string Email { get; set; }
-    int Level { get; set; }
-    double Cost { get; set; }
-
+ public   int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public int Level { get; set; }
+    public double Cost { get; set; }
+    public Engineer() { }
     public Engineer(string Name,string Email,int Level,double Cost)
     {
         this.Name = Name;
