@@ -1,6 +1,6 @@
 ﻿
 namespace DalApi;
-using Do;
+using DO;
 internal interface ITask
 {
     int Create(Task item); //Creates new entity object in DAL

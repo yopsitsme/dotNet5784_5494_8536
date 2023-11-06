@@ -1,6 +1,6 @@
 ﻿
 namespace DalApi;
-using Do;
+using DO;
 
     internal interface IDependency
     {
