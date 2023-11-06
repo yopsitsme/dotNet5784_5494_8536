@@ -1,6 +1,6 @@
 ﻿
 
-namespace DO;
+namespace Do;
 
 public record Task
 {
