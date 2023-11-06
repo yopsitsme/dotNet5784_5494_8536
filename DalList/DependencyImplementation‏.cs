@@ -4,11 +4,11 @@
     using DO;
     using System.Collections.Generic;
 
-    public class DependencyImplementation : IDependency‏
+    public class DependencyImplementation : IDependency
     {
         public int Create(Dependency item)
         {
-            Dependency newDependency = item with { Id = DataSource.Config.NextDependencyId };‏
+            Dependency newDependency = item with { Id = DataSource.Config.NextDependencyId };
             DataSource.Dependencies.Add(newDependency);
             return newDependency.Id;
             throw new NotImplementedException();

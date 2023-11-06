@@ -5,20 +5,20 @@ namespace DO;
 public record Task
 {
  public  int Id { get; set; } 
-    string Description { get; set; }
-    string Ailas { get; set; }
-    bool IsMilestone { get; set; }
-    DateTime CreatedAtDete { get; set; }
-    DateTime StartDete { get; set; }
-    DateTime? ScheduledDete { get; set; } = null;
-    DateTime? ForecasDate { get; set; } =  null;
-    DateTime DeadLineDate { get; set; }
-    DateTime? CompleteDate { get; set; } = null;
-    string Deliverables { get; set; }
-    string Remarks { get; set; }
-    int EngineerId { get; set; }
+    public string Description { get; set; }
+    public string Ailas { get; set; }
+    public bool IsMilestone { get; set; }
+    public DateTime CreatedAtDete { get; set; }
+    public DateTime StartDete { get; set; }
+    public DateTime? ScheduledDete { get; set; } = null;
+    public DateTime? ForecasDate { get; set; } =  null;
+    public DateTime DeadLineDate { get; set; }
+    public DateTime? CompleteDate { get; set; } = null;
+    public string Deliverables { get; set; }
+    public string Remarks { get; set; }
+    public int EngineerId { get; set; }
     /*לא גמור*/
-    int ComplexityLevl { get; set; }
+    public int ComplexityLevl { get; set; }
 
     public Task()
     {
