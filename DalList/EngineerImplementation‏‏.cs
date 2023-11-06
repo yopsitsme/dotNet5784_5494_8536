@@ -9,8 +9,10 @@ public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
-        Engineer newEngineer = item with { Id = DataSource.Config.NextEngineerId };‏
-        DataSource.Engineers.Add(newEngineer);
+        Engineer newEngineer = Read(item.Id);
+        if (newEngineer == null)
+        { throw new Exception($"Engineer with ID={newEngineer.Id} does exist"); }
+        DataSource.Engineers.Add(item);
         return newEngineer.Id;
         throw new NotImplementedException();
     }
