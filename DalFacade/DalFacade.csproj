@@ -13,8 +13,4 @@
 	  <RootNamespace />
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="DalApi\" />
-  </ItemGroup>
-
 </Project>
