@@ -17,26 +17,27 @@ public record Task
     public string Deliverables { get; set; }
     public string Remarks { get; set; }
     public int EngineerId { get; set; }
-    /*לא גמור*/
-    public int ComplexityLevl { get; set; }
+   
+    public EngineerExperience‏ ComplexityLevl { get; set; }
+
 
     public Task()
     {
 
     }
-    public Task(string Description,string Ailas,bool IsMilestone ,DateTime CreatedAtDete, DateTime StartDete ,DateTime ScheduledDete,DateTime ForecasDate,
-    DateTime DeadLineDate,DateTime CompleteDate,string Deliverables,string Remarks,int EngineerId, /*לא גמור*/int ComplexityLevl)
+    public Task(string Description, string Ailas, bool IsMilestone, DateTime CreatedAtDete, DateTime StartDete, DateTime ScheduledDete, DateTime ForecasDate,
+    DateTime DeadLineDate, DateTime CompleteDate, string Deliverables, string Remarks, int EngineerId, EngineerExperience‏ ComplexityLevl)
     {
         this.Id = Id;
         this.Description = Description;
-        this.Ailas = Ailas;     
+        this.Ailas = Ailas;
         this.IsMilestone = IsMilestone;
-        this.CreatedAtDete= CreatedAtDete;
+        this.CreatedAtDete = CreatedAtDete;
         this.StartDete = StartDete;
-        this.ScheduledDete= ScheduledDete;
+        this.ScheduledDete = ScheduledDete;
         this.ForecasDate = ForecasDate;
         this.DeadLineDate = DeadLineDate;
-        this.Deliverables = Deliverables; 
+        this.Deliverables = Deliverables;
         this.Remarks = Remarks;
         this.EngineerId = EngineerId;
         this.CompleteDate = CompleteDate;
