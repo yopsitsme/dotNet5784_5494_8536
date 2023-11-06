@@ -15,10 +15,10 @@ public class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        Task newtTask=Read(id);
-        if (newtTask != null) 
-        { throw new NotImplementedException(); }
-        DataSource.Tasks.Remove(newtTask);
+        Task newTask=Read(id);
+        if (newTask == null) 
+        { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
+        DataSource.Tasks.Remove(newTask);
         throw new NotImplementedException();
     }
 
@@ -38,7 +38,7 @@ public class TaskImplementation : ITask
     {
         Task newTask = Read(item.Id);
         if (newTask == null)
-        { throw new NotImplementedException(); }
+        { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Tasks.Add(newTask);
         throw new NotImplementedException();

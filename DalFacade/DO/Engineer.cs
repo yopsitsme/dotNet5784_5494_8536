@@ -10,7 +10,7 @@ public record Engineer
     public EngineerExperience‏ Level { get; set; }
     public double Cost { get; set; }
     public Engineer() { }
-    public Engineer(string Name,string Email,int Level,double Cost)
+    public Engineer(string Name,string Email, EngineerExperience‏ Level,double Cost)
     {
         this.Name = Name;
         this.Email = Email;
