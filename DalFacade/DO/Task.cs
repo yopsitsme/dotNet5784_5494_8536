@@ -4,7 +4,7 @@ namespace DO;
 
 public record Task
 {
-    int? Id { get; set; } = null;
+ public  int Id { get; set; } 
     string Description { get; set; }
     string Ailas { get; set; }
     bool IsMilestone { get; set; }
