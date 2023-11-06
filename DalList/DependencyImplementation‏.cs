@@ -18,7 +18,7 @@
         {
             Dependency newDependency = Read(id);
             if (newDependency == null)
-            { throw new NotImplementedException(); }
+            { throw new Exception($"Dependency with ID={newDependency.Id} does Not exist"); }
             DataSource.Dependencies.Remove(newDependency);
             throw new NotImplementedException();
         }
@@ -39,7 +39,7 @@
         {
             Dependency newDependency = Read(item.Id);
             if (newDependency == null)
-            { throw new NotImplementedException(); }
+            { throw new Exception($"Dependency with ID={newDependency.Id} does Not exist"); }
             Delete(item.Id);
             DataSource.Dependencies.Add(newDependency);
             throw new NotImplementedException();

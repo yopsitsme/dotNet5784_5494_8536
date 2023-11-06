@@ -5,11 +5,11 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class EngineerImplementation : IEngineer‏
+public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
-        Engineer‏ newEngineer = item with { Id = DataSource.Config.NextEngineerId };‏
+        Engineer newEngineer = item with { Id = DataSource.Config.NextEngineerId };‏
         DataSource.Engineers.Add(newEngineer);
         return newEngineer.Id;
         throw new NotImplementedException();
@@ -19,7 +19,7 @@ public class EngineerImplementation : IEngineer‏
     {
         Engineer newEngineer = Read(id);
         if (newEngineer == null)
-        { throw new NotImplementedException(); }
+        { throw new Exception($"Engineer with ID={newEngineer.Id} does Not exist"); }
         DataSource.Engineers.Remove(newEngineer);
         throw new NotImplementedException();
     }
@@ -40,7 +40,7 @@ public class EngineerImplementation : IEngineer‏
     {
         Engineer newEngineer= Read(item.Id);
         if(newEngineer == null) 
-        { throw new NotImplementedException(); }
+        { throw new Exception($"Engineer with ID={newEngineer.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Engineers.Add(newEngineer);
         throw new NotImplementedException();
