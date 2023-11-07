@@ -12,9 +12,9 @@ public record Dependency
     public int DependsTask {  get; set; }
 
     public Dependency() { }
-    public Dependency(int Id, int DependentTask, int DependsTask) 
+    public Dependency( int DependentTask, int DependsTask) 
     { 
-        this.Id = Id;   
+        
         this.DependentTask = DependentTask;     
         this.DependentTask = DependsTask;
     }

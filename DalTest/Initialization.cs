@@ -31,7 +31,7 @@ public static class Initialization
             string _email = _id + "@gmail.com";
 
             double _cost = s_rand.Next(75, 150) * 0.1;
-            Engineer newEng = new(_name, _email, _level, _cost, _id);
+            Engineer newEng =new(_name, _email, _level, _cost, _id);
 
             s_dalEngineer!.Create(newEng);
         }
