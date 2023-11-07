@@ -31,7 +31,7 @@ public static class Initialization
             string _email = _id + "@gmail.com";
 
             double _cost = s_rand.Next(75, 150) * 0.1;
-            Engineer newEng =new(_name, _email, _level, _cost, _id);
+            Engineer newEng = new(_name, _email, _level, _cost, _id);
 
             s_dalEngineer!.Create(newEng);
         }
@@ -127,15 +127,15 @@ public static class Initialization
             "Software localization and internationalization" };
         foreach (var _description in engineerTasks)
         {
-            
+
             int days = s_rand.Next(100, 150);
             string[] words = _description.Split(' ');
 
 
             string _alias = words[0];
             DateTime _start = DateTime.Now;
-            
-            DateTime _dedline= _start.AddDays(days);
+
+            DateTime _dedline = _start.AddDays(days);
             EngineerExperience _ComplexityLevl = (EngineerExperience)s_rand.Next(0, 4);
             string _deliverables = _deliverablesTask[i];
             i++;
@@ -149,22 +149,22 @@ public static class Initialization
     {
         for (int i = 0; i < 40; i++)
         {
-            List<Engineer> engineerTasks = s_dalEngineer.ReadAll();
-            int indexTask1 = s_rand.Next(0,engineerTasks.Count - 1);
-            int idTask1 = engineerTasks[indexTask1].Id;
-            int indexTask2 = s_rand.Next(0, engineerTasks.Count - 1);
-            while (indexTask2== indexTask1)
+            List<Task> tasks = s_dalTask.ReadAll();
+            int indexTask1 = s_rand.Next(0, tasks.Count - 1);
+            int idTask1 = tasks[indexTask1].Id;
+            int indexTask2 = s_rand.Next(0, tasks.Count - 1);
+            while (indexTask2 == indexTask1)
             {
-                indexTask2 = s_rand.Next(0, engineerTasks.Count - 1);
+                indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
-            int idTask2 = engineerTasks[indexTask2].Id;
+            int idTask2 = tasks[indexTask2].Id;
             Dependency newDependency = new(idTask1, idTask2);
             s_delDependency!.Create(newDependency);
 
         }
     }
 
-    public static void Do(ITask? dalTask,IDependency? dalDependency, IEngineer ? dalEngineer)
+    public static void Do(ITask? dalTask, IDependency? dalDependency, IEngineer? dalEngineer)
     {
         s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
         s_delDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
