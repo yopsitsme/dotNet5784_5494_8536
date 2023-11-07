@@ -1,8 +1,8 @@
 ﻿
-
 namespace DalTest;
 using DalApi;
 using DO;
+using System.Data.Common;
 using System.Security.Cryptography;
 
 public static class Initialization
@@ -33,12 +33,13 @@ public static class Initialization
             double _cost = s_rand.Next(75, 150) * 0.1;
             Engineer newEng = new(_name, _email, _level, _cost, _id);
 
-            s_dalEngineer.Create(newEng);
+            s_dalEngineer!.Create(newEng);
         }
 
     }
     private static void creatTask()
     {
+        bool _IsMilestone = false;
         int i = 0;
         string[] engineerTasks =
          {
@@ -133,15 +134,14 @@ public static class Initialization
 
             string _alias = words[0];
             DateTime _start = DateTime.Now;
-            bool _IsMilestone = (days % 2) == 0 ? true : false;
+            
             DateTime _dedline= _start.AddDays(days);
             EngineerExperience _ComplexityLevl = (EngineerExperience)s_rand.Next(0, 4);
             string _deliverables = _deliverablesTask[i];
             i++;
 
-           
-            Task newTask=new Task(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl)
-            s_dalTask.Create(newTask);
+            Task newTask = new Task(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
+            s_dalTask!.Create(newTask);
         }
 
     }
@@ -149,8 +149,17 @@ public static class Initialization
     {
         for (int i = 0; i < 40; i++)
         {
-            Dependency newDependency = new Dependency();
-            s_delDependency.Create(newDependency);
+            List<Engineer> engineerTasks = s_dalEngineer.ReadAll();
+            int indexTask1 = s_rand.Next(0,engineerTasks.Count - 1);
+            int idTask1 = engineerTasks[indexTask1].Id;
+            int indexTask2 = s_rand.Next(0, engineerTasks.Count - 1);
+            while (indexTask2== indexTask1)
+            {
+                indexTask2 = s_rand.Next(0, engineerTasks.Count - 1);
+            }
+            int idTask2 = engineerTasks[indexTask2].Id;
+            Dependency newDependency = new Dependency(idTask1, idTask2);
+            s_delDependency!.Create(newDependency);
 
         }
     }
