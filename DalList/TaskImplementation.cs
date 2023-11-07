@@ -10,7 +10,7 @@ public class TaskImplementation : ITask
         Task newtTask = item with { Id = DataSource.Config.NextTaskId };
         DataSource.Tasks.Add(newtTask);
         return newtTask.Id;
-        throw new NotImplementedException();
+       
     }
 
     public void Delete(int id)
@@ -19,19 +19,19 @@ public class TaskImplementation : ITask
         if (newTask == null) 
         { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
         DataSource.Tasks.Remove(newTask);
-        throw new NotImplementedException();
+       
     }
 
     public Task? Read(int id)
     {
         return DataSource.Tasks.Find(x => x.Id == id);
-        throw new NotImplementedException();
+      
     }
 
     public List<Task> ReadAll()
     {
         return new List<Task>(DataSource.Tasks);
-        throw new NotImplementedException();
+       
     }
 
     public void Update(Task item)
@@ -41,6 +41,6 @@ public class TaskImplementation : ITask
         { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Tasks.Add(newTask);
-        throw new NotImplementedException();
+       
     }
 }

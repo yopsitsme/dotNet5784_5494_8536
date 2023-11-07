@@ -31,7 +31,7 @@ public static class Initialization
             string _email = _id + "@gmail.com";
 
             double _cost = s_rand.Next(75, 150) * 0.1;
-            Engineer newEng = new(_name, _email, _level, _cost, _id);
+            Engineer newEng =new(_name, _email, _level, _cost, _id);
 
             s_dalEngineer!.Create(newEng);
         }
@@ -140,7 +140,7 @@ public static class Initialization
             string _deliverables = _deliverablesTask[i];
             i++;
 
-            Task newTask = new Task(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
+            Task newTask = new(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
             s_dalTask!.Create(newTask);
         }
 
@@ -158,7 +158,7 @@ public static class Initialization
                 indexTask2 = s_rand.Next(0, engineerTasks.Count - 1);
             }
             int idTask2 = engineerTasks[indexTask2].Id;
-            Dependency newDependency = new Dependency(idTask1, idTask2);
+            Dependency newDependency = new(idTask1, idTask2);
             s_delDependency!.Create(newDependency);
 
         }
