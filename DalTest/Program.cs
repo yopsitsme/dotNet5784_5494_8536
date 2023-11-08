@@ -50,15 +50,18 @@ internal class Program
                     break;
                 case "1":
                     // Handle Task
-                    Console.WriteLine("You selected Task");
+                    DisplaySubMenu("Task");
+
                     break;
                 case "2":
                     // Handle Engineer
-                    Console.WriteLine("You selected Engineer");
+                    DisplaySubMenu("Engineer");
+
                     break;
                 case "3":
                     // Handle Dependency
-                    Console.WriteLine("You selected Dependency");
+                    DisplaySubMenu("Dependency");
+
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -104,12 +107,13 @@ internal class Program
                         break;
                     case "4":
                         // Handle ReadAll
+                        readAllGlobal(entityName);
                         Console.WriteLine("You selected ReadAll");
                         break;
-                    //case "5":
-                    //    // Handle Update
-                    //    updateGlobal(entityName);
-                    //    break;
+                    case "5":
+                        // Handle Update
+                        updateGlobal(entityName);
+                        break;
                     case "6":
                         // Handle Delete
                         deleteGlobal(entityName);
@@ -163,13 +167,12 @@ internal class Program
     {
         string name = GetInput("Please enter the engineer's name: ");
         string email = GetInput("Please enter the engineer's email: ");
-
-        string levelInput = GetInput("Please enter the engineer's experience level (Junior, Mid, Senior): ");
+        string levelInput = GetInput("Please enter the engineer's experience level (Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
         EngineerExperience level;
         Enum.TryParse(levelInput, out level);
-
         double cost = Convert.ToDouble(GetInput("Please enter the engineer's cost per hour: "));
-        int id = Convert.ToInt32(GetInput("Please enter the engineer's ID: "));
+        int id;
+        int.TryParse(GetInput("Please enter the engineer's ID: "), out id);
 
         Engineer engineer = new Engineer(name, email, level, cost, id);
         try
@@ -182,8 +185,10 @@ internal class Program
 
     static void createDependency()
     {
-        int dependentTask = int.Parse(GetInput("Enter the DependentTask: "));
-        int dependsTask = int.Parse(GetInput("Enter the DependsTask: "));
+        int dependentTask;
+        int.TryParse(GetInput("Enter the DependentTask: "), out dependentTask);
+        int dependsTask;
+        int.TryParse(GetInput("Enter the DependsTask: "), out dependsTask);
 
         Dependency dependency = new Dependency(dependentTask, dependsTask);
         s_dalDependency.Create(dependency);
@@ -210,8 +215,8 @@ internal class Program
 
     static void readTask()
     {
-        int idTask; 
-        int.TryParse((GetInput("Enter the Tasks id: ")),out idTask);
+        int idTask;
+        int.TryParse((GetInput("Enter the Tasks id: ")), out idTask);
         Task taskRead = s_dalTask.Read(idTask);
         Console.WriteLine(taskRead);
 
@@ -220,7 +225,7 @@ internal class Program
     static void readEngineer()
     {
         int idEngineer;
-         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
+        int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
         Engineer engineerRead = s_dalEngineer.Read(idEngineer);
         Console.WriteLine(engineerRead);
     }
@@ -228,7 +233,7 @@ internal class Program
     static void readDependency()
     {
         int idDependency;
-         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
+        int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
         Dependency dependencyRead = s_dalDependency.Read(idDependency);
         Console.WriteLine(dependencyRead);
     }
@@ -301,7 +306,7 @@ internal class Program
         try
         {
             int idTask;
-            int.TryParse(GetInput("Enter the Tasks id: "),out idTask);
+            int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
             s_dalTask.Delete(idTask);
         }
         catch (Exception e) { Console.WriteLine(e); }
@@ -312,7 +317,7 @@ internal class Program
         try
         {
             int idEngineer;
-             int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
+            int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
             s_dalEngineer.Delete(idEngineer);
         }
         catch (Exception e) { Console.WriteLine(e); }
@@ -324,77 +329,157 @@ internal class Program
         try
         {
             int idDependency;
-             int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
+            int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
             s_dalDependency.Delete(idDependency);
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
 
-    //public static void updateGlobal(string entityName)
-    //{
-    //    switch (entityName)
-    //    {
-    //        case "Task":
-    //            updataTask();
-    //            break;
-    //        case "Engineer":
-    //            updataEngineer();
-    //            break;
-    //        case "Dependency":
-    //            updataDependency();
-    //            break;
-    //        default:
-    //            throw (new Exception("no such entity name"));
-    //    }
+    public static void updateGlobal(string entityName)
+    {
+        switch (entityName)
+        {
+            case "Task":
+                updateTask();
+                break;
+            case "Engineer":
+                updateEngineer();
+                break;
+            case "Dependency":
+                updateDependency();
+                break;
+            default:
+                throw (new Exception("no such entity name"));
+        }
 
-    //}
+    }
 
-    //static void updateTask()
-    //{
-    //    int idTask;
-    //     int.TryParse(GetInput("Enter the Tasks id: "),out idTask);
-    //    DO.Task task = s_dalTask.Read(idTask);
-    //    if (task != null)
-    //    {
-    //        Console.WriteLine(task);
-    //        DO.Task updatedTask = ReadTaskFromUser();
-    //        updatedTask.Id = idTask;//update the new task's id to be the same as the task the user want to update
-    //        s_dalTask.Update(updatedTask);
+    static void updateTask()
+    {
+        int idTask;
+        int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
+        Task task = s_dalTask.Read(idTask);
+        if (task != null)
+        {
+            Console.WriteLine(task);
 
-    //    }
+            Console.WriteLine("Enter Task Data:");
 
-    //}
-    //static void updateEngineer()
-    //{
-    //    int idEngineer;
-    //    int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-    //    Engineer engineer = s_dalEngineer.Read(idEngineer);
-    //    if (engineer != null)
-    //    {
-    //        Console.WriteLine(engineer);
-    //        Engineer updatedEngineer = ReadEngineerFromUser();
-    //        s_dalEngineer.Update(updatedEngineer);
-    //    }
-    //}
-    //static void updateDependency()
-    //{
-    //    int idDependency;
-    //    int.TryParse(GetInput("Enter the Dependency id: "),out idDependency);
-    //    Dependency dependency = s_dalDependency.Read(idDependency);
-    //    if (dependency != null)
-    //    {
-    //        Console.WriteLine(dependency);
-    //        Dependency updatedDependency = ReadDependencyFromUser();
-    //        updatedDependency.Id = idDependency;//update the new dependency's id to be the same as the task the user want to update
-    //        s_dalDependency.Update(updatedDependency);
-    //    }
-    //}
+            // Input fields
+            string? description = GetInput("Enter the task description: ");
+            string? alias = GetInput("Enter the task alias: ");
+            bool? isMilestone = GetBoolInput("Is the task a milestone? (true/false): ");
+            DateTime? start = GetNullDatTimeImput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
+            DateTime? scheduled = GetNullDatTimeImput("Enter the task scheduleded date and time (YYYY-MM-DD HH:mm:ss): ");
+            DateTime? forecas = GetNullDatTimeImput("Enter the task Enter the task forecas date and time (YYYY-MM-DD HH:mm:ss): ");
+            DateTime? deadline = GetNullDatTimeImput("Enter the task deadline date and time (YYYY-MM-DD HH:mm:ss): ");
+            DateTime? complete = GetNullDatTimeImput("Enter the task Enter the task complete date and time (YYYY-MM-DD HH:mm:ss): ");
+            string? deliverables = GetInput("Enter the task deliverables: ");
+            string? remarks = GetInput("Enter Remarks: ");
+            int? engineerId = GetNullIntImput("Enter Engineer ID: ");
+            EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
+
+            Task updatedTask = new(idTask, description != "" ? description : task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete,
+                start ?? task.StartDete, scheduled ?? task.ScheduledDete, forecas ?? task.ForecasDate, deadline ?? task.DeadLineDate, complete ?? task.CompleteDate, deliverables != "" ? deliverables : task.Deliverables,
+                remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevl);
+            s_dalTask.Update(updatedTask);
+
+        }
+
+    }
+    static void updateEngineer()
+    {
+        int idEngineer;
+        int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
+        Engineer engineer = s_dalEngineer.Read(idEngineer);
+        if (engineer != null)
+        {
+            Console.WriteLine(engineer);
+            string? name = GetInput("Please enter the engineer's name: ");
+            string? email = GetInput("Please enter the engineer's email: ");
+            EngineerExperience? level = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
+            double? cost = GetNullDoubleInput("Please enter the engineer's cost per hour: ");
+
+
+            Engineer updatedEngineer = new(name!=""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost,engineer.Id);
+            s_dalEngineer.Update(updatedEngineer);
+        }
+    }
+    static void updateDependency()
+    {
+        int idDependency;
+        int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
+        Dependency dependency = s_dalDependency.Read(idDependency);
+        if (dependency != null)
+        {
+            Console.WriteLine(dependency);
+            int? dependentTask=GetNullIntImput("Enter the DependentTask: ");
+            int? dependsTask=GetNullIntImput("Enter the DependsTask: ");
+            Dependency updatedDependency = new (dependency.Id, dependentTask ?? dependency.DependentTask1, dependsTask ?? dependency.DependsTask2);
+            s_dalDependency.Update(updatedDependency);
+        }
+    }
 
     static string GetInput(string message)
     {
         Console.Write(message);
         return Console.ReadLine();
     }
+
+    public static int? GetNullIntImput(string message)
+    {
+
+        int? inputMutable;
+        string input = GetInput(message);
+        bool success = int.TryParse(input, out int parsedValue);
+
+        if (success)
+        {
+            inputMutable = parsedValue;
+        }
+        else
+        {
+            inputMutable = null;
+        }
+        return inputMutable;
+    }
+
+    public static DateTime? GetNullDatTimeImput(string message)
+    {
+
+        DateTime? inputMutable;
+        string input = GetInput(message);
+        bool success = DateTime.TryParse(input, out DateTime parsedValue);
+
+        if (success)
+        {
+            inputMutable = parsedValue;
+        }
+        else
+        {
+            inputMutable = null;
+        }
+        return inputMutable;
+    }
+
+    public static double? GetNullDoubleInput(string message)
+    {
+
+        double? inputMutable;
+        string input = GetInput(message);
+        bool success = double.TryParse(input, out double parsedValue);
+
+        if (success)
+        {
+            inputMutable = parsedValue;
+        }
+        else
+        {
+            inputMutable = null;
+        }
+        return inputMutable;
+    }
+
 
     static bool GetBoolInput(string message)
     {
@@ -421,6 +506,7 @@ internal class Program
         return experienceLevel;
     }
 }
+
 
 
 

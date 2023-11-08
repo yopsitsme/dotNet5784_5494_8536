@@ -40,7 +40,7 @@ public class TaskImplementation : ITask
         if (newTask == null)
         { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
         Delete(item.Id);
-        DataSource.Tasks.Add(newTask);
+        DataSource.Tasks.Add(item);
        
     }
 }

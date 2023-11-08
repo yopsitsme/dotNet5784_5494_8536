@@ -10,10 +10,10 @@ public class EngineerImplementation : IEngineer
     public int Create(Engineer item)
     {
         Engineer newEngineer = Read(item.Id);
-        if (newEngineer == null)
+        if (newEngineer != null)
         { throw new Exception($"Engineer with ID={newEngineer.Id} does exist"); }
         DataSource.Engineers.Add(item);
-        return newEngineer.Id;
+        return item.Id;
         
     }
 
@@ -44,7 +44,7 @@ public class EngineerImplementation : IEngineer
         if(newEngineer == null) 
         { throw new Exception($"Engineer with ID={newEngineer.Id} does Not exist"); }
         Delete(item.Id);
-        DataSource.Engineers.Add(newEngineer);
+        DataSource.Engineers.Add(item);
        
     }
 }
