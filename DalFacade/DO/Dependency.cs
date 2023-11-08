@@ -4,8 +4,7 @@ namespace DO;
 
 public record Dependency
 {
-    private int idTask1;
-    private int idTask2;
+   
 
     public int Id { get; set; }
     public int DependentTask1 {  get; set; }
