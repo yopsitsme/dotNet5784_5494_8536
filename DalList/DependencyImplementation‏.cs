@@ -17,7 +17,7 @@
         public void Delete(int id)
         {
             Dependency newDependency = Read(id);
-            if (newDependency == null)
+            if (newDependency != null)
             { throw new Exception($"Dependency with ID={newDependency.Id} does Not exist"); }
             DataSource.Dependencies.Remove(newDependency);
             

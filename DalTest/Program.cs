@@ -50,15 +50,18 @@ internal class Program
                     break;
                 case "1":
                     // Handle Task
-                    Console.WriteLine("You selected Task");
+                    DisplaySubMenu("Task");
+                    
                     break;
                 case "2":
                     // Handle Engineer
-                    Console.WriteLine("You selected Engineer");
+                    DisplaySubMenu("Engineer");
+                    
                     break;
                 case "3":
                     // Handle Dependency
-                    Console.WriteLine("You selected Dependency");
+                    DisplaySubMenu("Dependency");
+                   
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -104,6 +107,7 @@ internal class Program
                         break;
                     case "4":
                         // Handle ReadAll
+                        readAllGlobal(entityName);
                         Console.WriteLine("You selected ReadAll");
                         break;
                     //case "5":
@@ -164,7 +168,7 @@ internal class Program
         string name = GetInput("Please enter the engineer's name: ");
         string email = GetInput("Please enter the engineer's email: ");
 
-        string levelInput = GetInput("Please enter the engineer's experience level (Junior, Mid, Senior): ");
+        string levelInput = GetInput("Please enter the engineer's experience level (Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
         EngineerExperience level;
         Enum.TryParse(levelInput, out level);
 

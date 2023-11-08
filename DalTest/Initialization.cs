@@ -33,7 +33,7 @@ public static class Initialization
             double _cost = s_rand.Next(75, 150) * 0.1;
             Engineer newEng = new(_name, _email, _level, _cost, _id);
 
-            s_dalEngineer!.Create(newEng);
+           int id= s_dalEngineer!.Create(newEng);
         }
 
     }
@@ -141,7 +141,7 @@ public static class Initialization
             i++;
 
             Task newTask = new(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
-            s_dalTask!.Create(newTask);
+            int id = s_dalTask!.Create(newTask);
         }
 
     }
@@ -159,7 +159,7 @@ public static class Initialization
             }
             int idTask2 = tasks[indexTask2].Id;
             Dependency newDependency = new(idTask1, idTask2);
-            s_delDependency!.Create(newDependency);
+            int id = s_delDependency!.Create(newDependency);
 
         }
     }
