@@ -5,6 +5,8 @@ using DO;
 using System.Data.Common;
 using System.Security.Cryptography;
 
+//Creation of 20 tasks 5 engineers and 40 depending between an engineer
+//and a regular programmer
 public static class Initialization
 {
     private static ITask? s_dalTask;
@@ -23,20 +25,22 @@ public static class Initialization
         {
             int _id;
             do
-                _id = s_rand.Next(200000000, 400000000);
+                _id = s_rand.Next(200000000, 400000000);//Identity tax lottery
             while (s_dalEngineer!.Read(_id) != null);
 
-            EngineerExperience _level = (EngineerExperience)s_rand.Next(0, 4);
+            EngineerExperience _level = (EngineerExperience)s_rand.Next(0, 4);//The worker level lottery
 
-            string _email = _id + "@gmail.com";
+            string _email = _id + "@gmail.com";//Create an email address
 
-            double _cost = s_rand.Next(75, 150) * 0.12*10;
+            double _cost = s_rand.Next(75, 150) * 0.12*10;  //Salary lottery in the appropriate range for every engineer
             Engineer newEng = new(_name, _email, _level, _cost, _id);
 
-           int id= s_dalEngineer!.Create(newEng);
+            int id= s_dalEngineer!.Create(newEng);//Creating the object using a function create
         }
 
     }
+
+    //Creating an task
     private static void creatTask()
     {
         bool _IsMilestone = false;
