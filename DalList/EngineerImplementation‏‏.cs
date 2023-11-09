@@ -10,7 +10,7 @@ public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
-        Engineer newEngineer = Read(item.Id);
+        Engineer ?newEngineer = Read(item.Id);
         if (newEngineer != null)
         { throw new Exception($"Engineer with ID={newEngineer.Id} does exist"); }
         DataSource.Engineers.Add(item);
@@ -26,9 +26,9 @@ public class EngineerImplementation : IEngineer
     /// <exception cref="Exception"></exception>
     public void Delete(int id)
     {
-        Engineer newEngineer = Read(id);
+        Engineer? newEngineer = Read(id);
         if (newEngineer == null)
-        { throw new Exception($"Engineer with ID={newEngineer.Id} does Not exist"); }
+        { throw new Exception($"Engineer with ID={id} does Not exist"); }
         DataSource.Engineers.Remove(newEngineer);
     
     }
@@ -62,9 +62,9 @@ public class EngineerImplementation : IEngineer
     /// <exception cref="Exception"></exception>
     public void Update(Engineer item)
     {
-        Engineer newEngineer= Read(item.Id);
+        Engineer ?newEngineer= Read(item.Id);
         if(newEngineer == null) 
-        { throw new Exception($"Engineer with ID={newEngineer.Id} does Not exist"); }
+        { throw new Exception($"Engineer with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Engineers.Add(item);
        

@@ -29,9 +29,9 @@
         /// <exception cref="Exception"></exception>
         public void Delete(int id)
         {
-            Dependency newDependency = Read(id);
-            if (newDependency != null)
-            { throw new Exception($"Dependency with ID={newDependency.Id} does Not exist"); }
+            Dependency ?newDependency = Read(id);
+            if (newDependency == null)
+            { throw new Exception($"Dependency with ID={id} does Not exist"); }
             DataSource.Dependencies.Remove(newDependency);
 
         }
@@ -65,9 +65,9 @@
         /// <exception cref="Exception"></exception>
         public void Update(Dependency item)
         {
-            Dependency newDependency = Read(item.Id);
+            Dependency ?newDependency = Read(item.Id);
             if (newDependency == null)
-            { throw new Exception($"Dependency with ID={newDependency.Id} does Not exist"); }
+            { throw new Exception($"Dependency with ID={item.Id} does Not exist"); }
             Delete(item.Id);
             DataSource.Dependencies.Add(item);
 
