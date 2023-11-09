@@ -6,9 +6,9 @@ namespace DO;
 public record Dependency
 
     (
-     int Id,
-     int DependentTask1,
-     int DependsTask2
+     int Id=0,
+     int DependentTask=0,
+     int DependsTask = 0
     )
 {
     //defult constructor

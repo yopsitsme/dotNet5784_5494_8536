@@ -132,22 +132,19 @@ public static class Initialization
         foreach (var _description in engineerTasks)
         {
 
-            int days1 = s_rand.Next(100, 150);
-            int days2= s_rand.Next(20, 40);
-            int days3= s_rand.Next(-20, 40);
-            int days4= s_rand.Next(-30, 0);
+            int days = s_rand.Next(100, 150);
             string[] words = _description.Split(' ');
 
 
-            string _deliverables = words[0];
+            string _alias = words[0];
             DateTime _start = DateTime.Now;
-            DateTime _scheduled= _start.AddDays(days1);
-            DateTime _foreced = _start.AddDays(days3);
-            DateTime _dedline = _scheduled.AddDays(days2);
-            DateTime _end = _dedline.AddDays(days3);
-            EngineerExperience _ComplexityLevl = (EngineerExperience)s_rand.Next(0, 4);
 
-            Task newTask = new(_start, _scheduled, _foreced, _end,_dedline,_IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
+            DateTime _dedline = _start.AddDays(days);
+            EngineerExperience _ComplexityLevl = (EngineerExperience)s_rand.Next(0, 4);
+            string _deliverables = _deliverablesTask[i];
+            i++;
+
+            Task newTask = new( _start, _dedline, _deliverables, _ComplexityLevl, _description, _alias, _IsMilestone);
             int id = s_dalTask!.Create(newTask);
         }
 
@@ -158,14 +155,14 @@ public static class Initialization
         for (int i = 0; i < 40; i++)
         {
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
-            int idTask1 = tasks[indexTask1].ID;
+            int _dependentTask = tasks[indexTask1].ID;
             int indexTask2 = s_rand.Next(0, tasks.Count - 1);
             while (indexTask2 == indexTask1)
             {
                 indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
-            int idTask2 = tasks[indexTask2].ID;
-            Dependency newDependency = new(idTask1, idTask2);
+            int _dependsTask = tasks[indexTask2].ID;
+            Dependency newDependency = new(_dependentTask, _dependsTask);
             int id = s_delDependency!.Create(newDependency);
 
         }
