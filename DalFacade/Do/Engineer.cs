@@ -4,7 +4,7 @@ namespace DO;
 
 // decleration of the entity engineer
 public record Engineer
-    (
+ (
     int Id,
     string? Name = null,
     string? Email = null,
@@ -12,7 +12,7 @@ public record Engineer
     double? Cost = null
 
 
-    )
+ )
 {
     //defult constructor
     public Engineer():this(0) { }

@@ -22,9 +22,9 @@ public class TaskImplementation : ITask
     /// <exception cref="Exception"></exception>
     public void Delete(int id)
     {
-        Task newTask=Read(id);
+        Task? newTask=Read(id);
         if (newTask == null) 
-        { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
+        { throw new Exception($"Task with ID={id} does Not exist"); }
         DataSource.Tasks.Remove(newTask);
        
     }
@@ -57,9 +57,9 @@ public class TaskImplementation : ITask
     /// <exception cref="Exception"></exception>
     public void Update(Task item)
     {
-        Task newTask = Read(item.Id);
+        Task ?newTask = Read(item.Id);
         if (newTask == null)
-        { throw new Exception($"Task with ID={newTask.Id} does Not exist"); }
+        { throw new Exception($"Task with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Tasks.Add(item);
        

@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace DalTest;
 using DalApi;
 using Dal;
@@ -9,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Runtime.ConstrainedExecution;
 using System.Globalization;
+///A figure that can be assumed that the user enters normal values and not null, therefore in many places there is none?
 ///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
 internal class Program
 {
@@ -41,7 +43,7 @@ internal class Program
             Console.WriteLine("3. Dependency");
 
             Console.Write("Enter your choice: ");
-            string input = Console.ReadLine();
+            string ?input = Console.ReadLine();
 
             switch (input)//A switch case program for choosing which entity to handle 1 to task 2 to engineer 3 to Dependency
             {
@@ -90,7 +92,7 @@ internal class Program
                 Console.WriteLine("6. Deleting an existing object from a list");
 
                 Console.Write("Enter your choice: ");
-                string input = Console.ReadLine();
+                string ?input = Console.ReadLine();
 
                 switch (input)
                 {
@@ -160,8 +162,8 @@ internal class Program
         string deliverables = GetInput("Enter the task deliverables: ");
         EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-        Task task = new (description, alias, isMilestone, start, deadline, deliverables, complexityLevel);
-        s_dalTask.Create(task);
+        Task task = new (description!, alias!, isMilestone, start, deadline, deliverables!, complexityLevel);
+        s_dalTask!.Create(task);
     }
 
     static void createEngineer()//A function that receives data from the user for the Engineer and creates a new Engineer
@@ -175,11 +177,11 @@ internal class Program
         int id;
         int.TryParse(GetInput("Please enter the engineer's ID: "), out id);
 
-        Engineer engineer = new(id,name, email, level, cost);
+        Engineer engineer = new (id,name, email, level, cost);
         try
         {
 
-            s_dalEngineer.Create(engineer);
+            s_dalEngineer!.Create(engineer);
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
@@ -192,7 +194,7 @@ internal class Program
         int.TryParse(GetInput("Enter the DependsTask: "), out dependsTask);
 
         Dependency dependency = new Dependency(dependentTask, dependsTask);
-        s_dalDependency.Create(dependency);
+        s_dalDependency!.Create(dependency);
     }
     ///A Read function that receives the name of the entity and calls the Read function according to the name of the entity
     public static void readGlobal(string entityName)
@@ -218,7 +220,7 @@ internal class Program
     {
         int idTask;
         int.TryParse((GetInput("Enter the Tasks id: ")), out idTask);
-        Task taskRead = s_dalTask.Read(idTask);
+        Task ?taskRead = s_dalTask!.Read(idTask);
         Console.WriteLine(taskRead);
 
     }
@@ -227,7 +229,7 @@ internal class Program
     {
         int idEngineer;
         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-        Engineer engineerRead = s_dalEngineer.Read(idEngineer);
+        Engineer ?engineerRead = s_dalEngineer!.Read(idEngineer);
         Console.WriteLine(engineerRead);
     }
 
@@ -235,7 +237,7 @@ internal class Program
     {
         int idDependency;
         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-        Dependency dependencyRead = s_dalDependency.Read(idDependency);
+        Dependency ?dependencyRead = s_dalDependency!.Read(idDependency);
         Console.WriteLine(dependencyRead);
     }
 
@@ -260,7 +262,7 @@ internal class Program
 
     static void readAllTask()//Prints all entities of Task
     {
-        List<Task> taskList = s_dalTask.ReadAll();
+        List<Task>? taskList = s_dalTask!.ReadAll();
         foreach (var task in taskList)
         {
             Console.WriteLine(task);
@@ -268,7 +270,7 @@ internal class Program
     }
     static void readAllEngineer()////Prints all entities of Engineer
     {
-        List<Engineer> engineerList = s_dalEngineer.ReadAll();
+        List<Engineer> ?engineerList = s_dalEngineer!.ReadAll();
         foreach (var engineer in engineerList)
         {
             Console.WriteLine(engineer);
@@ -276,7 +278,7 @@ internal class Program
     }
     static void readAllDependency()//Prints all entities of Dependency
     {
-        List<Dependency> dependencyList = s_dalDependency.ReadAll();
+        List<Dependency> ?dependencyList = s_dalDependency!.ReadAll();
         foreach (var dependency in dependencyList)
         {
             Console.WriteLine(dependency);
@@ -308,7 +310,7 @@ internal class Program
         {
             int idTask;
             int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
-            s_dalTask.Delete(idTask);
+            s_dalTask!.Delete(idTask);
         }
         catch (Exception e) { Console.WriteLine(e); }
 
@@ -319,7 +321,7 @@ internal class Program
         {
             int idEngineer;
             int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-            s_dalEngineer.Delete(idEngineer);
+            s_dalEngineer!.Delete(idEngineer);
         }
         catch (Exception e) { Console.WriteLine(e); }
 
@@ -331,7 +333,7 @@ internal class Program
         {
             int idDependency;
             int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-            s_dalDependency.Delete(idDependency);
+            s_dalDependency!.Delete(idDependency);
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
@@ -359,7 +361,7 @@ internal class Program
     {
         int idTask;
         int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
-        Task task = s_dalTask.Read(idTask);
+        Task ?task = s_dalTask!.Read(idTask);
         if (task != null)
         {
             Console.WriteLine(task);
@@ -393,7 +395,7 @@ internal class Program
     {
         int idEngineer;
         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-        Engineer engineer = s_dalEngineer.Read(idEngineer);
+        Engineer ?engineer = s_dalEngineer!.Read(idEngineer);
         if (engineer != null)
         {
             Console.WriteLine(engineer);
@@ -413,7 +415,7 @@ internal class Program
     {
         int idDependency;
         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-        Dependency dependency = s_dalDependency.Read(idDependency);
+        Dependency ?dependency = s_dalDependency!.Read(idDependency);
         if (dependency != null)
         {
             Console.WriteLine(dependency);
@@ -453,7 +455,7 @@ internal class Program
     {
 
         DateTime? inputMutable;
-        string input = GetInput(message);
+        string? input = GetInput(message);
         bool success = DateTime.TryParse(input, out DateTime parsedValue);
 
         if (success)
@@ -471,7 +473,7 @@ internal class Program
     {
 
         double? inputMutable;
-        string input = GetInput(message);
+        string ?input = GetInput(message);
         bool success = double.TryParse(input, out double parsedValue);
 
         if (success)
@@ -489,8 +491,8 @@ internal class Program
     static bool GetBoolInput(string message)
     {
         Console.Write(message);
-        string input = Console.ReadLine();
-        return bool.Parse(input);
+        string? input = Console.ReadLine();
+        return bool.Parse(input!);
     }
     ///A function with a print-to-screen parameter accepts a value from the user and returns it as a DateTime
     static DateTime GetDateTimeInput(string message)
@@ -505,7 +507,7 @@ internal class Program
     static EngineerExperience GetComplexityLevelInput(string message)
     {
         Console.Write(message);
-        string level = Console.ReadLine();
+        string ?level = Console.ReadLine();
         EngineerExperience experienceLevel;
         Enum.TryParse(level, out experienceLevel);
         return experienceLevel;
