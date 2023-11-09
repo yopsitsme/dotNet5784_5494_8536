@@ -4,6 +4,9 @@ namespace DO;
 
 // decleration of the entity dependency
 public record Dependency
+{
+    private int idTask1;
+    private int idTask2;
 
     (
      int Id=0,

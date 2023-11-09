@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Runtime.ConstrainedExecution;
 using System.Globalization;
-
+///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
 internal class Program
 {
     private static ITask? s_dalTask = new TaskImplementation();
@@ -21,18 +21,18 @@ internal class Program
         try
         {
             Initialization.Do(s_dalTask, s_dalDependency, s_dalEngineer);
-            DisplayMainMenu();
+            DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
 
-    static void DisplayMainMenu()
+    static void DisplayMainMenu()//Main main program for choosing which entity to handle
     {
 
         bool exitMenu = false;
 
-        while (!exitMenu)
+        while (!exitMenu)//As long as an option is not selected
         {
             Console.WriteLine("Main Menu - Select an entity you want to check:");
             Console.WriteLine("0. Exiting the main menu");
@@ -43,24 +43,24 @@ internal class Program
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
 
-            switch (input)
+            switch (input)//A switch case program for choosing which entity to handle 1 to task 2 to engineer 3 to Dependency
             {
                 case "0":
                     exitMenu = true;
                     break;
                 case "1":
                     // Handle Task
-                    DisplaySubMenu("Task");
+                    DisplaySubMenu("Task");//calls a general function that refers to all the delete/add options and the like secondary main
 
                     break;
                 case "2":
                     // Handle Engineer
-                    DisplaySubMenu("Engineer");
+                    DisplaySubMenu("Engineer");//calls a general function that refers to all the delete/add options and the like secondary main
 
                     break;
                 case "3":
                     // Handle Dependency
-                    DisplaySubMenu("Dependency");
+                    DisplaySubMenu("Dependency");//calls a general function that refers to all the delete/add options and the like secondary main
 
                     break;
                 default:
@@ -73,7 +73,7 @@ internal class Program
 
     }
 
-    public static void DisplaySubMenu(string entityName)
+    public static void DisplaySubMenu(string entityName)//A function that receives an entity-name string and executes for each delete fish option a subfunction that handles each delete fish option
     {
         try
         {
@@ -99,24 +99,24 @@ internal class Program
                         break;
                     case "2":
                         // Handle Create
-                        createGlobal(entityName);
+                        createGlobal(entityName);//A creation function that receives the name of the entity and calls the creation function according to the name of the entity
                         break;
                     case "3":
                         // Handle Read
-                        readGlobal(entityName);
+                        readGlobal(entityName); //A Read function that receives the name of the entity and calls the Read function according to the name of the entity
                         break;
                     case "4":
                         // Handle ReadAll
                         readAllGlobal(entityName);
-                        Console.WriteLine("You selected ReadAll");
+                        Console.WriteLine("You selected ReadAll");//A ReadAll function that receives the name of the entity and calls the ReadAll function according to the name of the entity
                         break;
                     case "5":
                         // Handle Update
-                        updateGlobal(entityName);
+                        updateGlobal(entityName);//A Update function that receives the name of the entity and calls the Update function according to the name of the entity
                         break;
                     case "6":
                         // Handle Delete
-                        deleteGlobal(entityName);
+                        deleteGlobal(entityName);//A Delete function that receives the name of the entity and calls the Delete function according to the name of the entity
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
@@ -130,7 +130,7 @@ internal class Program
     }
 
 
-    public static void createGlobal(string entityName)
+    public static void createGlobal(string entityName)//A creation function that receives the name of the entity and calls the creation function according to the name of the entity
     {
         switch (entityName)
         {
@@ -148,6 +148,7 @@ internal class Program
         }
 
     }
+    ///A function that receives data from the user for the task and creates a new task
 
     static void createTask()
     {
@@ -163,7 +164,7 @@ internal class Program
         s_dalTask.Create(task);
     }
 
-    static void createEngineer()
+    static void createEngineer()//A function that receives data from the user for the Engineer and creates a new Engineer
     {
         string name = GetInput("Please enter the engineer's name: ");
         string email = GetInput("Please enter the engineer's email: ");
@@ -183,7 +184,7 @@ internal class Program
         catch (Exception e) { Console.WriteLine(e); }
     }
 
-    static void createDependency()
+    static void createDependency()//A function that receives data from the user for the Dependency and creates a new Dependency
     {
         int dependentTask;
         int.TryParse(GetInput("Enter the DependentTask: "), out dependentTask);
@@ -193,7 +194,7 @@ internal class Program
         Dependency dependency = new Dependency(dependentTask, dependsTask);
         s_dalDependency.Create(dependency);
     }
-
+    ///A Read function that receives the name of the entity and calls the Read function according to the name of the entity
     public static void readGlobal(string entityName)
     {
         switch (entityName)
@@ -213,7 +214,7 @@ internal class Program
 
     }
 
-    static void readTask()
+    static void readTask()//Receives from the Task id and if it exists it prints it
     {
         int idTask;
         int.TryParse((GetInput("Enter the Tasks id: ")), out idTask);
@@ -222,7 +223,7 @@ internal class Program
 
     }
 
-    static void readEngineer()
+    static void readEngineer()//Receives from the Engineer id and if it exists it prints it
     {
         int idEngineer;
         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
@@ -230,7 +231,7 @@ internal class Program
         Console.WriteLine(engineerRead);
     }
 
-    static void readDependency()
+    static void readDependency()//Receives from the Dependency id and if it exists it prints it
     {
         int idDependency;
         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
@@ -238,7 +239,7 @@ internal class Program
         Console.WriteLine(dependencyRead);
     }
 
-    public static void readAllGlobal(string entityName)
+    public static void readAllGlobal(string entityName)//A ReadAll function that receives the name of the entity and calls the ReadAll function according to the name of the entity
     {
         switch (entityName)
         {
@@ -257,7 +258,7 @@ internal class Program
 
     }
 
-    static void readAllTask()
+    static void readAllTask()//Prints all entities of Task
     {
         List<Task> taskList = s_dalTask.ReadAll();
         foreach (var task in taskList)
@@ -265,7 +266,7 @@ internal class Program
             Console.WriteLine(task);
         }
     }
-    static void readAllEngineer()
+    static void readAllEngineer()////Prints all entities of Engineer
     {
         List<Engineer> engineerList = s_dalEngineer.ReadAll();
         foreach (var engineer in engineerList)
@@ -273,7 +274,7 @@ internal class Program
             Console.WriteLine(engineer);
         }
     }
-    static void readAllDependency()
+    static void readAllDependency()//Prints all entities of Dependency
     {
         List<Dependency> dependencyList = s_dalDependency.ReadAll();
         foreach (var dependency in dependencyList)
@@ -282,7 +283,7 @@ internal class Program
         }
     }
 
-    public static void deleteGlobal(string entityName)
+    public static void deleteGlobal(string entityName)//A Delete function that receives the name of the entity and calls the Delete function according to the name of the entity
     {
         switch (entityName)
         {
@@ -301,7 +302,7 @@ internal class Program
 
     }
 
-    static void deleteTask()
+    static void deleteTask()//Gets the id from the Tasks and deletes it if it exists
     {
         try
         {
@@ -312,7 +313,7 @@ internal class Program
         catch (Exception e) { Console.WriteLine(e); }
 
     }
-    static void deleteEngineer()
+    static void deleteEngineer()//Gets the id from the Engineer and deletes it if it exists
     {
         try
         {
@@ -324,7 +325,7 @@ internal class Program
 
     }
 
-    static void deleteDependency()
+    static void deleteDependency()//Gets the id from the Dependency and deletes it if it exists
     {
         try
         {
@@ -335,7 +336,7 @@ internal class Program
         catch (Exception e) { Console.WriteLine(e); }
     }
 
-    public static void updateGlobal(string entityName)
+    public static void updateGlobal(string entityName)//A Update function that receives the name of the entity and calls the Update function according to the name of the entity
     {
         switch (entityName)
         {
@@ -353,7 +354,7 @@ internal class Program
         }
 
     }
-
+    ///Gets the id from the user and if it exists prints it and gets parameters to change creates a new task with all the parameters if they haven't changed leaves the previous value
     static void updateTask()
     {
         int idTask;
@@ -387,6 +388,7 @@ internal class Program
         }
 
     }
+    ///Gets the id from the user and if it exists prints it and gets parameters to change creates a new Engineer with all the parameters if they haven't changed leaves the previous value
     static void updateEngineer()
     {
         int idEngineer;
@@ -395,6 +397,7 @@ internal class Program
         if (engineer != null)
         {
             Console.WriteLine(engineer);
+            // Input fields
             string? name = GetInput("Please enter the engineer's name: ");
             string? email = GetInput("Please enter the engineer's email: ");
             EngineerExperience? level = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
@@ -405,6 +408,7 @@ internal class Program
             s_dalEngineer.Update(updatedEngineer);
         }
     }
+    ///Gets the id from the user and if it exists prints it and gets parameters to change creates a new Dependency with all the parameters if they haven't changed leaves the previous value
     static void updateDependency()
     {
         int idDependency;
@@ -413,19 +417,20 @@ internal class Program
         if (dependency != null)
         {
             Console.WriteLine(dependency);
+            // Input fields
             int? dependentTask=GetNullIntImput("Enter the DependentTask: ");
             int? dependsTask=GetNullIntImput("Enter the DependsTask: ");
             Dependency updatedDependency = new (dependency.Id, dependentTask ?? dependency.DependentTask, dependsTask ?? dependency.DependsTask);
             s_dalDependency.Update(updatedDependency);
         }
     }
-
+    ///A function with a print-to-screen parameter accepts a value from the user and returns it as a string
     static string GetInput(string message)
     {
         Console.Write(message);
         return Console.ReadLine();
     }
-
+    //A function with a print-to-screen parameter that receives a int from the user and returns a variable with the content and if nothing is entered a null value
     public static int? GetNullIntImput(string message)
     {
 
@@ -443,7 +448,7 @@ internal class Program
         }
         return inputMutable;
     }
-
+    /// A function with a print-to-screen parameter  that receives a DateTime from the user and returns a variable with the content and if nothing is entered a null value
     public static DateTime? GetNullDatTimeImput(string message)
     {
 
@@ -461,7 +466,7 @@ internal class Program
         }
         return inputMutable;
     }
-
+    ///A function with a print-to-screen parameter that receives a double from the user and returns a variable with the content and if nothing is entered a null value
     public static double? GetNullDoubleInput(string message)
     {
 
@@ -480,14 +485,14 @@ internal class Program
         return inputMutable;
     }
 
-
+    ///A function with a print-to-screen parameter accepts a value from the user and returns it as a bool
     static bool GetBoolInput(string message)
     {
         Console.Write(message);
         string input = Console.ReadLine();
         return bool.Parse(input);
     }
-
+    ///A function with a print-to-screen parameter accepts a value from the user and returns it as a DateTime
     static DateTime GetDateTimeInput(string message)
     {
         Console.Write(message);
@@ -496,7 +501,7 @@ internal class Program
         DateTime.TryParseExact(GetInput("Enter the created at date and time (yyyy-MM-dd HH:mm:ss): "), "yyyy-MM-dd HH:mm:ss", null, DateTimeStyles.None, out createdAtDate);
         return createdAtDate;
     }
-
+    ///A function with a print-to-screen parameter accepts a value from the user and returns it as a EngineerExperience Enum
     static EngineerExperience GetComplexityLevelInput(string message)
     {
         Console.Write(message);
