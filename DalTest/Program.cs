@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace DalTest;
 using DalApi;
 using Dal;
@@ -161,7 +162,7 @@ internal class Program
         EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
         Task task = new (description, alias, isMilestone, start, deadline, deliverables, complexityLevel);
-        s_dalTask.Create(task);
+        s_dalTask!.Create(task);
     }
 
     static void createEngineer()//A function that receives data from the user for the Engineer and creates a new Engineer
@@ -175,7 +176,7 @@ internal class Program
         int id;
         int.TryParse(GetInput("Please enter the engineer's ID: "), out id);
 
-        Engineer engineer = new Engineer(id,name, email, level, cost);
+        Engineer engineer = new (id,name, email, level, cost);
         try
         {
 

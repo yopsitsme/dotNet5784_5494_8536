@@ -4,11 +4,10 @@ namespace DO;
 
 // decleration of the entity dependency
 public record Dependency
-
     (
-     int Id=0,
-     int DependentTask=0,
-     int DependsTask = 0
+     int Id,
+     int DependentTask,
+     int DependsTask 
     )
 {
     //defult constructor
