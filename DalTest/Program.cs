@@ -160,7 +160,7 @@ internal class Program
         string deliverables = GetInput("Enter the task deliverables: ");
         EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-        Task task = new Task(description, alias, isMilestone, start, deadline, deliverables, complexityLevel);
+        Task task = new (description, alias, isMilestone, start, deadline, deliverables, complexityLevel);
         s_dalTask.Create(task);
     }
 
@@ -175,7 +175,7 @@ internal class Program
         int id;
         int.TryParse(GetInput("Please enter the engineer's ID: "), out id);
 
-        Engineer engineer = new Engineer(name, email, level, cost, id);//Catches the error that can be with the same ID
+        Engineer engineer = new Engineer(id,name, email, level, cost);
         try
         {
 
@@ -380,7 +380,7 @@ internal class Program
             int? engineerId = GetNullIntImput("Enter Engineer ID: ");
             EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-            Task updatedTask = new(idTask, description != "" ? description : task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete,
+            Task updatedTask = new(idTask, description ?? task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete,
                 start ?? task.StartDete, scheduled ?? task.ScheduledDete, forecas ?? task.ForecasDate, deadline ?? task.DeadLineDate, complete ?? task.CompleteDate, deliverables != "" ? deliverables : task.Deliverables,
                 remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevl);
             s_dalTask.Update(updatedTask);
@@ -404,7 +404,7 @@ internal class Program
             double? cost = GetNullDoubleInput("Please enter the engineer's cost per hour: ");
 
 
-            Engineer updatedEngineer = new(name!=""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost,engineer.Id);
+            Engineer updatedEngineer = new(engineer.ID,name != ""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost);
             s_dalEngineer.Update(updatedEngineer);
         }
     }
@@ -420,7 +420,7 @@ internal class Program
             // Input fields
             int? dependentTask=GetNullIntImput("Enter the DependentTask: ");
             int? dependsTask=GetNullIntImput("Enter the DependsTask: ");
-            Dependency updatedDependency = new (dependency.Id, dependentTask ?? dependency.DependentTask1, dependsTask ?? dependency.DependsTask2);
+            Dependency updatedDependency = new (dependency.Id, dependentTask ?? dependency.DependentTask, dependsTask ?? dependency.DependsTask);
             s_dalDependency.Update(updatedDependency);
         }
     }

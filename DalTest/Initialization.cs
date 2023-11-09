@@ -33,7 +33,7 @@ public static class Initialization
             string _email = _id + "@gmail.com";//Create an email address
 
             double _cost = s_rand.Next(75, 150) * 0.12*10;  //Salary lottery in the appropriate range for every engineer
-            Engineer newEng = new(_name, _email, _level, _cost, _id);
+            Engineer newEng = new(_id,_name, _email, _level, _cost);
 
             int id= s_dalEngineer!.Create(newEng);//Creating the object using a function create
         }
@@ -144,7 +144,7 @@ public static class Initialization
             string _deliverables = _deliverablesTask[i];
             i++;
 
-            Task newTask = new(_description, _alias, _IsMilestone, _start, _dedline, _deliverables, _ComplexityLevl);
+            Task newTask = new( _start, _dedline, _deliverables, _ComplexityLevl, _description, _alias, _IsMilestone);
             int id = s_dalTask!.Create(newTask);
         }
 
@@ -155,14 +155,14 @@ public static class Initialization
         for (int i = 0; i < 40; i++)
         {
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
-            int idTask1 = tasks[indexTask1].Id;
+            int _dependentTask = tasks[indexTask1].ID;
             int indexTask2 = s_rand.Next(0, tasks.Count - 1);
             while (indexTask2 == indexTask1)
             {
                 indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
-            int idTask2 = tasks[indexTask2].Id;
-            Dependency newDependency = new(idTask1, idTask2);
+            int _dependsTask = tasks[indexTask2].ID;
+            Dependency newDependency = new(_dependentTask, _dependsTask);
             int id = s_delDependency!.Create(newDependency);
 
         }

@@ -14,10 +14,3 @@ public enum EngineerExperience‏
 }
 
 
-//public enum Entity
-//{
-//    Task,
-//    Engineer,
-//    Dependency
-//}
-
