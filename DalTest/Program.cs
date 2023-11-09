@@ -174,7 +174,7 @@ internal class Program
         int id;
         int.TryParse(GetInput("Please enter the engineer's ID: "), out id);
 
-        Engineer engineer = new Engineer(id,name, email, level, cost);
+        Engineer engineer = new(id,name, email, level, cost);
         try
         {
 
@@ -379,9 +379,9 @@ internal class Program
             int? engineerId = GetNullIntImput("Enter Engineer ID: ");
             EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-            Task updatedTask = new(idTask, description ?? task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete,
-                start ?? task.StartDete, scheduled ?? task.ScheduledDete, forecas ?? task.ForecasDate, deadline ?? task.DeadLineDate, complete ?? task.CompleteDate, deliverables != "" ? deliverables : task.Deliverables,
-                remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevl);
+            Task updatedTask = new(idTask, start ?? task.StartDete, scheduled ?? task.ScheduledDete, forecas ?? task.ForecasDate, complete ?? task.CompleteDate, deadline ?? task.DeadLineDate, deliverables != "" ? deliverables : task.Deliverables,
+                remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevl,
+                description ?? task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete);
             s_dalTask.Update(updatedTask);
 
         }
@@ -401,7 +401,7 @@ internal class Program
             double? cost = GetNullDoubleInput("Please enter the engineer's cost per hour: ");
 
 
-            Engineer updatedEngineer = new(engineer.ID,name != ""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost);
+            Engineer updatedEngineer = new(engineer.Id,name != ""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost);
             s_dalEngineer.Update(updatedEngineer);
         }
     }
