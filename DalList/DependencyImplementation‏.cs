@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     //The implementation of the interface of the dependency entity between the tasks
-    public class DependencyImplementation : IDependency
+    internal class DependencyImplementation : IDependency
     {
         /// <summary>
         /// the method gets the ditails of creates a new dependency by using the cunstroctor
@@ -31,7 +31,7 @@
         {
             Dependency ?newDependency = Read(id);
             if (newDependency == null)
-            { throw new Exception($"Dependency with ID={id} does Not exist"); }
+            { throw new DalDoesNotExistException($"Dependency with ID={id} does Not exist"); }
             DataSource.Dependencies.Remove(newDependency);
 
         }
@@ -67,7 +67,7 @@
         {
             Dependency ?newDependency = Read(item.Id);
             if (newDependency == null)
-            { throw new Exception($"Dependency with ID={item.Id} does Not exist"); }
+            { throw new DalDoesNotExistException($"Dependency with ID={item.Id} does Not exist"); }
             Delete(item.Id);
             DataSource.Dependencies.Add(item);
 

@@ -4,7 +4,7 @@ using DO;
 using System.Collections.Generic;
 
 //The interface implementation of the tasks entity
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
     public int Create(Task item)
     {
@@ -24,7 +24,7 @@ public class TaskImplementation : ITask
     {
         Task? newTask=Read(id);
         if (newTask == null) 
-        { throw new Exception($"Task with ID={id} does Not exist"); }
+        { throw new DalDoesNotExistException($"Task with ID={id} does Not exist"); }
         DataSource.Tasks.Remove(newTask);
        
     }
@@ -59,7 +59,7 @@ public class TaskImplementation : ITask
     {
         Task ?newTask = Read(item.Id);
         if (newTask == null)
-        { throw new Exception($"Task with ID={item.Id} does Not exist"); }
+        { throw new DalDoesNotExistException($"Task with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Tasks.Add(item);
        

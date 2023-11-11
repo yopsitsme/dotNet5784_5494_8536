@@ -6,13 +6,13 @@ using DO;
 using System.Collections.Generic;
 
 //The implementation of the interface of the engineers entity
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
         Engineer ?newEngineer = Read(item.Id);
         if (newEngineer != null)
-        { throw new Exception($"Engineer with ID={newEngineer.Id} does exist"); }
+        { throw new DalAlreadyExistsException($"Engineer with ID={newEngineer.Id} does exist"); }
         DataSource.Engineers.Add(item);
         return item.Id;
         
@@ -28,7 +28,7 @@ public class EngineerImplementation : IEngineer
     {
         Engineer? newEngineer = Read(id);
         if (newEngineer == null)
-        { throw new Exception($"Engineer with ID={id} does Not exist"); }
+        { throw new DalDoesNotExistException($"Engineer with ID={id} does Not exist"); }
         DataSource.Engineers.Remove(newEngineer);
     
     }
@@ -64,7 +64,7 @@ public class EngineerImplementation : IEngineer
     {
         Engineer ?newEngineer= Read(item.Id);
         if(newEngineer == null) 
-        { throw new Exception($"Engineer with ID={item.Id} does Not exist"); }
+        { throw new DalDoesNotExistException($"Engineer with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         DataSource.Engineers.Add(item);
        

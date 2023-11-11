@@ -9,9 +9,8 @@ using System.Security.Cryptography;
 //and a regular programmer
 public static class Initialization
 {
-    private static ITask? s_dalTask;
-    private static IEngineer? s_dalEngineer;
-    private static IDependency? s_delDependency;
+    private static IDal? s_dal; //stage 2
+
     private static readonly Random s_rand = new();
     private static void creatEngineer()
     {
@@ -26,7 +25,7 @@ public static class Initialization
             int _id;
             do
                 _id = s_rand.Next(200000000, 400000000);//Identity tax lottery
-            while (s_dalEngineer!.Read(_id) != null);
+            while (s_dal!.Engineer.Read(_id) != null);
 
             EngineerExperience _level = (EngineerExperience)s_rand.Next(0, 4);//The worker level lottery
 
@@ -35,7 +34,7 @@ public static class Initialization
             double _cost = s_rand.Next(75, 150) * 0.12*10;  //Salary lottery in the appropriate range for every engineer
             Engineer newEng = new(_id,_name, _email, _level, _cost);
 
-            int id= s_dalEngineer!.Create(newEng);//Creating the object using a function create
+            int id= s_dal!.Engineer.Create(newEng);//Creating the object using a function create
         }
 
     }
@@ -145,13 +144,13 @@ public static class Initialization
             i++;
 
             Task newTask = new(_description, _alias, _IsMilestone,_start, _dedline, _deliverables, _ComplexityLevl );
-            int id = s_dalTask!.Create(newTask);
+            int id = s_dal!.Task.Create(newTask);
         }
 
     }
     private static void creatDependency()
     {
-        List<Task> tasks = s_dalTask!.ReadAll();
+        List<Task> tasks = s_dal!.Task.ReadAll();
         for (int i = 0; i < 40; i++)
         {
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
@@ -163,16 +162,15 @@ public static class Initialization
             }
             int _dependsTask = tasks[indexTask2].Id;
             Dependency newDependency = new(_dependentTask, _dependsTask);
-            int id = s_delDependency!.Create(newDependency);
+            int id =s_dal!.Dependency.Create(newDependency);
 
         }
     }
 
-    public static void Do(ITask? dalTask, IDependency? dalDependency, IEngineer? dalEngineer)
+    public static void Do(IDal dal) //stage 2
     {
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_delDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); //stage 2
+
         creatEngineer();
         creatTask();
         creatDependency();
