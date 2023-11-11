@@ -14,16 +14,13 @@ using System.Globalization;
 ///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
 internal class Program
 {
-    private static ITask? s_dalTask = new TaskImplementation();
-    private static IEngineer? s_dalEngineer = new EngineerImplementation();
-    private static IDependency? s_dalDependency = new DependencyImplementation();
+    static readonly IDal s_dal = new DalList(); //stage 2
 
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dalTask, s_dalDependency, s_dalEngineer);
-            DisplayMainMenu();//Main main program for choosing which entity to handle
+            Initialization.Do(s_dal); //stage 2            DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
         catch (Exception ex) { Console.WriteLine(ex); }
@@ -163,7 +160,7 @@ internal class Program
         EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
         Task task = new (description!, alias!, isMilestone, start, deadline, deliverables!, complexityLevel);
-        s_dalTask!.Create(task);
+        s_dal!.Task.Create(task);
     }
 
     static void createEngineer()//A function that receives data from the user for the Engineer and creates a new Engineer
@@ -181,7 +178,7 @@ internal class Program
         try
         {
 
-            s_dalEngineer!.Create(engineer);
+            s_dal!.Engineer.Create(engineer);
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
@@ -194,7 +191,7 @@ internal class Program
         int.TryParse(GetInput("Enter the DependsTask: "), out dependsTask);
 
         Dependency dependency = new Dependency(dependentTask, dependsTask);
-        s_dalDependency!.Create(dependency);
+        s_dal!.Dependency.Create(dependency);
     }
     ///A Read function that receives the name of the entity and calls the Read function according to the name of the entity
     public static void readGlobal(string entityName)
@@ -220,7 +217,7 @@ internal class Program
     {
         int idTask;
         int.TryParse((GetInput("Enter the Tasks id: ")), out idTask);
-        Task ?taskRead = s_dalTask!.Read(idTask);
+        Task ?taskRead = s_dal!.Task.Read(idTask);
         Console.WriteLine(taskRead);
 
     }
@@ -229,7 +226,7 @@ internal class Program
     {
         int idEngineer;
         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-        Engineer ?engineerRead = s_dalEngineer!.Read(idEngineer);
+        Engineer ?engineerRead = s_dal!.Engineer.Read(idEngineer);
         Console.WriteLine(engineerRead);
     }
 
@@ -237,7 +234,7 @@ internal class Program
     {
         int idDependency;
         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-        Dependency ?dependencyRead = s_dalDependency!.Read(idDependency);
+        Dependency ?dependencyRead = s_dal!.Dependency.Read(idDependency);
         Console.WriteLine(dependencyRead);
     }
 
@@ -262,7 +259,7 @@ internal class Program
 
     static void readAllTask()//Prints all entities of Task
     {
-        List<Task>? taskList = s_dalTask!.ReadAll();
+        List<Task>? taskList = s_dal!.Task.ReadAll();
         foreach (var task in taskList)
         {
             Console.WriteLine(task);
@@ -270,7 +267,7 @@ internal class Program
     }
     static void readAllEngineer()////Prints all entities of Engineer
     {
-        List<Engineer> ?engineerList = s_dalEngineer!.ReadAll();
+        List<Engineer> ?engineerList = s_dal!.Engineer.ReadAll();
         foreach (var engineer in engineerList)
         {
             Console.WriteLine(engineer);
@@ -278,7 +275,7 @@ internal class Program
     }
     static void readAllDependency()//Prints all entities of Dependency
     {
-        List<Dependency> ?dependencyList = s_dalDependency!.ReadAll();
+        List<Dependency> ?dependencyList = s_dal!.Dependency.ReadAll();
         foreach (var dependency in dependencyList)
         {
             Console.WriteLine(dependency);
@@ -310,7 +307,7 @@ internal class Program
         {
             int idTask;
             int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
-            s_dalTask!.Delete(idTask);
+            s_dal!.Task.Delete(idTask);
         }
         catch (Exception e) { Console.WriteLine(e); }
 
@@ -321,7 +318,7 @@ internal class Program
         {
             int idEngineer;
             int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-            s_dalEngineer!.Delete(idEngineer);
+            s_dal!.Engineer.Delete(idEngineer);
         }
         catch (Exception e) { Console.WriteLine(e); }
 
@@ -333,7 +330,7 @@ internal class Program
         {
             int idDependency;
             int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-            s_dalDependency!.Delete(idDependency);
+            s_dal!.Dependency.Delete(idDependency);
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
@@ -361,7 +358,7 @@ internal class Program
     {
         int idTask;
         int.TryParse(GetInput("Enter the Tasks id: "), out idTask);
-        Task ?task = s_dalTask!.Read(idTask);
+        Task ?task = s_dal!.Task.Read(idTask);
         if (task != null)
         {
             Console.WriteLine(task);
@@ -385,7 +382,7 @@ internal class Program
             Task updatedTask = new(idTask, start ?? task.StartDete, scheduled ?? task.ScheduledDete, forecas ?? task.ForecasDate, complete ?? task.CompleteDate, deadline ?? task.DeadLineDate, deliverables != "" ? deliverables : task.Deliverables,
                 remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevl,
                 description ?? task.Description, alias != "" ? alias : task.Ailas, isMilestone ?? task.IsMilestone, task.CreatedAtDete);
-            s_dalTask.Update(updatedTask);
+            s_dal!.Task.Update(updatedTask);
 
         }
 
@@ -395,7 +392,7 @@ internal class Program
     {
         int idEngineer;
         int.TryParse(GetInput("Enter the Engineer id: "), out idEngineer);
-        Engineer ?engineer = s_dalEngineer!.Read(idEngineer);
+        Engineer ?engineer = s_dal!.Engineer.Read(idEngineer);
         if (engineer != null)
         {
             Console.WriteLine(engineer);
@@ -407,7 +404,7 @@ internal class Program
 
 
             Engineer updatedEngineer = new(engineer.Id,name != ""?name:engineer.Name,email!=""?email:engineer.Email,level??engineer.Level,cost??engineer.Cost);
-            s_dalEngineer.Update(updatedEngineer);
+            s_dal!.Engineer.Update(updatedEngineer);
         }
     }
     ///Gets the id from the user and if it exists prints it and gets parameters to change creates a new Dependency with all the parameters if they haven't changed leaves the previous value
@@ -415,7 +412,7 @@ internal class Program
     {
         int idDependency;
         int.TryParse(GetInput("Enter the Dependency id: "), out idDependency);
-        Dependency ?dependency = s_dalDependency!.Read(idDependency);
+        Dependency ?dependency = s_dal!.Dependency.Read(idDependency);
         if (dependency != null)
         {
             Console.WriteLine(dependency);
@@ -423,7 +420,7 @@ internal class Program
             int? dependentTask=GetNullIntImput("Enter the DependentTask: ");
             int? dependsTask=GetNullIntImput("Enter the DependsTask: ");
             Dependency updatedDependency = new (dependency.Id, dependentTask ?? dependency.DependentTask, dependsTask ?? dependency.DependsTask);
-            s_dalDependency.Update(updatedDependency);
+            s_dal!.Dependency.Update(updatedDependency);
         }
     }
     ///A function with a print-to-screen parameter accepts a value from the user and returns it as a string
