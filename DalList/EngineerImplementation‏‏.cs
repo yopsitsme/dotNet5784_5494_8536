@@ -40,18 +40,28 @@ internal class EngineerImplementation : IEngineer
     /// <returns>the item that was found or null if no matching item was found</returns>
     public Engineer? Read(int id)
     {
-        return DataSource.Engineers.Find(x => x.Id == id);
-        
+        Engineer? engineer = (from item in DataSource.Engineers
+                                  where item.Id == id
+                                  select item).FirstOrDefault();
+        return engineer != null ? engineer : null;
+
     }
 
     /// <summary>
     /// the method returns the list of items
     /// </summary>
-    public List<Engineer> ReadAll()
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null) //stage 2
     {
-        return new List<Engineer>(DataSource.Engineers);
-      
+        if (filter != null)
+        {
+            return from item in DataSource.Engineers
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Engineers
+               select item;
     }
+
 
     /// <summary>
     /// the method checks if an item with such an id exsist in the list
@@ -69,4 +79,24 @@ internal class EngineerImplementation : IEngineer
         DataSource.Engineers.Add(item);
        
     }
+
+
+    /// <summary>
+    /// a method that gets a condition and returns the first item who matches the condition 
+    /// if ther is no matching item
+    /// </summary>
+    /// <param name="filter">a function with a condtion</param>
+    /// <returns> the first item who matches the condition</returns>
+    public Engineer? Read(Func<Engineer, bool> filter)
+    {
+        Engineer? engineer = (from item in DataSource.Engineers
+                                  where filter(item)
+                                  select item).FirstOrDefault();
+        return engineer != null ? engineer : null;
+
+    }
+
+    
+    
+
 }
