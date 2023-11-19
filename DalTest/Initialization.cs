@@ -150,7 +150,7 @@ public static class Initialization
     }
     private static void creatDependency()
     {
-        List<Task> tasks = s_dal!.Task.ReadAll();
+        List<Task?> tasks = s_dal!.Task.ReadAll().ToList();
         for (int i = 0; i < 40; i++)
         {
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);

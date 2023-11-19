@@ -20,7 +20,8 @@ internal class Program
     {
         try
         {
-            Initialization.Do(s_dal); //stage 2            DisplayMainMenu();//Main main program for choosing which entity to handle
+            Initialization.Do(s_dal); //stage 2
+            DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
         catch (Exception ex) { Console.WriteLine(ex); }
@@ -259,7 +260,7 @@ internal class Program
 
     static void readAllTask()//Prints all entities of Task
     {
-        List<Task>? taskList = s_dal!.Task.ReadAll();
+        List<Task?> taskList = s_dal!.Task.ReadAll().ToList();
         foreach (var task in taskList)
         {
             Console.WriteLine(task);
@@ -267,7 +268,7 @@ internal class Program
     }
     static void readAllEngineer()////Prints all entities of Engineer
     {
-        List<Engineer> ?engineerList = s_dal!.Engineer.ReadAll();
+        List<Engineer?> engineerList = s_dal!.Engineer.ReadAll().ToList();
         foreach (var engineer in engineerList)
         {
             Console.WriteLine(engineer);
@@ -275,7 +276,7 @@ internal class Program
     }
     static void readAllDependency()//Prints all entities of Dependency
     {
-        List<Dependency> ?dependencyList = s_dal!.Dependency.ReadAll();
+        List<Dependency?> dependencyList = s_dal!.Dependency.ReadAll().ToList();
         foreach (var dependency in dependencyList)
         {
             Console.WriteLine(dependency);
