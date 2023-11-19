@@ -20,7 +20,8 @@ internal class Program
     {
         try
         {
-            Initialization.Do(s_dal); //stage 2            DisplayMainMenu();//Main main program for choosing which entity to handle
+            Initialization.Do(s_dal); //stage 2
+             DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
         catch (Exception ex) { Console.WriteLine(ex); }
