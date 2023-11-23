@@ -48,7 +48,7 @@ internal class EngineerImplementation : IEngineer
     }
 
     /// <summary>
-    /// the method returns the list of items
+    /// the method returns the list of items 
     /// </summary>
     public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null) //stage 2
     {
