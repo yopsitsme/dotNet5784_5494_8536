@@ -2,31 +2,33 @@
 using DalApi;
 using DO;
 
+using System.Xml.Linq;
 
 internal class TaskImplementation : ITask
 {
     public int Create(Task item)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
-        Task newTask = item with { Id = Config.nextTaskId };
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
+        Task newTask = item with { Id = Config.NextTaskId };
         xmlTask.Add(newTask);
-        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "task");
+        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "tasks");
+      
         return newTask.Id;
     }
 
     public void Delete(int id)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         Task? newTask = Read(id);
         if (newTask == null)
         { throw new DalDoesNotExistException($"Task with ID={id} does Not exist"); }
         xmlTask.Remove(newTask);
-        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "task");
+        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "tasks");
     }
 
     public Task? Read(int id)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         Task? task = (from item in xmlTask
                       where item.Id == id
                       select item).FirstOrDefault();
@@ -35,7 +37,7 @@ internal class TaskImplementation : ITask
 
     public Task? Read(Func<Task, bool> filter)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         Task? task = (from item in xmlTask
                       where filter(item)
                       select item).FirstOrDefault();
@@ -44,7 +46,7 @@ internal class TaskImplementation : ITask
 
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         if (filter != null)
         {
             return from item in xmlTask
@@ -57,12 +59,12 @@ internal class TaskImplementation : ITask
 
     public void Update(Task item)
     {
-        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("task");
+        List<Task> xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         Task? newTask = Read(item.Id);
         if (newTask == null)
         { throw new DalDoesNotExistException($"Task with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         xmlTask.Add(item);
-        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "task");
+        XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "tasks");
     }
 }

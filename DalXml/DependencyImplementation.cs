@@ -11,29 +11,29 @@ internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)
     {
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
-        Dependency newDependency = item with { Id = Config.nextDependencyId };
-        xmlDependency.Add(new XElement("dependency",
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
+        Dependency newDependency = item with { Id = Config.NextDependencyId };
+        xmlDependency.Add(new XElement("Dependency",
                                         new XAttribute("Id", newDependency.Id),
                                         new XAttribute("DependentTask", newDependency.DependentTask),
                                         new XAttribute("DependsTask", newDependency.DependsTask)));
-        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependencies");
         return newDependency.Id;
     }
 
     public void Delete(int id)
     {
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
         XElement? XmlElement = xmlDependency.Descendants("Dependency")
          .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id))
          ?? throw new DalDoesNotExistException(($"Dependency with ID={id} does Not exist"));
         XmlElement.Remove();
-        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependencies");
     }
 
     public Dependency? Read(int id)
     {
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
         XElement? XmlElement = xmlDependency.Descendants("Dependency")
             .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id));
         if (XmlElement == null)
@@ -44,7 +44,7 @@ internal class DependencyImplementation : IDependency
     public Dependency? Read(Func<Dependency, bool> filter)
     {
 
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
             Dependency? dependency = (from item in xmlDependency.Descendants("Dependency")
                                       where filter(new Dependency(item.ToIntNullable("id")??0,item.ToIntNullable("DependentTask")??0,item.ToIntNullable("DependsTask")??0))
                                       select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0)).FirstOrDefault();
@@ -58,7 +58,7 @@ internal class DependencyImplementation : IDependency
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
 
         if (filter != null)
         {
@@ -73,14 +73,14 @@ internal class DependencyImplementation : IDependency
 
     public void Update(Dependency item)
     {
-        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
 
         XElement? XmlElement = xmlDependency.Descendants("Dependency")
          .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(item.Id))
          ?? throw new DalDoesNotExistException(($"Dependency with ID={item.Id} does Not exist"));
         XmlElement.Attribute("DependentTask")!.Value = item.DependentTask.ToString();
         XmlElement.Attribute("DependsTask")!.Value = item.DependsTask.ToString();
-        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependencies");
 
         
     }
