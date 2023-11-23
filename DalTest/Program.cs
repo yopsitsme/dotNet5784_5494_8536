@@ -1,6 +1,8 @@
 ﻿
 
 
+using System.Data.SqlTypes;
+
 namespace DalTest;
 using DalApi;
 using Dal;
@@ -14,7 +16,7 @@ using System.Globalization;
 ///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
 internal class Program
 {
-    static readonly IDal s_dal = new DalList(); //stage 2
+    static readonly IDal s_dal = new DalXml(); //stage 2
 
     static void Main(string[] args)
     {

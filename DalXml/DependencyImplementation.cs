@@ -1,43 +1,87 @@
 ﻿
+namespace Dal;
 
 using DalApi;
 using DO;
-
-namespace Dal;
+using System.Reflection.Metadata.Ecma335;
+using System.Xml;
+using System.Xml.Linq;
 
 internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)
     {
-        List <Dependency> xmlDependency = XMLTools.LoadListFromXMLSerializer<Dependency>("dependency");
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
         Dependency newDependency = item with { Id = Config.nextDependencyId };
-        xmlDependency.Add(newDependency);
-        XMLTools.SaveListToXMLSerializer<Dependency>(xmlDependency, "dependency");
+        xmlDependency.Add(new XElement("dependency",
+                                        new XAttribute("Id", newDependency.Id),
+                                        new XAttribute("DependentTask", newDependency.DependentTask),
+                                        new XAttribute("DependsTask", newDependency.DependsTask)));
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
         return newDependency.Id;
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement? XmlElement = xmlDependency.Descendants("Dependency")
+         .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id))
+         ?? throw new DalDoesNotExistException(($"Dependency with ID={id} does Not exist"));
+        XmlElement.Remove();
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
     }
 
     public Dependency? Read(int id)
     {
-        throw new NotImplementedException();
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+        XElement? XmlElement = xmlDependency.Descendants("Dependency")
+            .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id));
+        if (XmlElement == null)
+            return null;
+        return new Dependency (id, XmlElement.ToIntNullable("DependentTask") ?? 0, XmlElement.ToIntNullable("DependsTask") ?? 0);   //מכיון שאני בטוחה בכך שלעולם לא אקבל ערך נאל אני מכניסה 0 בגל שאם מספר הזהות לא נמצא הפונקציה לא מגיעה לשלב זה   
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
     {
-        throw new NotImplementedException();
+
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+            Dependency? dependency = (from item in xmlDependency.Descendants("Dependency")
+                                      where filter(new Dependency(item.ToIntNullable("id")??0,item.ToIntNullable("DependentTask")??0,item.ToIntNullable("DependsTask")??0))
+                                      select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0)).FirstOrDefault();
+
+            return dependency != null ? dependency : null;
+
+
+
+
     }
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        throw new NotImplementedException();
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+
+        if (filter != null)
+        {
+
+            return (from item in xmlDependency.Descendants("Dependency")
+                                      where filter(new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0))
+                                      select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0));
+        }
+        return (from item in xmlDependency.Descendants("Dependency")
+                select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0));
     }
 
     public void Update(Dependency item)
     {
-        throw new NotImplementedException();
+        XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
+
+        XElement? XmlElement = xmlDependency.Descendants("Dependency")
+         .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(item.Id))
+         ?? throw new DalDoesNotExistException(($"Dependency with ID={item.Id} does Not exist"));
+        XmlElement.Attribute("DependentTask")!.Value = item.DependentTask.ToString();
+        XmlElement.Attribute("DependsTask")!.Value = item.DependsTask.ToString();
+        XMLTools.SaveListToXMLElement(xmlDependency, "dependency");
+
+        
     }
 }

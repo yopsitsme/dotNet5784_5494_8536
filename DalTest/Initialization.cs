@@ -154,13 +154,13 @@ public static class Initialization
         for (int i = 0; i < 40; i++)
         {
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
-            int _dependentTask = tasks[indexTask1].Id;
+            int _dependentTask = tasks[indexTask1]!.Id;
             int indexTask2 = s_rand.Next(0, tasks.Count - 1);
             while (indexTask2 == indexTask1)
             {
                 indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
-            int _dependsTask = tasks[indexTask2].Id;
+            int _dependsTask = tasks[indexTask2]!.Id;
             Dependency newDependency = new(_dependentTask, _dependsTask);
             int id =s_dal!.Dependency.Create(newDependency);
 
