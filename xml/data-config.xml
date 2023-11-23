@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<nextTaskId>1000</nextTaskId>
+	<nextDependencyId>1000</nextDependencyId>
+</config>

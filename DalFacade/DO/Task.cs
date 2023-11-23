@@ -27,7 +27,6 @@ public record Task
 
 
 {
-  
 
     //defult constructor
     public Task() : this(0, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, "", "", 0, EngineerExperience.Novice) { }
