@@ -1,8 +1,5 @@
 ﻿
 
-using System.Numerics;
-using System.Threading.Tasks;
-
 namespace DO;
 
 // decleration of the entity task
@@ -40,6 +37,4 @@ public record Task
         this.Deliverables = deliverables;
         this.ComplexityLevl = complexityLevel;
     }
-
-
 }

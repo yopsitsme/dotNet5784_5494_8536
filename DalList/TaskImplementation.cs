@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System.Collections.Generic;
+using static Dal.DataSource;
 
 //The interface implementation of the tasks entity
 internal class TaskImplementation : ITask
@@ -11,7 +12,6 @@ internal class TaskImplementation : ITask
         Task newtTask = item with { Id = DataSource.Config.NextTaskId };
         DataSource.Tasks.Add(newtTask);
         return newtTask.Id;
-
     }
     /// <summary>
     /// the method checks if an item with such an id exsist.
