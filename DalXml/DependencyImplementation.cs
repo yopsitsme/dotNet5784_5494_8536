@@ -38,7 +38,9 @@ internal class DependencyImplementation : IDependency
             .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id));
         if (XmlElement == null)
             return null;
-        return new Dependency (id, XmlElement.ToIntNullable("DependentTask") ?? 0, XmlElement.ToIntNullable("DependsTask") ?? 0);   //מכיון שאני בטוחה בכך שלעולם לא אקבל ערך נאל אני מכניסה 0 בגל שאם מספר הזהות לא נמצא הפונקציה לא מגיעה לשלב זה   
+        return new Dependency (Convert.ToInt32(XmlElement.Attribute("Id")?.Value),
+                                      Convert.ToInt32(XmlElement.Attribute("DependentTask")?.Value),
+                                      Convert.ToInt32(XmlElement.Attribute("DependentTask")?.Value));   //מכיון שאני בטוחה בכך שלעולם לא אקבל ערך נאל אני מכניסה 0 בגל שאם מספר הזהות לא נמצא הפונקציה לא מגיעה לשלב זה   
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
