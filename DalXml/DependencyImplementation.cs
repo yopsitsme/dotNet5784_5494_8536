@@ -46,8 +46,12 @@ internal class DependencyImplementation : IDependency
 
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependency");
             Dependency? dependency = (from item in xmlDependency.Descendants("Dependency")
-                                      where filter(new Dependency(item.ToIntNullable("id")??0,item.ToIntNullable("DependentTask")??0,item.ToIntNullable("DependsTask")??0))
-                                      select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0)).FirstOrDefault();
+                                      where filter(new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value), 
+                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value),
+                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value)))
+                                      select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value),
+                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value),
+                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value))).FirstOrDefault();
 
             return dependency != null ? dependency : null;
 
@@ -63,12 +67,18 @@ internal class DependencyImplementation : IDependency
         if (filter != null)
         {
 
-            return (from item in xmlDependency.Descendants("Dependency")
-                                      where filter(new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0))
-                                      select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0));
+            return (from item in xmlDependency.Descendants("dependency")
+                    where filter(new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
+                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
+                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)))
+                    select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
+, Convert.ToInt32(item.Attribute("DependentTask")?.Value)
+, Convert.ToInt32(item.Attribute("DependentTask")?.Value))); ;
         }
-        return (from item in xmlDependency.Descendants("Dependency")
-                select new Dependency(item.ToIntNullable("id") ?? 0, item.ToIntNullable("DependentTask") ?? 0, item.ToIntNullable("DependsTask") ?? 0));
+        return (from item in xmlDependency.Descendants("dependency")
+                select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
+                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
+                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)));
     }
 
     public void Update(Dependency item)

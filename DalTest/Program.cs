@@ -109,8 +109,7 @@ internal class Program
                         break;
                     case "4":
                         // Handle ReadAll
-                        readAllGlobal(entityName);
-                        Console.WriteLine("You selected ReadAll");//A ReadAll function that receives the name of the entity and calls the ReadAll function according to the name of the entity
+                        readAllGlobal(entityName);//A ReadAll function that receives the name of the entity and calls the ReadAll function according to the name of the entity
                         break;
                     case "5":
                         // Handle Update
