@@ -7,18 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Dal;
+using System.Xml.Linq;
 
 internal class EngineerImplementationcs : IEngineer
 {
     public int Create(Engineer item)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         Engineer? newEngineer = Read(item.Id);
         if (newEngineer != null)
         { throw new DalAlreadyExistsException($"Engineer with ID={newEngineer.Id} does exist"); }
         xmlEngineer.Add(item);
-        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineer");
-
+        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
         return item.Id;
     }
     /// <summary>
@@ -30,17 +30,17 @@ internal class EngineerImplementationcs : IEngineer
     /// <exception cref="Exception"></exception>
     public void Delete(int id)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         Engineer? newEngineer = Read(id);
         if (newEngineer == null)
         { throw new DalDoesNotExistException($"Engineer with ID={id} does Not exist"); }
         xmlEngineer.Remove(newEngineer);
-        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineer");
+        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
     }
 
     public Engineer? Read(int id)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         Engineer? engineer = xmlEngineer.FirstOrDefault(Engineer=> Engineer.Id== id);
         return engineer != null ? engineer : null;
     }
@@ -53,7 +53,7 @@ internal class EngineerImplementationcs : IEngineer
     /// <returns> the first item who matches the condition</returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         Engineer? engineer = xmlEngineer.FirstOrDefault(Engineer=> filter(Engineer));
         return engineer != null ? engineer : null;
     }
@@ -63,7 +63,7 @@ internal class EngineerImplementationcs : IEngineer
 
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
 
         if (filter != null)
         {
@@ -77,13 +77,13 @@ internal class EngineerImplementationcs : IEngineer
 
     public void Update(Engineer item)
     {
-        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineer");
+        List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         Engineer? newEngineer = Read(item.Id);
         if (newEngineer == null)
         { throw new DalDoesNotExistException($"Engineer with ID={item.Id} does Not exist"); }
         Delete(item.Id);
         xmlEngineer.Add(item);
-        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineer");
+        XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
 
     }
 }

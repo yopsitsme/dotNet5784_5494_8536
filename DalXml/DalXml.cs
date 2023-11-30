@@ -3,6 +3,7 @@
 
 namespace Dal;
 using DalApi;
+using System.Xml.Linq;
 
 
 sealed public class DalXml : IDal
