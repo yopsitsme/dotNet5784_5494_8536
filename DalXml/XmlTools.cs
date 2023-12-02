@@ -94,6 +94,19 @@ static class XMLTools
     //public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
+        //string temp;
+
+        //if (entity == "task")
+        //{
+        //    temp = "tasks";
+        //}else if(entity == "dependecy")
+        //{
+        //    temp = "dependencies";
+        //}
+        //else
+        //{
+        //    temp = "engineers";
+        //}
         string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
