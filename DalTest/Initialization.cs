@@ -153,6 +153,7 @@ public static class Initialization
         List<Task?> tasks = s_dal!.Task.ReadAll().ToList();
         for (int i = 0; i < 40; i++)
         {
+          
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
             int _dependentTask = tasks[indexTask1]!.Id;
             int indexTask2 = s_rand.Next(0, tasks.Count - 1);
@@ -161,7 +162,7 @@ public static class Initialization
                 indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
             int _dependsTask = tasks[indexTask2]!.Id;
-            Dependency newDependency = new(_dependentTask, _dependsTask);
+            Dependency newDependency = new(0,_dependentTask, _dependsTask);
             int id =s_dal!.Dependency.Create(newDependency);
 
         }
@@ -173,7 +174,7 @@ public static class Initialization
 
         //creatEngineer();
         //creatTask();
-        //creatDependency();
+       creatDependency();
     }
 
 
