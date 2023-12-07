@@ -10,7 +10,12 @@ namespace Dal;
 using System.Xml.Linq;
 
 internal class EngineerImplementationcs : IEngineer
-{
+{/// <summary>
+/// Receives an engineer type item if the ID card does not exist adds to the document and if so throws an error
+/// </summary>
+/// <param name="item"></param>
+/// <returns></returns>
+/// <exception cref="DalAlreadyExistsException"></exception>
     public int Create(Engineer item)
     {
         List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
@@ -37,6 +42,12 @@ internal class EngineerImplementationcs : IEngineer
         xmlEngineer.Remove(newEngineer);
         XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
     }
+    /// <summary>
+    /// a method that gets a id and return first item who matches the id
+    /// if ther is no matching item return null
+    /// </summary>
+    /// <param name="filter">a function with a condtion</param>
+    /// <returns> the first item who matches the condition</returns>
 
     public Engineer? Read(int id)
     {
@@ -47,7 +58,7 @@ internal class EngineerImplementationcs : IEngineer
 
     /// <summary>
     /// a method that gets a condition and returns the first item who matches the condition 
-    /// if ther is no matching item
+    /// if ther is no matching item return null
     /// </summary>
     /// <param name="filter">a function with a condtion</param>
     /// <returns> the first item who matches the condition</returns>
@@ -58,7 +69,7 @@ internal class EngineerImplementationcs : IEngineer
         return engineer != null ? engineer : null;
     }
     /// <summary>
-    /// the method returns the list of items We met the condition
+    /// the method returns the list of items We met the condition or all the list if the filter = null
     /// </summary>
 
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
@@ -74,7 +85,13 @@ internal class EngineerImplementationcs : IEngineer
         return from item in xmlEngineer
                select item;
     }
-
+    /// <summary>
+    /// the method checks if an item with such an id exsist in the xml
+    /// if yes, it deletes it(by calling delete method),
+    /// now the method will create a new item with the updated detailes
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="Exception"></exception>
     public void Update(Engineer item)
     {
         List<Engineer> xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
