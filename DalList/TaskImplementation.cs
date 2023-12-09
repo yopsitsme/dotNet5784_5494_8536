@@ -44,7 +44,7 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// the method returns the list of items
+    /// the method returns the list of items We met the condition or all the xml if the filter = null
     /// </summary>
     public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null) //stage 2
     {
@@ -59,9 +59,9 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// the method checks if an item with such an id exsist in the list
+    /// the method checks if an item with such an id exsist in the xml
     /// if yes, it deletes it(by calling delete method),
-    /// now the method will create a new item wuth the updated detailes
+    /// now the method will create a new item with the updated detailes
     /// </summary>
     /// <param name="item"></param>
     /// <exception cref="Exception"></exception>
@@ -76,7 +76,7 @@ internal class TaskImplementation : ITask
     }
     /// <summary>
     /// a method that gets a condition and returns the first item who matches the condition 
-    /// if ther is no matching item
+    /// if ther is no matching item return null
     /// </summary>
     /// <param name="filter">a function with a condtion</param>
     /// <returns> the first item who matches the condition</returns>
