@@ -13,7 +13,7 @@ internal class DependencyImplementation : IDependency
     {
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
         Dependency newDependency = item with { Id = Config.NextDependencyId };
-        xmlDependency.Add(new XElement("Dependency",
+        xmlDependency.Add(new XElement("dependency",
                                         new XAttribute("Id", newDependency.Id),
                                         new XAttribute("DependentTask", newDependency.DependentTask),
                                         new XAttribute("DependsTask", newDependency.DependsTask)));
@@ -24,8 +24,8 @@ internal class DependencyImplementation : IDependency
     public void Delete(int id)
     {
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
-        XElement? XmlElement = xmlDependency.Descendants("Dependency")
-         .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id))
+        XElement? XmlElement = xmlDependency.Descendants("dependency")
+         .FirstOrDefault(elmn => Convert.ToInt32(elmn.Attribute("Id")!.Value).Equals(id))
          ?? throw new DalDoesNotExistException(($"Dependency with ID={id} does Not exist"));
         XmlElement.Remove();
         XMLTools.SaveListToXMLElement(xmlDependency, "dependencies");
@@ -34,28 +34,28 @@ internal class DependencyImplementation : IDependency
     public Dependency? Read(int id)
     {
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
-        XElement? XmlElement = xmlDependency.Descendants("Dependency")
-            .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(id));
+        XElement? XmlElement = xmlDependency.Descendants("dependency")
+            .FirstOrDefault(elmn => Convert.ToInt32(elmn.Attribute("Id")!.Value).Equals(id));
         if (XmlElement == null)
             return null;
-        return new Dependency (Convert.ToInt32(XmlElement.Attribute("Id")?.Value),
+        return new Dependency(Convert.ToInt32(XmlElement.Attribute("Id")?.Value),
                                       Convert.ToInt32(XmlElement.Attribute("DependentTask")?.Value),
-                                      Convert.ToInt32(XmlElement.Attribute("DependentTask")?.Value));   //מכיון שאני בטוחה בכך שלעולם לא אקבל ערך נאל אני מכניסה 0 בגל שאם מספר הזהות לא נמצא הפונקציה לא מגיעה לשלב זה   
+                                      Convert.ToInt32(XmlElement.Attribute("DependsTask")?.Value));   //מכיון שאני בטוחה בכך שלעולם לא אקבל ערך נאל אני מכניסה 0 בגל שאם מספר הזהות לא נמצא הפונקציה לא מגיעה לשלב זה   
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
     {
 
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
-            Dependency? dependency = (from item in xmlDependency.Descendants("Dependency")
-                                      where filter(new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value), 
-                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value),
-                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value)))
-                                      select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value),
-                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value),
-                                      Convert.ToInt32(item.Attribute("DependentTask")?.Value))).FirstOrDefault();
+        Dependency? dependency = (from item in xmlDependency.Descendants("dependency")
+                                  where filter(new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value),
+                                  Convert.ToInt32(item.Attribute("DependentTask")?.Value),
+                                  Convert.ToInt32(item.Attribute("DependsTask")?.Value)))
+                                  select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value),
+                                  Convert.ToInt32(item.Attribute("DependentTask")?.Value),
+                                  Convert.ToInt32(item.Attribute("DependsTask")?.Value))).FirstOrDefault();
 
-            return dependency != null ? dependency : null;
+        return dependency != null ? dependency : null;
 
 
 
@@ -68,32 +68,35 @@ internal class DependencyImplementation : IDependency
 
         if (filter != null)
         {
-
             return (from item in xmlDependency.Descendants("dependency")
                     where filter(new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
                 , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
-                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)))
+                , Convert.ToInt32(item.Attribute("DependsTask")?.Value)))
                     select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
 , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
-, Convert.ToInt32(item.Attribute("DependentTask")?.Value))); ;
+, Convert.ToInt32(item.Attribute("DependsTask")?.Value)));
         }
-        return (from item in xmlDependency.Descendants("dependency")
-                select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
-                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
-                , Convert.ToInt32(item.Attribute("DependentTask")?.Value)));
+        else
+        {
+            var t = from item in xmlDependency.Descendants("dependency")
+                    select new Dependency(Convert.ToInt32(item.Attribute("Id")?.Value)
+                    , Convert.ToInt32(item.Attribute("DependentTask")?.Value)
+                    , Convert.ToInt32(item.Attribute("DependsTask")?.Value));
+            return t;
+        }
     }
 
     public void Update(Dependency item)
     {
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
 
-        XElement? XmlElement = xmlDependency.Descendants("Dependency")
-         .FirstOrDefault(elmn => elmn.Attribute("Id")!.Value.Equals(item.Id))
+        XElement? XmlElement = xmlDependency.Descendants("dependency")
+         .FirstOrDefault(elmn => Convert.ToInt32(elmn.Attribute("Id")!.Value).Equals(item.Id))
          ?? throw new DalDoesNotExistException(($"Dependency with ID={item.Id} does Not exist"));
         XmlElement.Attribute("DependentTask")!.Value = item.DependentTask.ToString();
         XmlElement.Attribute("DependsTask")!.Value = item.DependsTask.ToString();
         XMLTools.SaveListToXMLElement(xmlDependency, "dependencies");
 
-        
+
     }
 }
