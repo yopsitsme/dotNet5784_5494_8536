@@ -16,13 +16,12 @@ using System.Globalization;
 ///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
 internal class Program
 {
-    static readonly IDal s_dal = new DalXml(); //stage 2
-
+    static readonly IDal s_dal = Factory.Get; //stage 4
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dal); //stage 2
+            Initialization.Do(); //stage 2
              DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
