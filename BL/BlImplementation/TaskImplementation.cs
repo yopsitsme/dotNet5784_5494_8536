@@ -7,34 +7,31 @@ using DalApi;
 public class TaskImplementation : BlApi.ITask
 {
     private IDal _dal = Factory.Get;
-
     public int Create(Task boTask)
     {
         // כאן יש להוסיף בדיקות תקינות נוספות לפי הדרישות שלך
         // אם אין כלל בדיקות תקינות נוספות יתכן שהמימוש יפשט
         try
         {
+          
             DO.Task doTask = new DO.Task
             {
                 Id = boTask.Id,
-                Description = boTask.Description,
-                Ailas = boTask.Ailas,
-                CreatedAtDete = boTask.CreatedAtDete,
-                Milestone = (DO.MilestoneInTask)boTask.Milestone,
-                BaseLineStartDate = boTask.BaseLineStartDate,
                 StartDate = boTask.StartDate,
-                ScheduledStartDate = boTask.ScheduledStartDate,
-                ForecastDate = boTask.ForecastDate,
+                ScheduledDate = boTask.ScheduledStartDate,
+                ForecasDate = boTask.ForecastDate,
                 CompleteDate = boTask.CompleteDate,
                 DeadLineDate = boTask.DeadLineDate,
                 Deliverables = boTask.Deliverables,
                 Remarks = boTask.Remarks,
-                Engineer = new DO.EngineerInTask
-                {
-                    EngineerId = boTask.Engineer.Id,
-                    TaskId = boTask.Id
-                },
-                ComplexityLevl = (DO.EngineerExperience)boTask.ComplexityLevl
+                EngineerId =0, //new DO.EngineerInTask0
+                ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
+                Description = boTask.Description,
+                Ailas = boTask.Ailas,
+                IsMilestone =false,//לבקש read ,
+                //BaseLineStartDate = boTask.BaseLineStartDate,
+                CreatedAtDate = boTask.CreatedAtDate,
+ 
             };
 
             int taskId = _dal.Task.Create(doTask);
@@ -48,7 +45,9 @@ public class TaskImplementation : BlApi.ITask
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        _dal.Task.Delete(id);
+
+
     }
 
     public Task? Read(int id)
@@ -78,7 +77,7 @@ public class TaskImplementation : BlApi.ITask
                 EngineerId = doTask.Engineer?.EngineerId ?? 0, // אם המהנדס יש ערך, יש להשיב אותו, אחרת להשיב 0
                 TaskId = id
             },
-            ComplexityLevl = (BO.EngineerExperience)doTask.ComplexityLevl
+            ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
         };
     }
 
@@ -117,4 +116,7 @@ public class TaskImplementation : BlApi.ITask
         try
         {
             DO.Task do
+        }
+    }
+}
 

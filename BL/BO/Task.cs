@@ -11,7 +11,7 @@ public class Task
     public int Id { get; init; }
     public string? Description { get; set; }
     public string? Ailas { get; set; }
-    public DateTime? CreatedAtDete { get; set; }
+    public DateTime? CreatedAtDate { get; set; }
     public BO.Status Status { get; set; }
     public BO.MilestoneInTask Milestone {  get; set; }
     public DateTime BaseLineStartDate { get; set; }
@@ -23,7 +23,7 @@ public class Task
    public string Deliverables { get; set; }
    public string Remarks { get; set; }
    public BO.EngineerInTask Engineer { get; set; }
-    public EngineerExperience‏ ComplexityLevl { get; set; }
+    public EngineerExperience‏ ComplexityLevel { get; set; }
  
 }
 

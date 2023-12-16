@@ -15,4 +15,5 @@ public interface IBl
     public IMilestoneInList MilestoneInList {  get; }
     public IMilestoneInTask MilestoneInTask {  get; }
     public ITaskInList TaskInList {  get; }
+    public ITaskinEngineer TaskinEngineer { get; }
 }

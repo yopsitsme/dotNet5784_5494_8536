@@ -139,11 +139,11 @@ public static class Initialization
             DateTime _start = DateTime.Now;
 
             DateTime _dedline = _start.AddDays(days);
-            EngineerExperience _ComplexityLevl = (EngineerExperience)s_rand.Next(0, 4);
+            EngineerExperience _ComplexityLevel = (EngineerExperience)s_rand.Next(0, 4);
             string _deliverables = _deliverablesTask[i];
             i++;
 
-            Task newTask = new(_description, _alias, _IsMilestone,_start, _dedline, _deliverables, _ComplexityLevl );
+            Task newTask = new(_description, _alias, _IsMilestone,_start, _dedline, _deliverables, _ComplexityLevel );
             int id = s_dal!.Task.Create(newTask);
         }
 

@@ -33,7 +33,7 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        _dal.Engineer.Delete(id);
     }
 
     public BO.Engineer? Read(int id)
