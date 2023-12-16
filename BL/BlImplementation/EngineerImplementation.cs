@@ -78,6 +78,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
         DO.Engineer doEngineer = new DO.Engineer(
              boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience?)boEngineer.Level, boEngineer.Cost);
+
         try
         {
           _dal.Engineer.Update(doEngineer);

@@ -47,7 +47,6 @@ public class TaskImplementation : BlApi.ITask
     {
         _dal.Task.Delete(id);
 
-
     }
 
     public Task? Read(int id)
@@ -61,22 +60,18 @@ public class TaskImplementation : BlApi.ITask
             Id = id,
             Description = doTask.Description,
             Ailas = doTask.Ailas,
-            CreatedAtDete = doTask.CreatedAtDete,
-            Status = (BO.Status)doTask.Status,
-            Milestone = (BO.MilestoneInTask)doTask.Milestone,
-            BaseLineStartDate = doTask.BaseLineStartDate,
+            //CreatedAtDete = doTask.CreatedAtDete,
+            //Status = ,
+            //Milestone = doTask.IsMilestone&&//פונקציה שתקבל את האבן דרך,
+            //BaseLineStartDate = doTask.BaseLineStartDate,
             StartDate = doTask.StartDate,
-            ScheduledStartDate = doTask.ScheduledStartDate,
-            ForecastDate = doTask.ForecastDate,
+            ScheduledStartDate = doTask.ScheduledDate,
+            ForecastDate = doTask.ForecasDate,
             CompleteDate = doTask.CompleteDate,
             DeadLineDate = doTask.DeadLineDate,
             Deliverables = doTask.Deliverables,
             Remarks = doTask.Remarks,
-            Engineer = new BO.EngineerInTask
-            {
-                EngineerId = doTask.Engineer?.EngineerId ?? 0, // אם המהנדס יש ערך, יש להשיב אותו, אחרת להשיב 0
-                TaskId = id
-            },
+            //Engineer =//לבקש את המהנדסים ואם null להחזיר null
             ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
         };
     }
@@ -89,23 +84,19 @@ public class TaskImplementation : BlApi.ITask
                     Id = doTask.Id,
                     Description = doTask.Description,
                     Ailas = doTask.Ailas,
-                    CreatedAtDete = doTask.CreatedAtDete,
-                    Status = (BO.Status)doTask.Status,
-                    Milestone = (BO.MilestoneInTask)doTask.Milestone,
-                    BaseLineStartDate = doTask.BaseLineStartDate,
+                    //CreatedAtDete = doTask.CreatedAtDete,
+                    //Status = ,
+                    //Milestone = doTask.IsMilestone&&//פונקציה שתקבל את האבן דרך,
+                    //BaseLineStartDate = doTask.BaseLineStartDate,
                     StartDate = doTask.StartDate,
-                    ScheduledStartDate = doTask.ScheduledStartDate,
-                    ForecastDate = doTask.ForecastDate,
+                    ScheduledStartDate = doTask.ScheduledDate,
+                    ForecastDate = doTask.ForecasDate,
                     CompleteDate = doTask.CompleteDate,
                     DeadLineDate = doTask.DeadLineDate,
                     Deliverables = doTask.Deliverables,
                     Remarks = doTask.Remarks,
-                    Engineer = new BO.EngineerInTask
-                    {
-                        EngineerId = doTask.Engineer?.EngineerId ?? 0, // אם המהנדס יש ערך, יש להשיב אותו, אחרת להשיב 0
-                        TaskId = doTask.Id
-                    },
-                    ComplexityLevl = (BO.EngineerExperience)doTask.ComplexityLevl
+                    //Engineer =//לבקש את המהנדסים ואם null להחזיר null
+                    ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
                 });
     }
 
