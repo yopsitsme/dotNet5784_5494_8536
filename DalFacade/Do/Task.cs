@@ -16,7 +16,7 @@ public record Task
     int EngineerId = 0,
     EngineerExperience‏ ComplexityLevel = EngineerExperience.Novice,
     string? Description = null,
-    string? Ailas = null,
+    string? Alias = null,
     bool? IsMilestone = null,
     DateTime? CreatedAtDate = null
 
@@ -29,7 +29,7 @@ public record Task
     public Task() : this(0, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, "", "", 0, EngineerExperience.Novice) { }
     public Task(string description, string alias, bool isMilestone, DateTime start, DateTime deadline, string deliverables, EngineerExperience‏ complexityLevel) : this()
     {
-        this.Ailas = alias;
+        this.Alias = alias;
         this.Description = description;
         this.IsMilestone = isMilestone;
         this.StartDate = start;

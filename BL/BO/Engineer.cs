@@ -13,7 +13,7 @@ public class Engineer
     public string? Email { get; set; }
     public EngineerExperience‏? Level { get; set; }
     public double? Cost { get; set; }
-    public BO.TaskinEngineer Task {  get; set; }
+    public BO.TaskinEngineer? Task {  get; set; }
     public Engineer()
     {
 
