@@ -1,6 +1,9 @@
 ﻿namespace BlImplementation;
 using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Resources;
+using BlApi;
 using BO;
 using DalApi;
 
@@ -10,9 +13,9 @@ public class TaskImplementation : BlApi.ITask
     private IDal _dal = Factory.Get;
     public int Create(BO.Task boTask)
     {
-        if (boTask.Alias==null)
+        if (boTask.Alias == null)
             throw new BO.BlNullPropertyException("you can not send a null property");
-        if (boTask.Id<0||boTask.Alias=="")
+        if (boTask.Id < 0 || boTask.Alias == "")
             throw new BO.InvalidInputException("Invalid input");
         try
         {
@@ -29,7 +32,7 @@ public class TaskImplementation : BlApi.ITask
     public void Delete(int id)
     {
         if (DependsTask(id))
-           throw new BO.BlDeletionImpossible($"Their is atask(or more) who depent on the task with the ID={id}");
+            throw new BO.BlDeletionImpossible($"Their is atask(or more) who depent on the task with the ID={id}");
         try
         {
             _dal.Task.Delete(id);
@@ -53,16 +56,12 @@ public class TaskImplementation : BlApi.ITask
             Description = doTask.Description,
             Alias = doTask.Alias,
             CreatedAtDate = doTask.CreatedAtDate,
-            Status = (BO.Status)(doTask.ScheduledDate == null ? 0
-                                                     : doTask.StartDate == null ? 1
-                                                     : doTask.DeadLineDate?.AddDays(-5) == DateTime.Now ? 2
-                                                    : doTask.CompleteDate == null ? 3
-                                                    : 4),
+            Status = Tools.myStatus(doTask),
             //Milestone =is //פונקציה שתקבל את האבן דרך,
             StartDate = doTask.StartDate,
             ScheduledStartDate = doTask.ScheduledDate,
-            ForeCastDate = DateTime.MinValue,
-            CompleteDate = doTask.CompleteDate,
+            ForeCastDate = doTask.StartDate?.Add(doTask?.RequierdEffortTime ?? new TimeSpan(0)),
+            CompleteDate = doTask!.CompleteDate,
             DeadLineDate = doTask.DeadLineDate,
             Deliverables = doTask.Deliverables,
             Remarks = doTask.Remarks,
@@ -73,30 +72,34 @@ public class TaskImplementation : BlApi.ITask
 
     public IEnumerable<Task> ReadAll(Func<BO.Task, bool>? filter = null)
     {
-       var listTask=_dal.Task.ReadAll()
-                .Select(doTask=>new BO.Task
+
+        var listTask = _dal.Task.ReadAll()
+                .Select(doTask => new BO.Task
                 {
                     Id = doTask!.Id,
                     Description = doTask.Description,
                     Alias = doTask.Alias,
                     CreatedAtDate = doTask.CreatedAtDate,
-                    Status = (BO.Status)(doTask.ScheduledDate == null ? 0
-                                                     : doTask.StartDate == null ? 1
-                                                     : doTask.DeadLineDate?.AddDays(-5) == DateTime.Now ? 2
-                                                    : doTask.CompleteDate == null ? 3
-                                                    : 4), 
-                    //Milestone = doTask.IsMilestone&&//פונקציה שתקבל את האבן דרך,
+                    Status = Tools.myStatus(doTask),
+                    Milestone = Tools.depndentTesks(doTask.Id)
+        .Where(d => _dal.Task!.Read(d.Id)!.IsMilestone == true)
+        .Select(d => new BO.MilestoneInTask()
+        {
+            Id = d.Id,
+            Alias = d.Ailas
+        })
+        .FirstOrDefault(),
                     StartDate = doTask.StartDate,
                     ScheduledStartDate = doTask.ScheduledDate,
-                    ForeCastDate = DateTime.MinValue,
-                    CompleteDate = doTask.CompleteDate,
+                    ForeCastDate = doTask.StartDate?.Add(doTask?.RequierdEffortTime ?? new TimeSpan(0)),
+                    CompleteDate = doTask!.CompleteDate,
                     DeadLineDate = doTask.DeadLineDate,
                     Deliverables = doTask.Deliverables,
                     Remarks = doTask.Remarks,
                     Engineer = EngineerInTask(doTask.EngineerId),
                     ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
                 });
-        return filter==null? listTask: listTask.Where(filter);
+        return filter == null ? listTask : listTask.Where(filter);
     }
 
     public void Update(Task boTask)
@@ -107,7 +110,7 @@ public class TaskImplementation : BlApi.ITask
         {
             DO.Task doTask = fromBoToDoTask(boTask);
             _dal.Task.Update(doTask);
-          
+
         }
         catch (DO.DalDoesNotExistException ex)
         {
@@ -118,37 +121,39 @@ public class TaskImplementation : BlApi.ITask
 
     public DO.Task fromBoToDoTask(BO.Task boTask)
     {
-    return new DO.Task
-    {
-        Id = boTask.Id,
-        StartDate = boTask.StartDate,
-        ScheduledDate = boTask.ScheduledStartDate,
-        CompleteDate = boTask.CompleteDate,
-        DeadLineDate = boTask.DeadLineDate,
-        Deliverables = boTask.Deliverables,
-        Remarks = boTask.Remarks,
-        EngineerId = boTask.Engineer.Id, 
-        ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
-        Description = boTask.Description,
-        Alias = boTask.Alias,
-        IsMilestone =(boTask.Milestone?.Alias==null|| boTask.Milestone.Alias=="") ?false:true,
-        CreatedAtDate = boTask.CreatedAtDate,
-
-    };
+        return new DO.Task
+        {
+            Id = boTask.Id,
+            Alias = boTask.Alias,
+            Description = boTask.Description,
+            CreatedAtDate = boTask.CreatedAtDate,
+            RequierdEffortTime = boTask.RequierdEffortTime,
+            IsMilestone = (boTask.Milestone?.Alias == null || boTask.Milestone.Alias == "") ? false : true,
+            CompleteDate = boTask.CompleteDate,
+            StartDate = boTask.StartDate,
+            ScheduledDate = boTask.ScheduledStartDate,
+            DeadLineDate = boTask.DeadLineDate,
+            Deliverables = boTask.Deliverables,
+            Remarks = boTask.Remarks,
+            EngineerId = boTask.Engineer.Id,
+            ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
+        };
     }
 
-    public BO.EngineerInTask  EngineerInTask(int id)
+    public BO.EngineerInTask? EngineerInTask(int? id)
     {
+        if (id == null)
+            return null;
         var engineerInTask = _dal.Engineer.ReadAll()
-                      .Where(e => e!.Id==id)
-                      .Select(en => new EngineerInTask { Id = id, Name = en?.Name }).First();
+                      .Where(e => e!.Id == id)
+                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name }).First();
         return engineerInTask;
     }
     public bool DependsTask(int id)
     {
-       var flagDependsTask= _dal.Dependency.ReadAll()
-        .FirstOrDefault(d => d!.DependentTask == id);
-        return(flagDependsTask!=null);
+        var flagDependsTask = _dal.Dependency.ReadAll()
+         .FirstOrDefault(d => d!.DependentTask == id);
+        return (flagDependsTask != null);
 
     }
 
