@@ -10,5 +10,5 @@ public interface IMilestone
 {
     public int Create();
     public void Update(BO.Milestone item);
-    public BO.Task? Read(int id);
+    public BO.Milestone? Read(int id);
 }

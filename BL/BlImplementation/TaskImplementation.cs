@@ -53,12 +53,15 @@ public class TaskImplementation : BlApi.ITask
             Description = doTask.Description,
             Alias = doTask.Alias,
             CreatedAtDate = doTask.CreatedAtDate,
-            //Status = ,
-            //Milestone = doTask.IsMilestone&&//פונקציה שתקבל את האבן דרך,
-            //BaseLineStartDate = doTask.BaseLineStartDate,
+            Status = (BO.Status)(doTask.ScheduledDate == null ? 0
+                                                     : doTask.StartDate == null ? 1
+                                                     : doTask.DeadLineDate?.AddDays(-5) == DateTime.Now ? 2
+                                                    : doTask.CompleteDate == null ? 3
+                                                    : 4),
+            //Milestone =is //פונקציה שתקבל את האבן דרך,
             StartDate = doTask.StartDate,
             ScheduledStartDate = doTask.ScheduledDate,
-            ForecastDate = doTask.ForecasDate,
+            ForeCastDate = DateTime.MinValue,
             CompleteDate = doTask.CompleteDate,
             DeadLineDate = doTask.DeadLineDate,
             Deliverables = doTask.Deliverables,
@@ -77,12 +80,15 @@ public class TaskImplementation : BlApi.ITask
                     Description = doTask.Description,
                     Alias = doTask.Alias,
                     CreatedAtDate = doTask.CreatedAtDate,
-                    //Status = ,
+                    Status = (BO.Status)(doTask.ScheduledDate == null ? 0
+                                                     : doTask.StartDate == null ? 1
+                                                     : doTask.DeadLineDate?.AddDays(-5) == DateTime.Now ? 2
+                                                    : doTask.CompleteDate == null ? 3
+                                                    : 4), 
                     //Milestone = doTask.IsMilestone&&//פונקציה שתקבל את האבן דרך,
-                    //BaseLineStartDate = doTask.BaseLineStartDate,
                     StartDate = doTask.StartDate,
                     ScheduledStartDate = doTask.ScheduledDate,
-                    ForecastDate = doTask.ForecasDate,
+                    ForeCastDate = DateTime.MinValue,
                     CompleteDate = doTask.CompleteDate,
                     DeadLineDate = doTask.DeadLineDate,
                     Deliverables = doTask.Deliverables,
@@ -117,7 +123,6 @@ public class TaskImplementation : BlApi.ITask
         Id = boTask.Id,
         StartDate = boTask.StartDate,
         ScheduledDate = boTask.ScheduledStartDate,
-        ForecasDate = boTask.ForecastDate,
         CompleteDate = boTask.CompleteDate,
         DeadLineDate = boTask.DeadLineDate,
         Deliverables = boTask.Deliverables,
@@ -126,7 +131,7 @@ public class TaskImplementation : BlApi.ITask
         ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
         Description = boTask.Description,
         Alias = boTask.Alias,
-        IsMilestone =(boTask.Milestone.Alias==""|| boTask.Milestone.Alias==null) ?false:true,
+        IsMilestone =(boTask.Milestone?.Alias==null|| boTask.Milestone.Alias=="") ?false:true,
         CreatedAtDate = boTask.CreatedAtDate,
 
     };
