@@ -5,20 +5,20 @@ namespace DO;
 // decleration of the entity task
 public record Task
     (
-    int Id = 0,
-    DateTime StartDate = new DateTime(),
-    DateTime ScheduledDate = new DateTime(),
-    DateTime ForecasDate = new DateTime(),
-    DateTime CompleteDate = new DateTime(),
-    DateTime DeadLineDate = new DateTime(),
-    string Deliverables = "",
-    string Remarks = "",
-    int EngineerId = 0,
-    EngineerExperience‏ ComplexityLevel = EngineerExperience.Novice,
-    string? Description = null,
-    string? Alias = null,
-    bool? IsMilestone = null,
-    DateTime? CreatedAtDate = null
+    int Id ,
+    string Alias ,
+    string Description,
+    DateTime CreatedAtDate,
+    TimeSpan? RequierdEffortTime=null,
+    bool IsMilestone=false,
+    DateTime ? StartDate =null,
+    DateTime ?ScheduledDate = null,
+    DateTime ?DeadLineDate = null,
+    DateTime ?CompleteDate = null,
+    string? Deliverables=null ,
+    string? Remarks=null ,
+    int? EngineerId = null,
+    EngineerExperience‏? ComplexityLevel = EngineerExperience.Novice
 
     )
 
@@ -26,17 +26,17 @@ public record Task
 {
 
     //defult constructor
-    public Task() : this(0, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, "", "", 0, EngineerExperience.Novice) { }
-    public Task(string description, string alias, bool isMilestone, DateTime start, DateTime deadline, string deliverables, EngineerExperience‏ complexityLevel) : this()
-    {
-        this.Alias = alias;
-        this.Description = description;
-        this.IsMilestone = isMilestone;
-        this.StartDate = start;
-        this.DeadLineDate = deadline;
-        this.Deliverables = deliverables;
-        this.ComplexityLevel = complexityLevel;
-    }
+    public Task() : this(0, "","",DateTime.Now,null,false) { }
+    //public Task(string description, string alias, bool isMilestone, DateTime start, DateTime deadline, string deliverables, EngineerExperience‏ complexityLevel) : this()
+    //{
+    //    this.Alias = alias;
+    //    this.Description = description;
+    //    this.IsMilestone = isMilestone;
+    //    this.StartDate = start;
+    //    this.DeadLineDate = deadline;
+    //    this.Deliverables = deliverables;
+    //    this.ComplexityLevel = complexityLevel;
+    //}
     //public Task(int Id, DateTime StartDate, DateTime ScheduledDate,
     //            DateTime CompleteDate,
     //            DateTime ForecasDate,
