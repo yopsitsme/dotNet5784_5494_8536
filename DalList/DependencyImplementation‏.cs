@@ -79,7 +79,7 @@ internal class DependencyImplementation : IDependency
         if (newDependency == null)
         { throw new DalDoesNotExistException($"Dependency with ID={item.Id} does Not exist"); }
         Delete(item.Id);
-        DataSource.Dependencies.Add(item);
+        DataSource.Dependencies?.Add(item);
 
     }
     /// <summary>
@@ -97,11 +97,11 @@ internal class DependencyImplementation : IDependency
     }
     public void AddDependency(Dependency dependency)
     {
-        DataSource.Dependencies.Add(dependency);
+        DataSource.Dependencies?.Add(dependency);
     }
-}
     public void Reset()
     {
-        DataSource.Dependencies.Clear();
+        DataSource.Dependencies?.Clear();
     }
 }
+   

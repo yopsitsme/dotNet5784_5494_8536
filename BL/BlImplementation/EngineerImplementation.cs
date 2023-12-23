@@ -2,14 +2,14 @@
 
 namespace BlImplementation;
 using BO;
-using DalApi;
+
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 
 internal class EngineerImplementation : BlApi.IEngineer
 {
-    private IDal _dal = Factory.Get;
+    private DalApi.IDal _dal = DalApi.Factory.Get;
 
     public int Create(BO.Engineer boEngineer)
     {
@@ -20,7 +20,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         {
             throw new BO.InvalidInputException("Invalid input");
         }
-        DO.Engineer doEngineer = fromBoToDoEngineer(boEngineer);
+        DO.Engineer doEngineer = Tools.EngineerfromBoToDo(boEngineer);
         try
         {
             int ideng = _dal.Engineer.Create(doEngineer);
@@ -34,7 +34,7 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     public void Delete(int id)
     {
-        if (TaskinEngineer(id) != null)
+        if (Tools.TaskinEngineer(id) != null)
         {
             throw new BO.BlDeletionImpossible($" Can't delete engineer with ID={id} ");
         }
@@ -56,23 +56,15 @@ internal class EngineerImplementation : BlApi.IEngineer
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null)
             throw new BO.BlDoesNotExistException($"Engneer with ID={id} does Not exist");
-        return fromDoToBoEngineer(doEngineer);
+        return Tools.EngineerfromDoToBo(doEngineer);
     }
 
 
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter=null)
     {
-       
-          var listEngineer= (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
-                    select new BO.Engineer
-                    {
-                        Id = doEngineer.Id,
-                        Name = doEngineer.Name,
-                        Email = doEngineer.Email,
-                        Level = (BO.EngineerExperience)doEngineer.Level,
-                        Cost = doEngineer.Cost,
-                        Task = TaskinEngineer(doEngineer.Id)
-                    });
+
+        var listEngineer = (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
+                            select Tools.EngineerfromDoToBo(doEngineer));
         if (filter != null)
         {
             return listEngineer.Where(filter);
@@ -93,7 +85,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         {
             throw new BO.InvalidInputException("Invalid input");
         }
-        DO.Engineer doEngineer = fromBoToDoEngineer(boEngineer);
+        DO.Engineer doEngineer =Tools.EngineerfromBoToDo(boEngineer);
 
         try
         {
@@ -104,34 +96,8 @@ internal class EngineerImplementation : BlApi.IEngineer
             throw new BO.BlAlreadyExistsException($"Student with ID={boEngineer.Id} already exists", ex);
         }
     }
-    public TaskinEngineer? TaskinEngineer(int Id)
-    {
-        return (from DO.Task doTask in _dal.Task.ReadAll()
-                where doTask.EngineerId == Id
-                select new TaskinEngineer
-                {
-                    Id = doTask.Id,
-                    Alias = doTask.Alias
-                }).FirstOrDefault();// FirstOrDefaultכתוב בתיאור הכללי שמהנדס יכול לעבוד על משימה אחת בו אבל גם יתכן שךא מוגדרת לו אף משימה ולכן ניתן לןהשתמש בפונקציה 
-    }
-    public DO.Engineer fromBoToDoEngineer(BO.Engineer boEngineer)
-    {
-        return new DO.Engineer(
-        boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)boEngineer.Level, boEngineer.Cost);
-    }
+  
 
-    public BO.Engineer fromDoToBoEngineer(DO.Engineer doEngineer)
-    {
-        return new BO.Engineer
-        {
-            Id = doEngineer.Id,
-            Name = doEngineer.Name,
-            Email = doEngineer.Email,
-            Level = (BO.EngineerExperience)doEngineer.Level,
-            Cost = doEngineer.Cost,
-            Task = TaskinEngineer(doEngineer.Id)
-        };
-        }
             
 }
 

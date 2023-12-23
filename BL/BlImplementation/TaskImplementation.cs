@@ -10,7 +10,7 @@ using DalApi;
 
 public class TaskImplementation : BlApi.ITask
 {
-    private IDal _dal = Factory.Get;
+    private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
         if (boTask.Alias == null)
@@ -19,7 +19,7 @@ public class TaskImplementation : BlApi.ITask
             throw new BO.InvalidInputException("Invalid input");
         try
         {
-            DO.Task doTask = fromBoToDoTask(boTask);
+            DO.Task doTask = Tools.TaskfromBoToDo(boTask);
             int taskId = _dal.Task.Create(doTask);
             return taskId;
         }
@@ -31,7 +31,7 @@ public class TaskImplementation : BlApi.ITask
 
     public void Delete(int id)
     {
-        if (DependsTask(id))
+        if (Tools.DependsTask(id))
             throw new BO.BlDeletionImpossible($"Their is atask(or more) who depent on the task with the ID={id}");
         try
         {
@@ -50,7 +50,7 @@ public class TaskImplementation : BlApi.ITask
         if (doTask == null)
             throw new BO.BlDoesNotExistException($"Task with ID={id} does Not exist");
 
-        return Tools.taskFromDoToBo(doTask);
+        return Tools.TaskFromDoToBo(doTask);
 
 
     }
@@ -59,31 +59,7 @@ public class TaskImplementation : BlApi.ITask
     {
 
         var listTask = _dal.Task.ReadAll()
-                .Select(doTask => new BO.Task
-                {
-                    Id = doTask!.Id,
-                    Description = doTask.Description,
-                    Alias = doTask.Alias,
-                    CreatedAtDate = doTask.CreatedAtDate,
-                    Status = Tools.myStatus(doTask),
-                    Milestone = Tools.depndentTesks(doTask.Id)
-                                .Where(d => _dal.Task!.Read(d.Id)!.IsMilestone == true)
-                                .Select(d => new BO.MilestoneInTask()
-                                {
-                                     Id = d.Id,
-                                      Alias = d.Ailas
-                                  })
-                                  .FirstOrDefault(),
-                    StartDate = doTask.StartDate,
-                    ScheduledStartDate = doTask.ScheduledDate,
-                    ForeCastDate = doTask.StartDate?.Add(doTask?.RequierdEffortTime ?? new TimeSpan(0)),
-                    CompleteDate = doTask!.CompleteDate,
-                    DeadLineDate = doTask.DeadLineDate,
-                    Deliverables = doTask.Deliverables,
-                    Remarks = doTask.Remarks,
-                    Engineer =Tools.EngineerInTask(doTask.EngineerId),
-                    ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
-                });
+                .Select(doTask => Tools.TaskFromDoToBo(doTask));
         return filter == null ? listTask : listTask.Where(filter);
     }
 
@@ -93,7 +69,7 @@ public class TaskImplementation : BlApi.ITask
             throw new BO.InvalidInputException("Invalid input");
         try
         {
-            DO.Task doTask = fromBoToDoTask(boTask);
+            DO.Task doTask = Tools.TaskfromBoToDo(boTask);
             _dal.Task.Update(doTask);
 
         }
@@ -104,35 +80,6 @@ public class TaskImplementation : BlApi.ITask
     }
 
 
-    public DO.Task fromBoToDoTask(BO.Task boTask)
-    {
-        return new DO.Task
-        {
-            Id = boTask.Id,
-            Alias = boTask.Alias,
-            Description = boTask.Description,
-            CreatedAtDate = boTask.CreatedAtDate,
-            RequierdEffortTime = boTask.RequierdEffortTime,
-            IsMilestone = (boTask.Milestone?.Alias == null || boTask.Milestone.Alias == "") ? false : true,
-            CompleteDate = boTask.CompleteDate,
-            StartDate = boTask.StartDate,
-            ScheduledDate = boTask.ScheduledStartDate,
-            DeadLineDate = boTask.DeadLineDate,
-            Deliverables = boTask.Deliverables,
-            Remarks = boTask.Remarks,
-            EngineerId = boTask.Engineer.Id,
-            ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
-        };
-    }
-
-
-    public bool DependsTask(int id)
-    {
-        var flagDependsTask = _dal.Dependency.ReadAll()
-         .FirstOrDefault(d => d!.DependentTask == id);
-        return (flagDependsTask != null);
-
-    }
 
 
 }
