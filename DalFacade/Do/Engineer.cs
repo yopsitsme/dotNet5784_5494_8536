@@ -6,15 +6,19 @@ namespace DO;
 public record Engineer
  (
     int Id,
-    string? Name = null,
-    string? Email = null,
-    EngineerExperience‏? Level=null,
-    double? Cost = null
+    string Name ,
+    string Email,
+    EngineerExperience‏ Level,
+    double Cost
 
 
  )
 {
-    //defult constructor
-    public Engineer():this(0) { }
 
 }
+
+//{
+//    //defult constructor
+//    public Engineer():this(0) { }
+
+//}
