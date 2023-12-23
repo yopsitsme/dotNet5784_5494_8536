@@ -6,6 +6,7 @@ namespace DO;
 public record Dependency
 
     (
+    //כאשר יוצרים תלות חייב להיות ערכים של המשימות
      int Id=0,
      int DependentTask=0,
      int DependsTask = 0
