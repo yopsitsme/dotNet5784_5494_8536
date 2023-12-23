@@ -87,4 +87,9 @@ internal class TaskImplementation : ITask
                                   select item).FirstOrDefault();
         return task != null ? task : null;
     }
+
+    public void Reset()
+    {
+        DataSource.Tasks.Clear();
+    }
 }

@@ -32,7 +32,7 @@ public static class Tools
                                                     : task.CompleteDate == null ? 3
                                                     : 4);
     }
-    public static List<DO.Dependency> CreateMileStone(List<DO.Dependency> dependencies)
+    public static List<DO.Dependency>? CreateMileStone(List<DO.Dependency>? dependencies)
     {
         int count = 0;
         DO.Task firstMilestone = new()
@@ -91,4 +91,45 @@ public static class Tools
 
         return newDependencies;
     }
+
+    public static  double completionPercentage(List<TaskInList> listTask)
+    {
+        double sum = 0;
+        for (int i = 0; i < listTask.Count; i++)
+        {
+            sum += (int)listTask[i].Status * 100 / 4;
+        }
+        return sum / listTask.Count;
+
+    }
+    public static BO.Task taskFromDoToBo(DO.Task doTask) {
+        return new Task
+        {
+            Id = doTask.Id,
+            Description = doTask.Description,
+            Alias = doTask.Alias,
+            CreatedAtDate = doTask.CreatedAtDate,
+            Status = Tools.myStatus(doTask),
+            //Milestone =is //פונקציה שתקבל את האבן דרך,
+            StartDate = doTask.StartDate,
+            ScheduledStartDate = doTask.ScheduledDate,
+            ForeCastDate = doTask.StartDate?.Add(doTask?.RequierdEffortTime ?? new TimeSpan(0)),
+            CompleteDate = doTask!.CompleteDate,
+            DeadLineDate = doTask.DeadLineDate,
+            Deliverables = doTask.Deliverables,
+            Remarks = doTask.Remarks,
+            Engineer = EngineerInTask(doTask.EngineerId),
+            ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
+        };
+    }
+    public  static BO.EngineerInTask? EngineerInTask(int? id)
+    {
+        if (id == null)
+            return null;
+        var engineerInTask = _dal.Engineer.ReadAll()
+                      .Where(e => e!.Id == id)
+                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name }).First();
+        return engineerInTask;
+    }
+
 }
