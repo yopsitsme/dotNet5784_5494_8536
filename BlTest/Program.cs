@@ -160,7 +160,7 @@ internal class Program
                 createEngineer();
                 break;
             case "Milestone":
-                createMilestone();
+                createMilestones();
                 break;
             default:
                 throw (new Exception("no such entity name"));
@@ -533,5 +533,28 @@ internal class Program
         BO.Status statusLevel;
         Enum.TryParse(status, out statusLevel);
         return statusLevel;
+    }
+    static void createMilestones()
+    {
+        s_bl.Milestone.Create();
+    }
+    static void readMilestone()
+    {
+        int idMilestone ;
+        int.TryParse((GetInput("Enter the Milestone id: ")), out idMilestone);
+        BO.Milestone? milestoneRead = s_bl!.Milestone.Read(idMilestone);
+        Console.WriteLine(milestoneRead);
+
+    }
+    static void updateMilestone()
+    {
+        int idMilestone ;
+        int.TryParse((GetInput("Enter the Milestone id: ")), out idMilestone);
+        Console.WriteLine(s_bl.Milestone.Read(idMilestone));
+        Console.WriteLine("Enter Milestone Data:");
+        string? remarks = GetInput("Enter Remarks: ");
+        string? description = GetInput("Enter the Milestone description: ");
+        string? alias = GetInput("Enter the Milestone alias: ");
+        s_bl.Milestone.Update(idMilestone, alias, description, remarks );
     }
 }
