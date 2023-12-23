@@ -69,7 +69,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                         Id = doEngineer.Id,
                         Name = doEngineer.Name,
                         Email = doEngineer.Email,
-                        Level = (BO.EngineerExperience?)doEngineer.Level,
+                        Level = (BO.EngineerExperience)doEngineer.Level,
                         Cost = doEngineer.Cost,
                         Task = TaskinEngineer(doEngineer.Id)
                     });
@@ -117,7 +117,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     public DO.Engineer fromBoToDoEngineer(BO.Engineer boEngineer)
     {
         return new DO.Engineer(
-        boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience?)boEngineer.Level, boEngineer.Cost);
+        boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)boEngineer.Level, boEngineer.Cost);
     }
 
     public BO.Engineer fromDoToBoEngineer(DO.Engineer doEngineer)
@@ -127,7 +127,7 @@ internal class EngineerImplementation : BlApi.IEngineer
             Id = doEngineer.Id,
             Name = doEngineer.Name,
             Email = doEngineer.Email,
-            Level = (BO.EngineerExperience?)doEngineer.Level,
+            Level = (BO.EngineerExperience)doEngineer.Level,
             Cost = doEngineer.Cost,
             Task = TaskinEngineer(doEngineer.Id)
         };

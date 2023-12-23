@@ -31,10 +31,10 @@ public static class Initialization
 
             string _email = _id + "@gmail.com";//Create an email address
 
-            double _cost = s_rand.Next(75, 150) * 0.12*10;  //Salary lottery in the appropriate range for every engineer
-            Engineer newEng = new(_id,_name, _email, _level, _cost);
+            double _cost = s_rand.Next(75, 150) * 0.12 * 10;  //Salary lottery in the appropriate range for every engineer
+            Engineer newEng = new(_id, _name, _email, _level, _cost);
 
-            int id= s_dal!.Engineer.Create(newEng);//Creating the object using a function create
+            int id = s_dal!.Engineer.Create(newEng);//Creating the object using a function create
         }
 
     }
@@ -42,7 +42,7 @@ public static class Initialization
     //Creating an task
     private static void creatTask()
     {
-        bool _IsMilestone = false;
+
         int i = 0;
         string[] engineerTasks =
          {
@@ -130,20 +130,14 @@ public static class Initialization
             "Software localization and internationalization" };
         foreach (var _description in engineerTasks)
         {
-
-            int days = s_rand.Next(100, 150);
             string[] words = _description.Split(' ');
-
-
             string _alias = words[0];
-            DateTime _start = DateTime.Now;
 
-            DateTime _dedline = _start.AddDays(days);
-            EngineerExperience _ComplexityLevel = (EngineerExperience)s_rand.Next(0, 4);
-            string _deliverables = _deliverablesTask[i];
+            DateTime _create = DateTime.Now.AddDays(-s_rand.Next(0, 50));
+
             i++;
 
-            Task newTask = new(_description, _alias, _IsMilestone,_start, _dedline, _deliverables, _ComplexityLevel );
+            Task newTask = new(0, _description, _alias, _create);
             int id = s_dal!.Task.Create(newTask);
         }
 
@@ -153,7 +147,7 @@ public static class Initialization
         List<Task?> tasks = s_dal!.Task.ReadAll().ToList();
         for (int i = 0; i < 40; i++)
         {
-          
+
             int indexTask1 = s_rand.Next(0, tasks.Count - 1);
             int _dependentTask = tasks[indexTask1]!.Id;
             int indexTask2 = s_rand.Next(0, tasks.Count - 1);
@@ -162,15 +156,15 @@ public static class Initialization
                 indexTask2 = s_rand.Next(0, tasks.Count - 1);
             }
             int _dependsTask = tasks[indexTask2]!.Id;
-            Dependency newDependency = new(0,_dependentTask, _dependsTask);
-            int id =s_dal!.Dependency.Create(newDependency);
+            Dependency newDependency = new(0, _dependentTask, _dependsTask);
+            int id = s_dal!.Dependency.Create(newDependency);
 
         }
     }
 
     public static void Do() //stage 4
-     {
-        s_dal =Factory.Get;
+    {
+        s_dal = Factory.Get;
 
         creatEngineer();
         creatTask();
