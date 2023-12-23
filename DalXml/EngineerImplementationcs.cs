@@ -103,4 +103,9 @@ internal class EngineerImplementationcs : IEngineer
         XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
 
     }
+    public void Reset()
+    {
+        XMLTools.ResetFile("engineers");
+    }
+
 }

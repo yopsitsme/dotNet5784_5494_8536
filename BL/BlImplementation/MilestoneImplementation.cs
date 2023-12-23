@@ -15,9 +15,13 @@ public class MilestoneImplementation : IMilestone
 {
     private IDal _dal = Factory.Get;
 
-    public int Create()
+    public void Create()
     {
-        throw new NotImplementedException();
+       List <DO.Dependency> newDependencies=Tools.CreateMileStone(_dal.Dependency.ReadAll()?.ToList());
+        _dal.Dependency.Reset();
+        foreach(DO.Dependency depent in newDependencies){
+            _dal.Dependency.AddDependency(depent);
+        }
     }
 
     public BO.Milestone? Read(int id)
@@ -37,7 +41,7 @@ public class MilestoneImplementation : IMilestone
                 ForeCastDate = doTask.StartDate?.Add(doTask?.RequierdEffortTime??new TimeSpan(0)),
                 CompleteDate = doTask!.CompleteDate,
                 DeadLineDate = doTask.DeadLineDate??DateTime.Now,
-                CompletionPercentage = completionPercentage(Tools.depndentTesks(doTask.Id)),
+                CompletionPercentage = Tools.completionPercentage(Tools.depndentTesks(doTask.Id)),
                 Remarks = doTask.Remarks,
                 Dependencies = Tools.depndentTesks(doTask.Id),
             };
@@ -50,18 +54,16 @@ public class MilestoneImplementation : IMilestone
 
     }
 
-    public void Update(Milestone item)
+    public BO.Milestone Update(int id, string alias,string description,string remarks)
     {
-        throw new NotImplementedException();
-    }
-    private double completionPercentage(List<TaskInList> listTask)
-    {
-        double sum = 0;
-        for (int i = 0; i < listTask.Count; i++)
+        if(alias==""|| description==""|| remarks=="")
+        { throw new BO.InvalidInputException(""); }
+        try
         {
-            sum += (int)listTask[i].Status * 100 / 4;
-        }
-        return sum / listTask.Count;
+           DO.Task abc= _dal.Task.Read(id);
+            
 
+        }
     }
+  
 }

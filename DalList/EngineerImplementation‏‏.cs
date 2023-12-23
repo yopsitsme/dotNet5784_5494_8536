@@ -95,8 +95,11 @@ internal class EngineerImplementation : IEngineer
         return engineer != null ? engineer : null;
 
     }
+    public void Reset()
+    {
+        DataSource.Engineers.Clear();
+    }
 
-    
-    
+
 
 }

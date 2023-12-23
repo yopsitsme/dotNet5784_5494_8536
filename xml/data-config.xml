@@ -2,4 +2,6 @@
 <config>
   <NextTaskId>1120</NextTaskId>
   <NextDependencyId>214</NextDependencyId>
+	<StartProject></StartProject>
+	<EndProject></EndProject>
 </config>

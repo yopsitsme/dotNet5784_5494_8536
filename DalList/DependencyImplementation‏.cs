@@ -95,4 +95,13 @@ internal class DependencyImplementation : IDependency
                                   select item).FirstOrDefault();
         return dependency != null ? dependency : null;
     }
+    public void AddDependency(Dependency dependency)
+    {
+        DataSource.Dependencies.Add(dependency);
+    }
+}
+    public void Reset()
+    {
+        DataSource.Dependencies.Clear();
+    }
 }

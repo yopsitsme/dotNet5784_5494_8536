@@ -97,4 +97,9 @@ internal class TaskImplementation : ITask
         xmlTask.Add(item);
         XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "tasks");
     }
+    public void Reset()
+    {
+        XMLTools.ResetFile("tasks");
+    }
+
 }
