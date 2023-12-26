@@ -11,5 +11,7 @@ public class TaskinEngineer
         Id = id;
         Alias = alias;
     }
+    public override string ToString() => Tools.ToStringProperty();
+
     public TaskinEngineer() { }
 }

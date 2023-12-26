@@ -2,6 +2,9 @@
 
 using BlApi;
 using DalApi;
+using System;
+using System.Reflection;
+using System.Collections;
 
 namespace BO;
 
@@ -257,5 +260,8 @@ public static class Tools
         return value.ToString();
     }
 
-
+    internal static string ToStringProperty()
+    {
+        throw new NotImplementedException();
+    }
 }

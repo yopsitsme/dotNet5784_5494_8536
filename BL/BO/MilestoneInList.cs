@@ -13,4 +13,6 @@ public class MilestoneInList
     public string Ailas { get; set; }
     public BO.Status? Status { get; set; }
     public double? CompletionPercentage { get; set; }
+    public override string ToString() => Tools.ToStringProperty();
+
 }
