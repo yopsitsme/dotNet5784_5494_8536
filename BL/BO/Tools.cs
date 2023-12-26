@@ -195,7 +195,7 @@ public static class Tools
                                 {
                                     Id = d.Id,
                                     Alias = d.Ailas
-                                }) .FirstOrDefault();
+                                }).FirstOrDefault();
 
         return milestoneInTask;
 
@@ -216,4 +216,46 @@ public static class Tools
             Dependencies = Tools.depndentTesks(doTask.Id),
         };
     }
+
+
+
+    public static string ToStringProperty<T>(T obj)
+    {
+        Type type = obj.GetType();
+        PropertyInfo[] properties = type.GetProperties();
+
+        string result = $"{type.Name} properties:\n";
+
+        foreach (PropertyInfo prop in properties)
+        {
+            object value = prop.GetValue(obj);
+            result += $"{prop.Name}: {GetValueAsString(value)}\n";
+        }
+
+        return result;
+    }
+
+    private static string GetValueAsString(object value)
+    {
+        if (value == null)
+            return "null";
+
+        Type valueType = value.GetType();
+
+        if (valueType.IsPrimitive || valueType == typeof(string))
+            return value.ToString();
+
+        if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
+        {
+            IEnumerable enumerable = (IEnumerable)value;
+            string listAsString = string.Join(", ", enumerable.Cast<object>());
+            return $"[{listAsString}]";
+        }
+
+        // Handle other types as needed
+
+        return value.ToString();
+    }
+
+
 }
