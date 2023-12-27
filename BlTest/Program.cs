@@ -1,7 +1,7 @@
 ﻿using BlApi;
 using BO;
 using DalApi;
-
+using DalTest;
 using DO;
 using System.Diagnostics.Metrics;
 using System.Globalization;
@@ -18,13 +18,14 @@ internal class Program
     static void Main(string[] args)
     {
         try
-        {
-            Console.Write("Would you like to create Initial data? (Y/N)");
-            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
-            if (ans == "Y")
-                DalTest.Initialization.Do();
+        
+            {
+                Console.Write("Would you like to create Initial data? (Y/N)");
+                string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+                if (ans == "Y")
+                    DalTest.Initialization.Do();
 
-            DisplayMainMenu();
+                DisplayMainMenu();
         }
         catch (Exception ex)
         {
@@ -173,26 +174,25 @@ internal class Program
     {
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
-        DateTime start = GetDateTimeInput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
-        DateTime deadline = GetDateTimeInput("Enter the task deadline date and time (YYYY-MM-DD HH:mm:ss): ");
+        //DateTime start = GetDateTimeInput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
         DateTime createdAtDate = DateTime.Now.AddDays(-s_rand.Next(0, 100));
         string deliverables = GetInput("Enter the task deliverables: ");
         string remarks = GetInput("Enter the task Remarks: ");
-        int EngineerId = GetIntInput("Enter the engineers Id ");
-        string EngineerName = GetInput("Enter the engineers name : ");
-        BO.EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
+
+        //int EngineerId = GetIntInput("Enter the engineers Id ");
+        //string EngineerName = GetInput("Enter the engineers name : ");
+        //BO.EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
         BO.Task task = new BO.Task
         {
             Description = description,
             Alias = alias,
             CreatedAtDate = createdAtDate,
             Status =0,
-            StartDate = start,
-            DeadLineDate = deadline,
+            //StartDate = start,
             Deliverables = deliverables,
             Remarks = remarks,
-            Engineer = new EngineerInTask { Id = EngineerId, Name = EngineerName },
-            ComplexityLevel = complexityLevel
+            //Engineer = new EngineerInTask { Id = EngineerId, Name = EngineerName },
+            //ComplexityLevel = complexityLevel
         };
         try
         {

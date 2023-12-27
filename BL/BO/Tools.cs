@@ -5,6 +5,7 @@ using DalApi;
 using System;
 using System.Reflection;
 using System.Collections;
+using System.Text;
 
 namespace BO;
 
@@ -244,43 +245,40 @@ public static class Tools
 
 
 
-    public static string ToStringProperty<T>(T obj)
+    public static string ToStringProperty<T>(this T entity)
     {
-        Type type = obj.GetType();
-        PropertyInfo[] properties = type.GetProperties();
+        StringBuilder sb = new StringBuilder();
 
-        string result = $"{type.Name} properties:\n";
+        // Get all properties of the entity using reflection
+        PropertyInfo[] properties = typeof(T).GetProperties();
 
-        foreach (PropertyInfo prop in properties)
+        foreach (PropertyInfo property in properties)
         {
-            object value = prop.GetValue(obj);
-            result += $"{prop.Name}: {GetValueAsString(value)}\n";
+            // Check if the property is a collection
+            if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))
+            {
+                // Handle collections
+                IEnumerable collection = (IEnumerable)property.GetValue(entity);
+                if (collection != null)
+                {
+                    sb.AppendLine($"{property.Name}:");
+                    foreach (var item in collection)
+                    {
+                        sb.AppendLine($"- {item}");
+                    }
+                }
+            }
+            else
+            {
+                // Handle regular properties
+                sb.AppendLine($"{property.Name}: {property.GetValue(entity)}");
+            }
         }
 
-        return result;
+        return sb.ToString();
     }
 
-    private static string GetValueAsString(object value)
-    {
-        if (value == null)
-            return "null";
 
-        Type valueType = value.GetType();
-
-        if (valueType.IsPrimitive || valueType == typeof(string))
-            return value.ToString();
-
-        if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
-        {
-            IEnumerable enumerable = (IEnumerable)value;
-            string listAsString = string.Join(", ", enumerable.Cast<object>());
-            return $"[{listAsString}]";
-        }
-
-        // Handle other types as needed
-
-        return value.ToString();
-    }
     internal static void CalculationTimes(DateTime endPro,DateTime startPro,List<Task> tasks)
     {
 

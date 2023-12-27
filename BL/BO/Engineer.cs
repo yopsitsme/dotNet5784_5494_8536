@@ -14,5 +14,5 @@ public class Engineer
     public EngineerExperience‏ Level { get; set; }
     public double Cost { get; set; }
     public BO.TaskinEngineer? Task {  get; set; }
-    public override string ToString() => Tools.ToStringProperty(this);
+    public override string ToString() => this.ToStringProperty();
 }

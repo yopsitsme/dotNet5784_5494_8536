@@ -164,7 +164,7 @@ public static class Initialization
 
     public static void Do() //stage 4
     {
-        s_dal = Factory.Get;
+        s_dal = DalApi.Factory.Get;
 
         creatEngineer();
         creatTask();

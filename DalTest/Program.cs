@@ -14,15 +14,18 @@ using System.Runtime.ConstrainedExecution;
 using System.Globalization;
 ///A figure that can be assumed that the user enters normal values and not null, therefore in many places there is none?
 ///The program checks the correctness of the independent income and checks if it is possible to enter, change and update all types of entities
-internal class Program
+public class Program
 {
     static readonly IDal s_dal = Factory.Get; //stage 4
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(); //stage 2
-             DisplayMainMenu();//Main main program for choosing which entity to handle
+            Console.Write("Would you like to create Initial data? (Y/N)");
+            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+            if (ans == "Y")
+                DalTest.Initialization.Do();
+            DisplayMainMenu();//Main main program for choosing which entity to handle
 
         }
         catch (Exception ex) { Console.WriteLine(ex); }
