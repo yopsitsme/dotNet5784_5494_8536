@@ -17,11 +17,12 @@ public class MilestoneImplementation :IMilestone
 
     public void Create()
     {
-       List <DO.Dependency> newDependencies=Tools.CreateMileStone(_dal.Dependency.ReadAll()?.ToList());
+       List  <DO.Dependency>? newDependencies=Tools.CreateMileStone(_dal.Dependency.ReadAll()?.ToList());
         _dal.Dependency.Reset();
         foreach(DO.Dependency depent in newDependencies){
             _dal.Dependency.AddDependency(depent);
         }
+       
     }
 
     public BO.Milestone? Read(int id)
@@ -50,7 +51,6 @@ public class MilestoneImplementation :IMilestone
         DO.Task? task = _dal.Task.Read(id);
         if (task == null)
             throw new BO.BlDoesNotExistException($"DoesNotExist milestone whith{id}");
-
         DO.Task newtask = new DO.Task {
             Id = id,
             Alias = alias,

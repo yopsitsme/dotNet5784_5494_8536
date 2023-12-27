@@ -11,7 +11,7 @@ namespace BO;
 public static class Tools
 {
     private static DalApi.IDal _dal = DalApi.Factory.Get;
-
+    static  BlApi.IBl s_bl = BlApi.Factory.Get();
     public static List<BO.TaskInList> depndentTesks(int id)
     {
         var listId = _dal!.Dependency.ReadAll((d) => d.DependentTask == id);
@@ -38,6 +38,7 @@ public static class Tools
     }
     public static List<DO.Dependency>? CreateMileStone(List<DO.Dependency>? dependencies)
     {
+        List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
         DO.Task firstMilestone = new()
         {
@@ -47,8 +48,7 @@ public static class Tools
             IsMilestone = true,//ismilestone
         };
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
-
-        List<DO.Dependency> newDependencies = new List<DO.Dependency>();
+       
         var list = dependencies.GroupBy(d => d.DependentTask).ToList();
         var sortedList = list.OrderBy(comparer => comparer);
         foreach (DO.Task task in _dal.Task.ReadAll())
@@ -91,6 +91,28 @@ public static class Tools
 
 
         }
+        DO.Task endMilestone = new()
+        {
+            Alias = $"M{count++}",
+            Description = $"MEnd",
+            CreatedAtDate = DateTime.Now,
+            IsMilestone = true,//ismilestone
+        };
+        int idendMilestone = _dal.Task.Create(endMilestone);
+
+        var DependonsonEnd = (from Task t in _dal.Task.ReadAll()
+                            where (_dal.Dependency.Read((de) => de.DependsTask == t.Id)==null?true:false)
+                            select t.Id).ToList();
+        foreach (var tId in DependonsonEnd)
+        {
+            newDependencies.Add(new DO.Dependency()
+            {
+                DependentTask = idendMilestone,
+                DependsTask = tId,
+            });
+        }
+
+
 
 
         return newDependencies;
@@ -115,7 +137,7 @@ public static class Tools
             Description = boTask.Description,
             CreatedAtDate = boTask.CreatedAtDate,
             RequierdEffortTime = boTask.RequierdEffortTime,
-            IsMilestone = (boTask.Milestone?.Alias == null || boTask.Milestone.Alias == "") ? false : true,
+            IsMilestone = false,
             CompleteDate = boTask.CompleteDate,
             StartDate = boTask.StartDate,
             ScheduledDate = boTask.ScheduledStartDate,
@@ -259,9 +281,49 @@ public static class Tools
 
         return value.ToString();
     }
-
-    internal static string ToStringProperty()
+    internal static void CalculationTimes(DateTime endPro,DateTime startPro,List<Task> tasks)
     {
-        throw new NotImplementedException();
+
+      List <BO.Task> endtask =( s_bl.Task.ReadAll((t) => t.Description == "MEnd")).ToList();
+        foreach (var deptask in depndentTesks(endtask[0].Id))
+        {
+            BO.Task task = s_bl.Task.Read(deptask.Id)!;
+            task.DeadLineDate = endPro;
+            s_bl.Task.Update(task);
+          
+        }
+
+        
     }
-}
+
+    private static void RecursionCalculationTimes(Task ?task, Milestone ?milestone,  DateTime dateToDeadLine)
+    {
+
+
+        try
+        {
+            if (milestone != null)
+            {
+                s_bl.Milestone.Read(task.Id);
+
+            }
+        }
+        catch (Exception ex) {
+            DateTime? updateDate= dateToDeadLine;
+            if(task.DeadLineDate!=null)
+            {
+                updateDate = dateToDeadLine > (task.DeadLineDate) ? dateToDeadLine : task.DeadLineDate;
+            }
+            task.DeadLineDate = updateDate;
+            s_bl.Task.Update(task);
+            RecursionCalculationTimes(null,s_bl.Milestone.Read(task.Milestone.Id), task.DeadLineDate?.Add( task.RequierdEffortTime?? new TimeSpan(0))??DateTime.Now);
+        }
+        
+    }
+    }
+
+
+
+
+
+

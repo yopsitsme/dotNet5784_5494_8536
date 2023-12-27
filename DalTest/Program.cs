@@ -154,13 +154,8 @@ internal class Program
     {
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
-        bool isMilestone = GetBoolInput("Is the task a milestone? (true/false): ");
-        DateTime start = GetDateTimeInput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
-        DateTime deadline = GetDateTimeInput("Enter the task deadline date and time (YYYY-MM-DD HH:mm:ss): ");
-        string deliverables = GetInput("Enter the task deliverables: ");
-        EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
-
-        Task task = new (description!, alias!, isMilestone, start, deadline, deliverables!, complexityLevel);
+       
+        Task task = new Task { Description = description, Alias= alias, IsMilestone= false, CreatedAtDate= DateTime.Now };
         s_dal!.Task.Create(task);
     }
 
@@ -369,10 +364,8 @@ internal class Program
             // Input fields
             string? description = GetInput("Enter the task description: ");
             string? alias = GetInput("Enter the task alias: ");
-            bool? isMilestone = GetBoolInput("Is the task a milestone? (true/false): ");
             DateTime? start = GetNullDatTimeImput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? scheduled = GetNullDatTimeImput("Enter the task scheduleded date and time (YYYY-MM-DD HH:mm:ss): ");
-            DateTime? forecas = GetNullDatTimeImput("Enter the task Enter the task forecas date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? deadline = GetNullDatTimeImput("Enter the task deadline date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? complete = GetNullDatTimeImput("Enter the task Enter the task complete date and time (YYYY-MM-DD HH:mm:ss): ");
             string? deliverables = GetInput("Enter the task deliverables: ");
@@ -380,9 +373,15 @@ internal class Program
             int? engineerId = GetNullIntImput("Enter Engineer ID: ");
             EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-            Task updatedTask = new(idTask, start ?? task.StartDate, scheduled ?? task.ScheduledDate, forecas ?? task.ForecasDate, complete ?? task.CompleteDate, deadline ?? task.DeadLineDate, deliverables != "" ? deliverables : task.Deliverables,
-                remarks != "" ? remarks : task.Remarks, engineerId ?? task.EngineerId, complexityLevel ?? task.ComplexityLevel,
-                description ?? task.Description, alias != "" ? alias : task.Alias, isMilestone ?? task.IsMilestone, task.CreatedAtDate);
+            Task updatedTask = new Task
+            { Id = idTask,
+                StartDate= start ?? task.StartDate,
+                ScheduledDate=scheduled ?? task.ScheduledDate,
+                CompleteDate= complete ?? task.CompleteDate,
+                DeadLineDate= deadline ?? task.DeadLineDate,
+                Deliverables= deliverables != "" ? deliverables : task.Deliverables,
+                Remarks = remarks != "" ? remarks : task.Remarks, EngineerId = engineerId ?? task.EngineerId, ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
+                Description = description ?? task.Description, Alias = alias != "" ? alias : task.Alias };
             s_dal!.Task.Update(updatedTask);
 
         }

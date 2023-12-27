@@ -17,8 +17,8 @@ internal static class DataSource‏‏
         private static int nextDependencyId = startDependencyId;
         internal static int NextDependencyId { get => nextDependencyId++; }
 
-        public static DateTime? startProjec { get;internal set; }
-        public static DateTime? endProjec { get;internal set; }
+        public static DateTime? StartProject { get;internal set; }
+        public static DateTime? EndProject { get;internal set; }
     }
 
     //Creating three linked lists, one for each entity

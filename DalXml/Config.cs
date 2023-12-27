@@ -16,6 +16,6 @@ internal static class Config
     internal static int NextDependencyId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId"); }
 
     public static DateTime StartProject { get => XMLTools.GetDateProject(s_data_config_xml, "startProject"); set => XMLTools.SetDateProject(value, s_data_config_xml, "startProject"); }
-    public static DateTime EndtProject { get => XMLTools.GetDateProject(s_data_config_xml, "endProject"); set => XMLTools.SetDateProject(value, s_data_config_xml, "endProject"); }
+    public static DateTime EndProject { get => XMLTools.GetDateProject(s_data_config_xml, "endProject"); set => XMLTools.SetDateProject(value, s_data_config_xml, "endProject"); }
 
 }
