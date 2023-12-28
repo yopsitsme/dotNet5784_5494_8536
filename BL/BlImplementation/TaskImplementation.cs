@@ -65,7 +65,7 @@ public class TaskImplementation : BlApi.ITask
 
     public void Update(Task boTask)
     {
-        if (boTask.Id < 0 || boTask.Alias == "")
+        if (boTask.Id < 0 || boTask.Alias == ""|| _dal.Engineer.Read(boTask.Engineer.Id) == null)
             throw new BO.InvalidInputException("Invalid input");
         try
         {

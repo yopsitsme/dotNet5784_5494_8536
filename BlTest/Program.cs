@@ -360,25 +360,22 @@ internal class Program
             // Input fields
             string? description = GetInput("Enter the task description: ");
             string? alias = GetInput("Enter the task alias: ");
-            bool? isMilestone = GetBoolInput("Is the task a milestone? (true/false): ");
             DateTime? start = GetNullDatTimeInput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? scheduled = GetNullDatTimeInput("Enter the task scheduled date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? forecas = GetNullDatTimeInput("Enter the task Enter the task forecas date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? deadline = GetNullDatTimeInput("Enter the task deadline date and time (YYYY-MM-DD HH:mm:ss): ");
             DateTime? complete = GetNullDatTimeInput("Enter the task Enter the task complete date and time (YYYY-MM-DD HH:mm:ss): ");
-            DateTime? baseLineStartDate = GetNullDatTimeInput("Enter the task BaseLineStartDate date and time (YYYY-MM-DD HH:mm:ss): ");
             string? deliverables = GetInput("Enter the task deliverables: ");
             string? remarks = GetInput("Enter Remarks: ");
-            int engineerId = GetIntInput("Enter Engineer ID: ");
+            int? engineerId = GetNullIntInput("Enter Engineer ID: ");
             BO.EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
-            BO.Status status = GetStatusInput("enter status");
-            string EngineerName = GetInput("Enter the engineers name : ");
+            //BO.Status? status = GetStatusInput("enter status");
+            string? EngineerName = GetInput("Enter the engineers name : ");
             BO.Task updatedTask = new BO.Task
             {
                 Id = task.Id,
                 Description = description != "" ? description : task.Description,
                 Alias = alias != "" ? alias : task.Alias,
-                Status = GetStatusInput("enter the status "),
                 StartDate = start ?? task.StartDate,
                 ScheduledStartDate = scheduled ?? task.ScheduledStartDate,
                 ForeCastDate = forecas ?? task.ForeCastDate,
@@ -386,7 +383,7 @@ internal class Program
                 DeadLineDate = deadline ?? task.DeadLineDate,
                 Deliverables = deliverables != "" ? deliverables : task.Deliverables,
                 Remarks = remarks != "" ? remarks : task.Remarks,
-                Engineer = new EngineerInTask { Id = engineerId, Name = EngineerName },
+                Engineer = engineerId==null?task.Engineer==null?null: new EngineerInTask { Id = task.Engineer.Id , Name = task.Engineer.Name }: new EngineerInTask { Id = engineerId ??0, Name = EngineerName },
                 ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
             };
             s_bl!.Task.Update(updatedTask);
