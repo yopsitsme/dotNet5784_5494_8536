@@ -135,15 +135,16 @@ public static class Initialization
             DateTime _create = DateTime.Now.AddDays(-s_rand.Next(0, 50));
 
             i++;
+            DO.Task newTask = new DO.Task ( 0,  _description, _alias,  _create );
 
-            Task newTask = new(0, _description, _alias, _create);
+            //DO. Task newTask = new DO.Task{ Id=0,Description= _description, Alias=_alias, CreatedAtDate= _create };
             int id = s_dal!.Task.Create(newTask);
         }
 
     }
     private static void creatDependency()
     {
-        List<Task?> tasks = s_dal!.Task.ReadAll().ToList();
+        List<DO.Task?> tasks = s_dal!.Task.ReadAll().ToList();
         for (int i = 0; i < 40; i++)
         {
 

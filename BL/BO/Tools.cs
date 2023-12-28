@@ -41,13 +41,21 @@ public static class Tools
     {
         List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
-        DO.Task firstMilestone = new()
-        {
-            Alias = $"M{count++}",
-            Description = $"MStart",
-            CreatedAtDate = DateTime.Now,
-            IsMilestone = true,//ismilestone
-        };
+        //DO.Task firstMilestone = new()
+        //{
+        //    Alias = $"M{count++}",
+        //    Description = $"MStart",
+        //    CreatedAtDate = DateTime.Now,
+        //    IsMilestone = true,//ismilestone
+        //};
+        DO.Task firstMilestone = new(
+         0,
+         $"M{count++}",
+         $"MStart",
+         DateTime.Now,
+         new TimeSpan(0),
+         true//ismilestone
+         );
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
        
         var list = dependencies.GroupBy(d => d.DependentTask).ToList();
@@ -68,13 +76,21 @@ public static class Tools
         }
         foreach (var group in list)
         {
-            DO.Task milestone = new()
-            {
-                Alias = $"M{count++}",
-                Description = $"M{count++}",
-                CreatedAtDate = DateTime.Now,
-                IsMilestone = true,
-            };
+            //DO.Task milestone = new DO.Task()
+            //{
+            //    Alias = $"M{count++}",
+            //    Description = $"M{count++}",
+            //    CreatedAtDate = DateTime.Now,
+            //    IsMilestone = true,
+            //};
+            DO.Task milestone = new DO.Task(
+            0,
+                $"M{count++}",
+                $"M{count++}",
+               DateTime.Now,
+               TimeSpan.Zero,
+                true
+            );
             int id = _dal.Task.Create(milestone);
             foreach (var depend in group)
             {
@@ -92,13 +108,21 @@ public static class Tools
 
 
         }
-        DO.Task endMilestone = new()
-        {
-            Alias = $"M{count++}",
-            Description = $"MEnd",
-            CreatedAtDate = DateTime.Now,
-            IsMilestone = true,//ismilestone
-        };
+        //DO.Task endMilestone = new DO.Task()
+        //{
+        //    Alias = $"M{count++}",
+        //    Description = $"MEnd",
+        //    CreatedAtDate = DateTime.Now,
+        //    IsMilestone = true,//ismilestone
+        //};
+        DO.Task endMilestone = new(
+    0,
+    $"M{count++}",
+    $"MStart",
+    DateTime.Now,
+    new TimeSpan(0),
+    true//ismilestone
+    );
         int idendMilestone = _dal.Task.Create(endMilestone);
 
         var DependonsonEnd = (from Task t in _dal.Task.ReadAll()
@@ -131,27 +155,44 @@ public static class Tools
     }
     public static DO.Task TaskfromBoToDo(BO.Task boTask)
     {
+        //return new DO.Task
+        //{
+        //   Id=  boTask.Id,
+        //   Alias= boTask.Alias,
+        //  Description= boTask.Description,
+        //  CreatedAtDate=  boTask.CreatedAtDate,
+        //   RequierdEffortTime= boTask.RequierdEffortTime,
+        // IsMilestone=   false,
+        //  CompleteDate=  boTask.CompleteDate,
+        //  StartDate=   boTask.StartDate,
+        //   ScheduledDate=  boTask.ScheduledStartDate,
+        //    DeadLineDate= boTask.DeadLineDate,
+        //   Deliverables=  boTask.Deliverables,
+        //  Remarks=   boTask.Remarks,
+        //   EngineerId= boTask.Engineer.Id,
+        //   ComplexityLevel=  (DO.EngineerExperience)boTask.ComplexityLevel
+        //};
         return new DO.Task
-        {
-            Id = boTask.Id,
-            Alias = boTask.Alias,
-            Description = boTask.Description,
-            CreatedAtDate = boTask.CreatedAtDate,
-            RequierdEffortTime = boTask.RequierdEffortTime,
-            IsMilestone = false,
-            CompleteDate = boTask.CompleteDate,
-            StartDate = boTask.StartDate,
-            ScheduledDate = boTask.ScheduledStartDate,
-            DeadLineDate = boTask.DeadLineDate,
-            Deliverables = boTask.Deliverables,
-            Remarks = boTask.Remarks,
-            EngineerId = boTask.Engineer.Id,
-            ComplexityLevel = (DO.EngineerExperience)boTask.ComplexityLevel,
-        };
+        (
+           boTask.Id,
+            boTask.Alias,
+            boTask.Description,
+            boTask.CreatedAtDate,
+            boTask.RequierdEffortTime,
+           false,
+           boTask.StartDate,
+            boTask.ScheduledStartDate,
+            boTask.DeadLineDate,
+            boTask.CompleteDate,
+            boTask.Deliverables,
+            boTask.Remarks,
+            boTask.Engineer?.Id??null,
+           boTask.ComplexityLevel==null?null:(DO.EngineerExperience)boTask.ComplexityLevel
+        );
     }
     public static BO.Task TaskFromDoToBo(DO.Task doTask)
     {
-        return new Task
+        return new Task()
         {
             Id = doTask.Id,
             Description = doTask.Description,

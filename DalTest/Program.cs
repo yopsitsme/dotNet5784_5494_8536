@@ -157,8 +157,8 @@ public class Program
     {
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
-       
-        Task task = new Task { Description = description, Alias= alias, IsMilestone= false, CreatedAtDate= DateTime.Now };
+        DO.Task task = new DO.Task(  0, description, alias,  DateTime.Now ,new TimeSpan(0) ,false);
+        //DO.Task task = new DO.Task {Id=0, Description = description, Alias= alias, IsMilestone= false, CreatedAtDate= DateTime.Now };
         s_dal!.Task.Create(task);
     }
 
@@ -376,15 +376,33 @@ public class Program
             int? engineerId = GetNullIntImput("Enter Engineer ID: ");
             EngineerExperience? complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
 
-            Task updatedTask = new Task
-            { Id = idTask,
-                StartDate= start ?? task.StartDate,
-                ScheduledDate=scheduled ?? task.ScheduledDate,
-                CompleteDate= complete ?? task.CompleteDate,
-                DeadLineDate= deadline ?? task.DeadLineDate,
-                Deliverables= deliverables != "" ? deliverables : task.Deliverables,
-                Remarks = remarks != "" ? remarks : task.Remarks, EngineerId = engineerId ?? task.EngineerId, ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
-                Description = description ?? task.Description, Alias = alias != "" ? alias : task.Alias };
+            //Task updatedTask = new Task
+            //{   Id = idTask,
+            //    StartDate= start ?? task.StartDate,
+            //    ScheduledDate=scheduled ?? task.ScheduledDate,
+            //    CompleteDate= complete ?? task.CompleteDate,
+            //    DeadLineDate= deadline ?? task.DeadLineDate,
+            //    Deliverables= deliverables != "" ? deliverables : task.Deliverables,
+            //    Remarks = remarks != "" ? remarks : task.Remarks, EngineerId = engineerId ?? task.EngineerId, ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
+            //    Description = description ?? task.Description, Alias = alias != "" ? alias : task.Alias 
+            //};
+            Task updatedTask = new Task(
+               idTask,
+               alias != "" ? alias : task.Alias,
+                description ?? task.Description,
+              task.CreatedAtDate,
+              task.RequierdEffortTime,
+              task.IsMilestone,
+                start ?? task.StartDate,
+               scheduled ?? task.ScheduledDate,
+                deadline ?? task.DeadLineDate,
+                complete ?? task.CompleteDate,
+                 deliverables != "" ? deliverables : task.Deliverables,
+                remarks != "" ? remarks : task.Remarks,
+                engineerId ?? task.EngineerId,
+                complexityLevel ?? task.ComplexityLevel
+               );
+
             s_dal!.Task.Update(updatedTask);
 
         }
