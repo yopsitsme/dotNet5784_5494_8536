@@ -18,14 +18,15 @@ internal class Program
     static void Main(string[] args)
     {
         try
-        
+        {
+            Console.Write("Would you like to create Initial data? (Y/N)");
+            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+            if (ans == "Y")
             {
-                Console.Write("Would you like to create Initial data? (Y/N)");
-                string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
-                if (ans == "Y")
-                    DalTest.Initialization.Do();
+                DalTest.Initialization.Do();
+            }
 
-                DisplayMainMenu();
+            DisplayMainMenu();
         }
         catch (Exception ex)
         {
@@ -187,7 +188,7 @@ internal class Program
             Description = description,
             Alias = alias,
             CreatedAtDate = createdAtDate,
-            Status =0,
+            Status = 0,
             //StartDate = start,
             Deliverables = deliverables,
             Remarks = remarks,
@@ -378,15 +379,15 @@ internal class Program
                 Description = description != "" ? description : task.Description,
                 Alias = alias != "" ? alias : task.Alias,
                 Status = GetStatusInput("enter the status "),
-                StartDate = start??task.StartDate,
-                ScheduledStartDate = scheduled??task.ScheduledStartDate,
-                ForeCastDate = forecas??task.ForeCastDate,
-                CompleteDate = complete??task.CompleteDate,
-                DeadLineDate = deadline??task.DeadLineDate,
-                Deliverables = deliverables!=""? deliverables:task.Deliverables,
-                Remarks = remarks!=""?remarks:task.Remarks,
+                StartDate = start ?? task.StartDate,
+                ScheduledStartDate = scheduled ?? task.ScheduledStartDate,
+                ForeCastDate = forecas ?? task.ForeCastDate,
+                CompleteDate = complete ?? task.CompleteDate,
+                DeadLineDate = deadline ?? task.DeadLineDate,
+                Deliverables = deliverables != "" ? deliverables : task.Deliverables,
+                Remarks = remarks != "" ? remarks : task.Remarks,
                 Engineer = new EngineerInTask { Id = engineerId, Name = EngineerName },
-                ComplexityLevel = complexityLevel??task.ComplexityLevel,
+                ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
             };
             s_bl!.Task.Update(updatedTask);
 
@@ -541,7 +542,7 @@ internal class Program
     }
     static void readMilestone()
     {
-        int idMilestone ;
+        int idMilestone;
         int.TryParse((GetInput("Enter the Milestone id: ")), out idMilestone);
         BO.Milestone? milestoneRead = s_bl!.Milestone.Read(idMilestone);
         Console.WriteLine(milestoneRead);
@@ -549,13 +550,13 @@ internal class Program
     }
     static void updateMilestone()
     {
-        int idMilestone ;
+        int idMilestone;
         int.TryParse((GetInput("Enter the Milestone id: ")), out idMilestone);
         Console.WriteLine(s_bl.Milestone.Read(idMilestone));
         Console.WriteLine("Enter Milestone Data:");
         string? remarks = GetInput("Enter Remarks: ");
         string? description = GetInput("Enter the Milestone description: ");
         string? alias = GetInput("Enter the Milestone alias: ");
-        s_bl.Milestone.Update(idMilestone, alias, description, remarks );
+        s_bl.Milestone.Update(idMilestone, alias, description, remarks);
     }
 }

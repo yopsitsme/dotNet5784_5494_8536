@@ -1,10 +1,9 @@
-﻿
-namespace DalTest;
-using DalApi;
+﻿using DalApi;
 using DO;
 using System.Data.Common;
 using System.Security.Cryptography;
 
+namespace DalTest;
 //Creation of 20 tasks 5 engineers and 40 depending between an engineer
 //and a regular programmer
 public static class Initialization
