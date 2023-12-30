@@ -5,18 +5,18 @@ namespace DO;
 // decleration of the entity task
 public record Task
     (
-    int Id ,
-    string Alias ,
+    int Id,
+    string Alias,
     string Description,
     DateTime CreatedAtDate,
-    TimeSpan? RequierdEffortTime=null,
-    bool IsMilestone=false,
-    DateTime ? StartDate =null,
-    DateTime ?ScheduledDate = null,
-    DateTime ?DeadLineDate = null,
-    DateTime ?CompleteDate = null,
-    string? Deliverables=null ,
-    string? Remarks=null ,
+    TimeSpan? RequierdEffortTime = null,
+    bool IsMilestone = false,
+    DateTime? StartDate = null,
+    DateTime? ScheduledDate = null,
+    DateTime? DeadLineDate = null,
+    DateTime? CompleteDate = null,
+    string? Deliverables = null,
+    string? Remarks = null,
     int? EngineerId = null,
     EngineerExperience‏? ComplexityLevel = EngineerExperience.Novice
 
@@ -26,7 +26,10 @@ public record Task
 {
 
     //defult constructor
-    public Task() : this(0, "","",DateTime.Now,null,false) { }
+    // public Task():this(0," ","",DateTime.Now) { }
+
+    //public Task() : this(0, "", "", DateTime.Now, null, false, null, null, null, null, null, null, null, EngineerExperience.Novice) { }
+
     //public Task(string description, string alias, bool isMilestone, DateTime start, DateTime deadline, string deliverables, EngineerExperience‏ complexityLevel) : this()
     //{
     //    this.Alias = alias;
@@ -60,7 +63,7 @@ public record Task
     //    this.ComplexityLevel = ComplexityLevel; 
     //    this.Remarks = Remarks;
     // this.EngineerId = EngineerId;  
-         
+
     //    this.Description = Description;
     //    this.Ailas = Ailas;
     //    this.IsMilestone = IsMilestone;

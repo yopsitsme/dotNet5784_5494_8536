@@ -47,7 +47,7 @@ public class TaskImplementation : BlApi.ITask
     public Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
-        if (doTask == null)
+        if (doTask == null|| doTask.IsMilestone)
             throw new BO.BlDoesNotExistException($"Task with ID={id} does Not exist");
 
         return Tools.TaskFromDoToBo(doTask);
@@ -59,6 +59,7 @@ public class TaskImplementation : BlApi.ITask
     {
 
         var listTask = _dal.Task.ReadAll()
+                 .Where(doTask=> !doTask.IsMilestone)
                 .Select(doTask => Tools.TaskFromDoToBo(doTask));
         return filter == null ? listTask : listTask.Where(filter);
     }
@@ -76,6 +77,31 @@ public class TaskImplementation : BlApi.ITask
         catch (DO.DalDoesNotExistException ex)
         {
             throw new BO.BlDoesNotExistException($"Task with ID={boTask.Id} already exists", ex);
+        }
+    }
+    public void creatD()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            DO.Task doTask = new DO.Task(0,$"{i}","cfgv",DateTime.Now);
+            _dal.Task.Create(doTask);
+        }
+        DO.Dependency doDependency = new DO.Dependency(0, 1002, 1001);
+        _dal.Dependency.Create(doDependency);
+        DO.Dependency doDependency1 = new DO.Dependency(0, 1002, 1000);
+        _dal.Dependency.Create(doDependency1);
+        DO.Dependency doDependency2 = new DO.Dependency(0, 1003, 1002);
+        _dal.Dependency.Create(doDependency2);
+        DO.Dependency doDependency3 = new DO.Dependency(0, 1004, 1002);
+        _dal.Dependency.Create(doDependency3);
+
+    }
+    public void printd()
+    {
+      var d=  _dal.Dependency.ReadAll();
+        foreach (var item in d.ToList())
+        {
+            Console.WriteLine(item);
         }
     }
 

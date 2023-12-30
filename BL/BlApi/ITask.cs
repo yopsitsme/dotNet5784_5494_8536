@@ -9,4 +9,6 @@ public interface ITask
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter );
     public void Update(BO.Task item);
     public void Delete(int id);
+    public void creatD();
+    public void printd();
 }

@@ -19,11 +19,14 @@ internal class Program
     {
         try
         {
+            //רק בשביל להריץ
+            s_bl.Task.creatD();
+            s_bl.Task.printd();
             Console.Write("Would you like to create Initial data? (Y/N)");
             string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
             if (ans == "Y")
             {
-             // Initialization.Do();
+             //Initialization.Do();
             }
 
             DisplayMainMenu();
@@ -539,6 +542,7 @@ internal class Program
     static void createMilestones()
     {
         s_bl.Milestone.Create();
+        s_bl.Task.printd();
     }
     static void readMilestone()
     {
@@ -559,4 +563,5 @@ internal class Program
         string? alias = GetInput("Enter the Milestone alias: ");
         s_bl.Milestone.Update(idMilestone, alias, description, remarks);
     }
+   
 }

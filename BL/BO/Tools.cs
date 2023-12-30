@@ -59,7 +59,7 @@ public static class Tools
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
        
         var list = dependencies.GroupBy(d => d.DependentTask).ToList();
-        var sortedList = list.OrderBy(comparer => comparer);
+        var sortedList = list.OrderBy(comparer => comparer.Key);
         foreach (DO.Task task in _dal.Task.ReadAll())
         {
             var isTaskIdInList = sortedList.Any(group => group.Key == task.Id);
@@ -125,8 +125,8 @@ public static class Tools
     );
         int idendMilestone = _dal.Task.Create(endMilestone);
 
-        var DependonsonEnd = (from Task t in _dal.Task.ReadAll()
-                            where (_dal.Dependency.Read((de) => de.DependsTask == t.Id)==null?true:false)
+        var DependonsonEnd = (from DO.Task t in _dal.Task.ReadAll()
+                            where _dal.Dependency.Read((de) => de.DependsTask == t.Id)==null?true:false
                             select t.Id).ToList();
         foreach (var tId in DependonsonEnd)
         {
