@@ -9,10 +9,18 @@ using System.Text;
 
 namespace BO;
 
+/// <summary>
+/// Utility class containing various static methods for handling tasks and dependencies.
+/// </summary>
 public static class Tools
 {
     private static DalApi.IDal _dal = DalApi.Factory.Get;
     static  BlApi.IBl s_bl = BlApi.Factory.Get();
+    // <summary>
+    /// Retrieves a list of dependent tasks for a given task ID.
+    /// </summary>
+    /// <param name="id">The ID of the task.</param>
+    /// <returns>A list of dependent tasks represented as <see cref="TaskInList"/>.</returns>
     public static List<BO.TaskInList> depndentTesks(int id)
     {
         var listId = _dal!.Dependency.ReadAll((d) => d.DependentTask == id);
@@ -28,7 +36,11 @@ public static class Tools
         return dependencies;
     }
 
-
+    /// <summary>
+    /// Calculates and returns the status of a task based on its various date properties.
+    /// </summary>
+    /// <param name="task">The task for which to determine the status.</param>
+    /// <returns>The status of the task as <see cref="BO.Status"/>.</returns>
     public static Status myStatus(DO.Task task)
     {
         return (BO.Status)(task.ScheduledDate == null ? 0
@@ -39,6 +51,8 @@ public static class Tools
     }
     public static List<DO.Dependency>? CreateMileStone(List<DO.Dependency>? dependencies)
     {
+        if(dependencies == null) 
+            dependencies = new List<DO.Dependency>();
         List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
         //DO.Task firstMilestone = new()
@@ -62,7 +76,8 @@ public static class Tools
         var sortedList = list.OrderBy(comparer => comparer.Key);
         foreach (DO.Task task in _dal.Task.ReadAll())
         {
-            var isTaskIdInList = sortedList.Any(group => group.Key == task.Id);
+            var isTaskIdInList = sortedList.Any(group => group.Any(item => item.DependentTask == task.Id));
+
 
             if (!isTaskIdInList)
             {
@@ -76,22 +91,33 @@ public static class Tools
         }
         foreach (var group in list)
         {
-            //DO.Task milestone = new DO.Task()
-            //{
-            //    Alias = $"M{count++}",
-            //    Description = $"M{count++}",
-            //    CreatedAtDate = DateTime.Now,
-            //    IsMilestone = true,
-            //};
-            DO.Task milestone = new DO.Task(
-            0,
+            bool flagExsistMileStone=false;
+            int id = 0;
+            var allMilestones = _dal.Task.ReadAll().Where(task => task!.IsMilestone).ToList();
+
+            foreach (var m in allMilestones)
+            {
+                List<DO.Dependency> allDependencies = _dal.Dependency.ReadAll()?.Where(m => m!.DependentTask == m.Id)?.ToList();
+                flagExsistMileStone = AreGroupsEqual(allDependencies, group.ToList());
+                if (flagExsistMileStone)
+                {
+                    id = m!.Id; break;
+
+                }
+            }
+            if (!flagExsistMileStone)
+            {
+
+                DO.Task milestone = new DO.Task(
+             0,
                 $"M{count++}",
                 $"M{count++}",
                DateTime.Now,
                TimeSpan.Zero,
                 true
             );
-            int id = _dal.Task.Create(milestone);
+                 id = _dal.Task.Create(milestone);
+            }
             foreach (var depend in group)
             {
                 newDependencies.Add(new DO.Dependency()
@@ -108,20 +134,13 @@ public static class Tools
 
 
         }
-        //DO.Task endMilestone = new DO.Task()
-        //{
-        //    Alias = $"M{count++}",
-        //    Description = $"MEnd",
-        //    CreatedAtDate = DateTime.Now,
-        //    IsMilestone = true,//ismilestone
-        //};
         DO.Task endMilestone = new(
     0,
     $"M{count++}",
     $"MStart",
     DateTime.Now,
     new TimeSpan(0),
-    true//ismilestone
+    true
     );
         int idendMilestone = _dal.Task.Create(endMilestone);
 
@@ -136,13 +155,14 @@ public static class Tools
                 DependsTask = tId,
             });
         }
-
-
-
-
         return newDependencies;
     }
 
+    /// <summary>
+    /// Calculates the completion percentage of a list of tasks.
+    /// </summary>
+    /// <param name="listTask">The list of tasks for which to calculate the completion percentage.</param>
+    /// <returns>The completion percentage as a double.</returns>
     public static double completionPercentage(List<TaskInList> listTask)
     {
         double sum = 0;
@@ -153,6 +173,11 @@ public static class Tools
         return sum / listTask.Count;
 
     }
+    /// <summary>
+    /// Converts a business object representation of a task to a data object representation.
+    /// </summary>
+    /// <param name="boTask">The business object task to convert.</param>
+    /// <returns>The data object representation of the task.</returns>
     public static DO.Task TaskfromBoToDo(BO.Task boTask)
     {
         //return new DO.Task
@@ -190,6 +215,11 @@ public static class Tools
            boTask.ComplexityLevel==null?null:(DO.EngineerExperience)boTask.ComplexityLevel
         );
     }
+    /// <summary>
+    /// Converts a data object representation of a task to a business object representation.
+    /// </summary>
+    /// <param name="doTask">The data object task to convert.</param>
+    /// <returns>The business object representation of the task.</returns>
     public static BO.Task TaskFromDoToBo(DO.Task doTask)
     {
         return new Task()
@@ -208,9 +238,14 @@ public static class Tools
             Deliverables = doTask.Deliverables,
             Remarks = doTask.Remarks,
             Engineer = EngineerInTask(doTask.EngineerId),
-            ComplexityLevel = (BO.EngineerExperience)doTask.ComplexityLevel
+            ComplexityLevel = doTask.ComplexityLevel==null?null:(BO.EngineerExperience)doTask.ComplexityLevel
         };
     }
+    /// <summary>
+    /// Retrieves information about an engineer associated with a task.
+    /// </summary>
+    /// <param name="id">The ID of the engineer.</param>
+    /// <returns>The <see cref="EngineerInTask"/> information if available; otherwise, null.</returns>
     public static BO.EngineerInTask? EngineerInTask(int? id)
     {
         if (id == null)
@@ -220,12 +255,22 @@ public static class Tools
                       .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name }).First();
         return engineerInTask;
     }
+
+    /// <summary>
+    /// Converts a business object representation of an engineer to a data object representation.
+    /// </summary>
+    /// <param name="boEngineer">The business object engineer to convert.</param>
+    /// <returns>The data object representation of the engineer.</returns>
     public static DO.Engineer EngineerfromBoToDo(BO.Engineer boEngineer)
     {
         return new DO.Engineer(
         boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)boEngineer.Level, boEngineer.Cost);
     }
-
+    /// <summary>
+    /// Converts a data object representation of an engineer to a business object representation.
+    /// </summary>
+    /// <param name="doEngineer">The data object engineer to convert.</param>
+    /// <returns>The business object representation of the engineer.</returns>
     public static BO.Engineer EngineerfromDoToBo(DO.Engineer doEngineer)
     {
         return new BO.Engineer
@@ -267,6 +312,11 @@ public static class Tools
         return milestoneInTask;
 
     }
+    /// <summary>
+    /// Converts a business object representation of a milestone to a data object representation.
+    /// </summary>
+    /// <param name="doTask">The data object task representing the milestone.</param>
+    /// <returns>The business object representation of the milestone.</returns>
     public static BO.Milestone fromDoTaskToMilestone(DO.Task doTask)
     {
         return new BO.Milestone
@@ -285,7 +335,12 @@ public static class Tools
     }
 
 
-
+    /// <summary>
+    /// Generates a string representation of an entity using its properties.
+    /// </summary>
+    /// <typeparam name="T">The type of the entity.</typeparam>
+    /// <param name="entity">The entity for which to generate the string representation.</param>
+    /// <returns>The string representation of the entity properties.</returns>
     public static string ToStringProperty<T>(this T entity)
     {
         StringBuilder sb = new StringBuilder();
@@ -319,7 +374,12 @@ public static class Tools
         return sb.ToString();
     }
 
-
+    /// <summary>
+    /// Calculates and updates task deadlines based on project end date.
+    /// </summary>
+    /// <param name="endPro">The project end date.</param>
+    /// <param name="startPro">The project start date.</param>
+    /// <param name="tasks">The list of tasks.</param>
     internal static void CalculationTimes(DateTime endPro,DateTime startPro,List<Task> tasks)
     {
 
@@ -335,6 +395,12 @@ public static class Tools
         
     }
 
+    /// <summary>
+    /// Recursively calculates and updates task deadlines based on milestones and dependencies.
+    /// </summary>
+    /// <param name="task">The task for which to calculate the deadline.</param>
+    /// <param name="milestone">The milestone associated with the task.</param>
+    /// <param name="dateToDeadLine">The date to the project's deadline.</param>
     private static void RecursionCalculationTimes(Task ?task, Milestone ?milestone,  DateTime dateToDeadLine)
     {
 
@@ -359,7 +425,58 @@ public static class Tools
         }
         
     }
+
+    /// <summary>
+    /// Checks whether two lists of dependencies are equal.
+    /// </summary>
+    /// <param name="list1">The first list of dependencies to compare.</param>
+    /// <param name="list2">The second list of dependencies to compare.</param>
+    /// <returns>True if the lists are equal, false otherwise.</returns>
+    public static bool AreGroupsEqual(List<DO.Dependency>? list1, List<DO.Dependency>? list2)
+    {
+        // Check if both lists are null
+        if (list1 == null && list2 == null)
+        {
+            return true;
+        }
+
+        // Check if one list is null while the other is not
+        if ((list1 == null && list2 != null) || (list2 == null && list1 != null))
+        {
+            return false;
+        }
+
+        // Check if both lists are the same instance or both are null
+        if (ReferenceEquals(list1, list2))
+        {
+            return true;
+        }
+
+        // Check if any of the lists is null or their counts are different
+        if (list1 == null || list2 == null || list1.Count != list2.Count)
+        {
+            return false;
+        }
+
+        // Sort both lists to ensure the order of elements is the same for comparison
+        list1.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
+        list2.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
+
+        // Compare each element in both lists
+        for (int i = 0; i < list1.Count; i++)
+        {
+            // Return false if any elements are not equal
+            if (list1[i].Id != list2[i].Id)
+            {
+                return false;
+            }
+        }
+
+        // All elements are equal
+        return true;
     }
+
+}
 
 
 

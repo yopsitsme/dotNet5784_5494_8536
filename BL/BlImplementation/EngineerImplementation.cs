@@ -16,7 +16,9 @@ internal class EngineerImplementation : BlApi.IEngineer
         if (boEngineer.Name == null || boEngineer.Email == null || boEngineer.Cost == null)
             throw new BO.BlNullPropertyException("you can not send a null property");
         string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-        if (boEngineer.Id < 0 || boEngineer.Cost < 0 || boEngineer.Name == ""|| boEngineer.Email==null || Regex.IsMatch(boEngineer.Email, emailPattern))
+        Regex regex = new Regex(emailPattern);
+        Match match = regex.Match(boEngineer.Email);
+        if (boEngineer.Id < 0 || boEngineer.Cost < 0 || boEngineer.Name == ""|| !match.Success)
         {
             throw new BO.InvalidInputException("Invalid input");
         }
@@ -81,7 +83,8 @@ internal class EngineerImplementation : BlApi.IEngineer
         if(boEngineer.Name == null || boEngineer.Email == null|| boEngineer.Cost==null)
             throw new BO.BlNullPropertyException("you can not send a null property");
         string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-        if (boEngineer.Id < 0 || boEngineer.Cost < 0 || boEngineer.Name == "" || Regex.IsMatch(boEngineer.Email, emailPattern))
+        Regex regex = new Regex(emailPattern);
+        Match match = regex.Match(boEngineer.Email); if (boEngineer.Id < 0 || boEngineer.Cost < 0 || boEngineer.Name == "" || !match.Success)
         {
             throw new BO.InvalidInputException("Invalid input");
         }
