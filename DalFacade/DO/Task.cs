@@ -28,7 +28,7 @@ public record Task
     //defult constructor
     // public Task():this(0," ","",DateTime.Now) { }
 
-    //public Task() : this(0, "", "", DateTime.Now, null, false, null, null, null, null, null, null, null, EngineerExperience.Novice) { }
+    public Task() : this(0, "", "", DateTime.Now, null, false, null, null, null, null, null, null, null, EngineerExperience.Novice) { }
 
     //public Task(string description, string alias, bool isMilestone, DateTime start, DateTime deadline, string deliverables, EngineerExperience‏ complexityLevel) : this()
     //{

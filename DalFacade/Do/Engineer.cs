@@ -14,11 +14,11 @@ public record Engineer
 
  )
 {
-
+    //defult constructor
+    public Engineer() : this(0,"","", EngineerExperience‏.Novice, 0.1) { }
 }
 
-//{
-//    //defult constructor
-//    public Engineer():this(0) { }
 
-//}
+  
+
+
