@@ -13,6 +13,6 @@ sealed internal class DalList : IDal
     public IEngineer Engineer => new EngineerImplementation();
 
     public ITask Task => new TaskImplementation();
-    public DateTime ?StartProject { get=> DataSource.Config.StartProject; set=> DataSource.Config.StartProject=value; } 
-    public DateTime ? EndProject { get =>  DataSource.Config.EndProject; set => DataSource.Config.EndProject = value; }
+    public DateTime ?StartProject { get=> DataSource.Config.startProject; set=> DataSource.Config.startProject=value; } 
+    public DateTime ? EndProject { get =>  DataSource.Config.endProject; set => DataSource.Config.endProject = value; }
 }

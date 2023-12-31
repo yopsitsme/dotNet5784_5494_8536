@@ -47,10 +47,10 @@ public static class Tools
                                                     : task.CompleteDate == null ? 3
                                                     : 4);
     }
-    internal static List<DO.Dependency> CreateMileStone(List<DO.Dependency>? dependencies, DateTime? startPro, DateTime? endPro)
+    internal static List<DO.Dependency> CreateMileStone(List<DO.Dependency ?> dependencies, DateTime? startPro, DateTime? endPro)
     {
         if (dependencies == null)
-            dependencies = new List<DO.Dependency>();
+            dependencies = new List<DO.Dependency ?>();
         List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
 
@@ -373,7 +373,7 @@ public static class Tools
     /// <param name="endPro">The project end date.</param>
     /// <param name="startPro">The project start date.</param>
     /// <param name="tasks">The list of tasks.</param>
-    internal static void CalculationTimes(List<DO.Dependency> dependencies, DateTime startPro, DateTime stendPro)
+    internal static void CalculationTimes(List<DO.Dependency?> dependencies, DateTime startPro, DateTime stendPro)
     {
         
         DO.Task? firstMilston = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MStart");

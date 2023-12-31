@@ -15,7 +15,8 @@ internal class Program
     private static readonly Random s_rand = new();
 
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    static void Main(string[] args)
+   
+   static void Main(string[] args)
     {
         try
         {
@@ -30,8 +31,16 @@ internal class Program
             }
             try
             {
-                DateTime startDateTime = GetDateTimeInput("Enter the programs start date and time (YYYY-MM-DD HH:mm:ss): ");
-                DateTime endDateTime = GetDateTimeInput("Enter the programs end date and time (YYYY-MM-DD HH:mm:ss): ");
+                Console.WriteLine("Enter the programs start date and time (yyyy-MM-dd):");
+                string userInput = Console.ReadLine();
+                if (!(DateTime.TryParse(userInput, out DateTime startDateTime) && startDateTime > DateTime.Now))
+                    throw new InvalidInputException("Invalid date format or date must be later than the current date.");
+                Console.WriteLine("Enter the programs end date and time (yyyy-MM-dd):");
+                 userInput = Console.ReadLine();
+                if (!(DateTime.TryParse(userInput, out DateTime endDateTime) && startDateTime > DateTime.Now))
+                    throw new InvalidInputException("Invalid date format or date must be later than the current date.");
+                if (startDateTime > endDateTime)
+                    throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
                 Tools.initDateScheduleTime(startDateTime, endDateTime);
             }
             catch (Exception ex)
@@ -106,7 +115,9 @@ internal class Program
             {
                 Console.WriteLine("Select the method you want to execute:");
                 Console.WriteLine("1. Exiting the main menu");
-                Console.WriteLine("2. Adding a new object to the " + entityName + " list");
+
+                if (entityName != "Milestone") { Console.WriteLine("2. Adding a new object to the " + entityName + " list"); }
+                else { Console.WriteLine("2. Creating a project schedule"); }
                 Console.WriteLine("3. Object display by identifier");
                 Console.WriteLine("4. Updating existing object data");
                 if (entityName != "Milestone")
@@ -192,17 +203,14 @@ internal class Program
         DateTime createdAtDate = DateTime.Now.AddDays(-s_rand.Next(0, 100));
         string deliverables = GetInput("Enter the task deliverables: ");
         string remarks = GetInput("Enter the task Remarks: ");
-
-        //int EngineerId = GetIntInput("Enter the engineers Id ");
-        //string EngineerName = GetInput("Enter the engineers name : ");
-        //BO.EngineerExperience complexityLevel = GetComplexityLevelInput("Please enter the engineer's experience level (  Novice, AdvancedBeginner, Competent, Proficient, Expert): ");
+        int ? days = GetNullIntInput("Enter the number of days required to complete a task");
         BO.Task task = new BO.Task
         {
             Description = description,
             Alias = alias,
             CreatedAtDate = createdAtDate,
             Status = 0,
-            //StartDate = start,
+            RequierdEffortTime =days==null?null: TimeSpan.FromDays(days??0),
             Deliverables = deliverables,
             Remarks = remarks,
             //Engineer = new EngineerInTask { Id = EngineerId, Name = EngineerName },
