@@ -118,7 +118,10 @@ static class XMLTools
         //{
         //    temp = "engineers";
         //}
-        string filePath = $"{s_xml_dir + entity}.xml";
+        string directory = $"{s_xml_dir}";
+        string filename = $"{entity}.xml";
+        string filePath = Path.Combine(directory, filename);
+        //string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
 

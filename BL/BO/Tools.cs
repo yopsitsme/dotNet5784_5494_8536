@@ -15,7 +15,7 @@ namespace BO;
 public static class Tools
 {
     private static DalApi.IDal _dal = DalApi.Factory.Get;
-    static  BlApi.IBl s_bl = BlApi.Factory.Get();
+    static BlApi.IBl s_bl = BlApi.Factory.Get();
     // <summary>
     /// Retrieves a list of dependent tasks for a given task ID.
     /// </summary>
@@ -49,19 +49,13 @@ public static class Tools
                                                     : task.CompleteDate == null ? 3
                                                     : 4);
     }
-    public static List<DO.Dependency>? CreateMileStone(List<DO.Dependency>? dependencies)
+    public static List<DO.Dependency> CreateMileStone(List<DO.Dependency> ? dependencies)
     {
-        if(dependencies == null) 
+        if (dependencies == null)
             dependencies = new List<DO.Dependency>();
         List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
-        //DO.Task firstMilestone = new()
-        //{
-        //    Alias = $"M{count++}",
-        //    Description = $"MStart",
-        //    CreatedAtDate = DateTime.Now,
-        //    IsMilestone = true,//ismilestone
-        //};
+      
         DO.Task firstMilestone = new(
          0,
          $"M{count++}",
@@ -71,15 +65,14 @@ public static class Tools
          true//ismilestone
          );
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
-       
+
         var list = dependencies.GroupBy(d => d.DependentTask).ToList();
         var sortedList = list.OrderBy(comparer => comparer.Key);
         foreach (DO.Task task in _dal.Task.ReadAll())
         {
+
             var isTaskIdInList = sortedList.Any(group => group.Any(item => item.DependentTask == task.Id));
-
-
-            if (!isTaskIdInList)
+            if (!isTaskIdInList && task.Id != idfirstMilestone)
             {
                 newDependencies.Add(new DO.Dependency()
                 {
@@ -91,17 +84,18 @@ public static class Tools
         }
         foreach (var group in list)
         {
-            bool flagExsistMileStone=false;
+            bool flagExsistMileStone = false;
             int id = 0;
-            var allMilestones = _dal.Task.ReadAll().Where(task => task!.IsMilestone).ToList();
+            var allMilestones = _dal.Task.ReadAll(task => task.IsMilestone).ToList();
 
             foreach (var m in allMilestones)
             {
-                List<DO.Dependency> allDependencies = _dal.Dependency.ReadAll()?.Where(m => m!.DependentTask == m.Id)?.ToList();
+                List<DO.Dependency> allDependencies = newDependencies?.Where(d => d!.DependentTask == m.Id)?.ToList();
                 flagExsistMileStone = AreGroupsEqual(allDependencies, group.ToList());
                 if (flagExsistMileStone)
                 {
-                    id = m!.Id; break;
+                    id = m!.Id;
+                    break;
 
                 }
             }
@@ -109,22 +103,22 @@ public static class Tools
             {
 
                 DO.Task milestone = new DO.Task(
-             0,
+                  0,
                 $"M{count++}",
-                $"M{count++}",
-               DateTime.Now,
+                $"M{count}",
+                DateTime.Now,
                TimeSpan.Zero,
-                true
-            );
-                 id = _dal.Task.Create(milestone);
-            }
-            foreach (var depend in group)
-            {
-                newDependencies.Add(new DO.Dependency()
+                true);
+                id = _dal.Task.Create(milestone);
+
+                foreach (var depend in group)
                 {
-                    DependentTask = id,
-                    DependsTask = depend.DependsTask
-                });
+                    newDependencies.Add(new DO.Dependency()
+                    {
+                        DependentTask = id,
+                        DependsTask = depend.DependsTask
+                    });
+                }
             }
             newDependencies.Add(new DO.Dependency()
             {
@@ -132,12 +126,11 @@ public static class Tools
                 DependsTask = id
             });
 
-
         }
         DO.Task endMilestone = new(
-    0,
-    $"M{count++}",
-    $"MStart",
+                                 0,
+                                  $"M{count++}",
+                                   $"MEnd",
     DateTime.Now,
     new TimeSpan(0),
     true
@@ -145,8 +138,8 @@ public static class Tools
         int idendMilestone = _dal.Task.Create(endMilestone);
 
         var DependonsonEnd = (from DO.Task t in _dal.Task.ReadAll()
-                            where _dal.Dependency.Read((de) => de.DependsTask == t.Id)==null?true:false
-                            select t.Id).ToList();
+                              where ((_dal.Dependency.Read((de) => de.DependsTask == t.Id) == null ? true : false) && !t.IsMilestone)
+                              select t.Id).ToList();
         foreach (var tId in DependonsonEnd)
         {
             newDependencies.Add(new DO.Dependency()
@@ -204,15 +197,15 @@ public static class Tools
             boTask.Description,
             boTask.CreatedAtDate,
             boTask.RequierdEffortTime,
-           false,
-           boTask.StartDate,
+            false,
+            boTask.StartDate,
             boTask.ScheduledStartDate,
             boTask.DeadLineDate,
             boTask.CompleteDate,
             boTask.Deliverables,
             boTask.Remarks,
-            boTask.Engineer?.Id??null,
-           boTask.ComplexityLevel==null?null:(DO.EngineerExperience)boTask.ComplexityLevel
+            boTask.Engineer?.Id ?? null,
+           boTask.ComplexityLevel == null ? null : (DO.EngineerExperience)boTask.ComplexityLevel
         );
     }
     /// <summary>
@@ -238,7 +231,7 @@ public static class Tools
             Deliverables = doTask.Deliverables,
             Remarks = doTask.Remarks,
             Engineer = EngineerInTask(doTask.EngineerId),
-            ComplexityLevel = doTask.ComplexityLevel==null?null:(BO.EngineerExperience)doTask.ComplexityLevel
+            ComplexityLevel = doTask.ComplexityLevel == null ? null : (BO.EngineerExperience)doTask.ComplexityLevel
         };
     }
     /// <summary>
@@ -380,19 +373,19 @@ public static class Tools
     /// <param name="endPro">The project end date.</param>
     /// <param name="startPro">The project start date.</param>
     /// <param name="tasks">The list of tasks.</param>
-    internal static void CalculationTimes(DateTime endPro,DateTime startPro,List<Task> tasks)
+    internal static void CalculationTimes(DateTime endPro, DateTime startPro, List<Task> tasks)
     {
 
-      List <BO.Task> endtask =( s_bl.Task.ReadAll((t) => t.Description == "MEnd")).ToList();
+        List<BO.Task> endtask = (s_bl.Task.ReadAll((t) => t.Description == "MEnd")).ToList();
         foreach (var deptask in depndentTesks(endtask[0].Id))
         {
             BO.Task task = s_bl.Task.Read(deptask.Id)!;
             task.DeadLineDate = endPro;
             s_bl.Task.Update(task);
-          
+
         }
 
-        
+
     }
 
     /// <summary>
@@ -401,7 +394,7 @@ public static class Tools
     /// <param name="task">The task for which to calculate the deadline.</param>
     /// <param name="milestone">The milestone associated with the task.</param>
     /// <param name="dateToDeadLine">The date to the project's deadline.</param>
-    private static void RecursionCalculationTimes(Task ?task, Milestone ?milestone,  DateTime dateToDeadLine)
+    private static void RecursionCalculationTimes(Task? task, Milestone? milestone, DateTime dateToDeadLine)
     {
 
 
@@ -413,17 +406,18 @@ public static class Tools
 
             }
         }
-        catch (Exception ex) {
-            DateTime? updateDate= dateToDeadLine;
-            if(task.DeadLineDate!=null)
+        catch (Exception ex)
+        {
+            DateTime? updateDate = dateToDeadLine;
+            if (task.DeadLineDate != null)
             {
                 updateDate = dateToDeadLine > (task.DeadLineDate) ? dateToDeadLine : task.DeadLineDate;
             }
             task.DeadLineDate = updateDate;
             s_bl.Task.Update(task);
-            RecursionCalculationTimes(null,s_bl.Milestone.Read(task.Milestone.Id), task.DeadLineDate?.Add( task.RequierdEffortTime?? new TimeSpan(0))??DateTime.Now);
+            RecursionCalculationTimes(null, s_bl.Milestone.Read(task.Milestone.Id), task.DeadLineDate?.Add(task.RequierdEffortTime ?? new TimeSpan(0)) ?? DateTime.Now);
         }
-        
+
     }
 
     /// <summary>
@@ -466,7 +460,7 @@ public static class Tools
         for (int i = 0; i < list1.Count; i++)
         {
             // Return false if any elements are not equal
-            if (list1[i].Id != list2[i].Id)
+            if (list1[i].DependsTask != list2[i].DependsTask)
             {
                 return false;
             }

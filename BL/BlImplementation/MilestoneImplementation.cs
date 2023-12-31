@@ -17,11 +17,11 @@ public class MilestoneImplementation : IMilestone
 
     public void Create()
     {
-        List<DO.Dependency>? newDependencies = Tools.CreateMileStone(_dal.Dependency.ReadAll()?.ToList());
+        List<DO.Dependency> newDependencies = Tools.CreateMileStone(_dal?.Dependency.ReadAll().ToList());
         _dal.Dependency.Reset();
         foreach (DO.Dependency depent in newDependencies)
         {
-            _dal.Dependency.AddDependency(depent);
+            _dal.Dependency.Create(depent);
         }
 
     }
