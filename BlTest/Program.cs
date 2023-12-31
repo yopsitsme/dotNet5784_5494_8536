@@ -26,7 +26,17 @@ internal class Program
             string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
             if (ans == "Y")
             {
-             //Initialization.Do();
+                Initialization.Do();
+            }
+            try
+            {
+                DateTime startDateTime = GetDateTimeInput("Enter the programs start date and time (YYYY-MM-DD HH:mm:ss): ");
+                DateTime endDateTime = GetDateTimeInput("Enter the programs end date and time (YYYY-MM-DD HH:mm:ss): ");
+                Tools.initDateScheduleTime(startDateTime, endDateTime);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidInputException("must get a start and end Date");
             }
 
             DisplayMainMenu();
@@ -386,7 +396,7 @@ internal class Program
                 DeadLineDate = deadline ?? task.DeadLineDate,
                 Deliverables = deliverables != "" ? deliverables : task.Deliverables,
                 Remarks = remarks != "" ? remarks : task.Remarks,
-                Engineer = engineerId==null?task.Engineer==null?null: new EngineerInTask { Id = task.Engineer.Id , Name = task.Engineer.Name }: new EngineerInTask { Id = engineerId ??0, Name = EngineerName },
+                Engineer = engineerId == null ? task.Engineer == null ? null : new EngineerInTask { Id = task.Engineer.Id, Name = task.Engineer.Name } : new EngineerInTask { Id = engineerId ?? 0, Name = EngineerName },
                 ComplexityLevel = complexityLevel ?? task.ComplexityLevel,
             };
             s_bl!.Task.Update(updatedTask);
@@ -513,10 +523,9 @@ internal class Program
     ///A function with a print-to-screen parameter accepts a value from the user and returns it as a DateTime
     static DateTime GetDateTimeInput(string message)
     {
-        Console.Write(message);
 
         DateTime createdAtDate;
-        DateTime.TryParseExact(GetInput("Enter the created at date and time (yyyy-MM-dd HH:mm:ss): "), "yyyy-MM-dd HH:mm:ss", null, DateTimeStyles.None, out createdAtDate);
+        DateTime.TryParseExact(GetInput(message), "yyyy-MM-dd HH:mm:ss", null, DateTimeStyles.None, out createdAtDate);
         return createdAtDate;
     }
     ///A function with a print-to-screen parameter accepts a value from the user and returns it as a EngineerExperience Enum
@@ -528,14 +537,14 @@ internal class Program
         Enum.TryParse(level, out experienceLevel);
         return experienceLevel;
     }
-    static BO.Status GetStatusInput(string message)
-    {
-        Console.Write(message);
-        string? status = Console.ReadLine();
-        BO.Status statusLevel;
-        Enum.TryParse(status, out statusLevel);
-        return statusLevel;
-    }
+    //static BO.Status GetStatusInput(string message)
+    //{
+    //    Console.Write(message);
+    //    string? status = Console.ReadLine();
+    //    BO.Status statusLevel;
+    //    Enum.TryParse(status, out statusLevel);
+    //    return statusLevel;
+    //}
     static void createMilestones()
     {
         s_bl.Milestone.Create();
@@ -560,5 +569,5 @@ internal class Program
         string? alias = GetInput("Enter the Milestone alias: ");
         s_bl.Milestone.Update(idMilestone, alias, description, remarks);
     }
-   
+
 }

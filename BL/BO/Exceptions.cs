@@ -32,3 +32,12 @@ public class BlDeletionImpossible : Exception
     public BlDeletionImpossible(string message, Exception innerException)
               : base(message, innerException) { }
 }
+
+public class BlNoDatesForProject:Exception
+{
+    public BlNoDatesForProject(string? message) : base(message) { }
+}
+public class BlInvalidDataInTheSchedule : Exception
+{
+    public BlInvalidDataInTheSchedule(string? message) : base(message) { }
+}

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xml_dir = @"..\..\..\..\xml\";
+    const string s_xml_dir = @"..\xml\";
     static XMLTools()
     {
         if (!Directory.Exists(s_xml_dir))
@@ -44,7 +44,7 @@ static class XMLTools
         DateTime dateProject = root.ToDateTimeNullable(elemName) ?? throw new FormatException($"can't convert date project.  {data_config_xml}, {elemName}");
         return dateProject;
     }
-    public static void SetDateProject (DateTime newDate,string data_config_xml, string elemName)
+    public static void SetDateProject (DateTime ?newDate,string data_config_xml, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
         root.Element(elemName)?.SetValue(newDate.ToString());
@@ -118,10 +118,10 @@ static class XMLTools
         //{
         //    temp = "engineers";
         //}
-        string directory = $"{s_xml_dir}";
-        string filename = $"{entity}.xml";
-        string filePath = Path.Combine(directory, filename);
-        //string filePath = $"{s_xml_dir + entity}.xml";
+        //string directory = $"{s_xml_dir}";
+        //string filename = $"{entity}.xml";
+        //string filePath = Path.Combine(directory, filename);
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
 
@@ -144,7 +144,7 @@ static class XMLTools
         string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
-            XDocument doc = XDocument.Load("your_file_path.xml");
+            XDocument doc = XDocument.Load(filePath);
             doc.Root?.Elements()?.Remove();
         }
         catch (Exception ex)

@@ -17,12 +17,19 @@ public class MilestoneImplementation : IMilestone
 
     public void Create()
     {
-        List<DO.Dependency> newDependencies = Tools.CreateMileStone(_dal?.Dependency.ReadAll().ToList());
-        _dal.Dependency.Reset();
-        foreach (DO.Dependency depent in newDependencies)
+        DateTime ?startProject = _dal.StartProject;
+        DateTime? endProject = _dal.EndProject;
+        if (startProject != null && endProject != null)
         {
-            _dal.Dependency.Create(depent);
+            List<DO.Dependency> newDependencies = Tools.CreateMileStone(_dal?.Dependency.ReadAll().ToList(), startProject, endProject);
+            _dal.Dependency.Reset();
+            foreach (DO.Dependency depent in newDependencies)
+            {
+                _dal.Dependency.Create(depent);
+            }
+            Tools.CalculationTimes(_dal.Dependency.ReadAll()?.ToList(), startProject ?? DateTime.Now, endProject??DateTime.Now);
         }
+        else { throw new BlNoDatesForProject("the program is missing a start or end date for the project"); }
 
     }
 

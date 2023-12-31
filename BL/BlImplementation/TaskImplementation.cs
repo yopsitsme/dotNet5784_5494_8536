@@ -81,9 +81,11 @@ public class TaskImplementation : BlApi.ITask
     }
     public void creatD()
     {
+        Random s_rand = new();
+
         for (int i = 0; i < 5; i++)
         {
-            DO.Task doTask = new DO.Task(0,$"{i}","cfgv",DateTime.Now);
+            DO.Task doTask = new DO.Task(0,$"{i}","cfgv",DateTime.Now,new TimeSpan(s_rand.Next(1,10)));
             _dal.Task.Create(doTask);
         }
         DO.Dependency doDependency = new DO.Dependency(0, 1002, 1001);
