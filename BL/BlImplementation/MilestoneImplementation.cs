@@ -1,20 +1,19 @@
 ﻿using BlApi;
 using BO;
-using DalApi;
-using DO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BlImplementation;
-
+/// <summary>
+/// Implementation of the <see cref="IMilestone"/> interface providing operations for milestones.
+/// </summary>
 public class MilestoneImplementation : IMilestone
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    /// <summary>
+    /// Creates milestones based on the start and end dates of the project.
+    /// </summary>
+    /// <exception cref="BlNoDatesForProject">Thrown if the program is missing a start or end date for the project.</exception>
     public void Create()
     {
         DateTime ?startProject = _dal.StartProject;
@@ -33,6 +32,12 @@ public class MilestoneImplementation : IMilestone
 
     }
 
+    /// <summary>
+    /// Retrieves a milestone with the specified ID.
+    /// </summary>
+    /// <param name="id">The ID of the milestone to be retrieved.</param>
+    /// <returns>The business object representation of the retrieved milestone.</returns>
+    /// <exception cref="BlDoesNotExistException">Thrown if the milestone does not exist or is not a milestone.</exception>
     public BO.Milestone? Read(int id)
     {
         try
@@ -51,6 +56,16 @@ public class MilestoneImplementation : IMilestone
 
     }
 
+    /// <summary>
+    /// Updates the specified milestone with new information.
+    /// </summary>
+    /// <param name="id">The ID of the milestone to be updated.</param>
+    /// <param name="alias">The new alias for the milestone.</param>
+    /// <param name="description">The new description for the milestone.</param>
+    /// <param name="remarks">The new remarks for the milestone.</param>
+    /// <returns>The updated business object representation of the milestone.</returns>
+    /// <exception cref="BO.InvalidInputException">Thrown if any of the input parameters are null or empty.</exception>
+    /// <exception cref="BO.BlDoesNotExistException">Thrown if the milestone with the specified ID does not exist.</exception>
     public BO.Milestone Update(int id, string alias, string description, string? remarks)
     {
         if (alias == null || alias == "" || description == null || description == "" || remarks == "")
@@ -59,25 +74,6 @@ public class MilestoneImplementation : IMilestone
         DO.Task? task = _dal.Task.Read(id);
         if (task == null)
             throw new BO.BlDoesNotExistException($"DoesNotExist milestone whith{id}");
-        //DO.Task newtask = new DO.Task
-        //{
-        //    Id = id,
-        //    Alias = alias,
-        //    Description = description,
-        //    CreatedAtDate = task.CreatedAtDate,
-        //    RequierdEffortTime = task.RequierdEffortTime,
-        //    IsMilestone = task.IsMilestone,
-        //    StartDate = task.StartDate,
-        //    ScheduledDate = task.ScheduledDate,
-        //    DeadLineDate = task.DeadLineDate,
-        //    CompleteDate = task.CompleteDate,
-        //    Deliverables = task.Deliverables,
-        //    Remarks = remarks,
-        //    EngineerId = task.EngineerId,
-        //    ComplexityLevel = task.ComplexityLevel,
-        //};
-        //_dal.Task.Update(newtask);//יצליח בטוח לעדכן כי בדקתי בread ש ה id  הזה כבר קיים
-        //return Tools.fromDoTaskToMilestone(newtask);
         return new BO.Milestone();
     }
 
