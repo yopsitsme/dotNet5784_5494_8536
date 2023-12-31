@@ -32,7 +32,7 @@ internal class Program
             try
             {
                 Console.WriteLine("Enter the programs start date and time (yyyy-MM-dd):");
-                string userInput = Console.ReadLine();
+                string ? userInput = Console.ReadLine();
                 if (!(DateTime.TryParse(userInput, out DateTime startDateTime) && startDateTime > DateTime.Now))
                     throw new InvalidInputException("Invalid date format or date must be later than the current date.");
                 Console.WriteLine("Enter the programs end date and time (yyyy-MM-dd):");
@@ -43,9 +43,9 @@ internal class Program
                     throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
                 Tools.initDateScheduleTime(startDateTime, endDateTime);
             }
-            catch (Exception ex)
+            catch (InvalidInputException ex)
             {
-                throw new InvalidInputException("must get a start and end Date");
+                throw ex;
             }
 
             DisplayMainMenu();
@@ -296,7 +296,7 @@ internal class Program
 
     static void readAllTask()//Prints all entities of Task
     {
-        List<BO.Task?> taskList = s_bl!.Task.ReadAll(null).ToList();
+        List<BO.Task> taskList = s_bl!.Task.ReadAll(null).ToList();
         foreach (var task in taskList)
         {
             Console.WriteLine(task);
@@ -304,7 +304,7 @@ internal class Program
     }
     static void readAllEngineer()////Prints all entities of Engineer
     {
-        List<BO.Engineer?> engineerList = s_bl!.Engineer.ReadAll().ToList();
+        List<BO.Engineer > engineerList = s_bl.Engineer.ReadAll().ToList();
         foreach (var engineer in engineerList)
         {
             Console.WriteLine(engineer);

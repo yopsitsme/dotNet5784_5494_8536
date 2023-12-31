@@ -23,9 +23,9 @@ internal static class DataSource‏‏
     }
 
     //Creating three linked lists, one for each entity
-    internal static List<DO.Task>? Tasks { get; } = new();
-    internal static List<DO.Engineer>? Engineers { get; } = new();
-    internal static List<DO.Dependency> ?Dependencies { get; } = new();
+    internal static List<DO.Task?> Tasks { get; } = new();
+    internal static List<DO.Engineer?> Engineers { get; } = new();
+    internal static List<DO.Dependency?> Dependencies { get; } = new();
 
 
 
