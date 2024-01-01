@@ -139,17 +139,19 @@ static class XMLTools
         }
     }
 
-    public static void ResetFile(string entity)
+    public static void ResetFile(string entity,string elem)
     {
-        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
-            XDocument doc = XDocument.Load(filePath);
-            doc.Root?.Elements()?.Remove();
+            //XDocument doc = XDocument.Load(filePath);
+            //doc.Root?.Elements()?.Remove();
+            XElement root = LoadListFromXMLElement(entity);
+            root.Descendants(elem).Remove();
+            SaveListToXMLElement(root, entity);
         }
         catch (Exception ex)
         {
-            throw new DalXMLFileLoadCreateException($"fail to reset xml file: {filePath}, {ex.Message}");
+            throw new DalXMLFileLoadCreateException($"fail to reset xml file: , {ex.Message}");
         }
     }
 

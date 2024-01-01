@@ -29,7 +29,7 @@ public class MilestoneImplementation : IMilestone
             Tools.CalculationTimes(_dal.Dependency.ReadAll().ToList(), startProject ?? DateTime.Now, endProject??DateTime.Now);
         }
         else { throw new BlNoDatesForProject("the program is missing a start or end date for the project"); }
-
+      
     }
 
     /// <summary>

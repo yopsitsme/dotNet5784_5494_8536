@@ -50,7 +50,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <exception cref="BO.BlDoesNotExistException">Thrown if the engineer with the specified ID does not exist.</exception>
     public void Delete(int id)
     {
-        if (Tools.TaskinEngineer(id) != null)
+        if (Tools.TaskInEngineer(id) != null)
         {
             throw new BO.BlDeletionImpossible($" Can't delete engineer with ID={id} ");
         }
@@ -77,7 +77,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null)
             throw new BO.BlDoesNotExistException($"Engneer with ID={id} does Not exist");
-        return Tools.EngineerfromDoToBo(doEngineer);
+        return Tools.EngineerFromDoToBo(doEngineer);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     {
 
         var listEngineer = (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
-                            select Tools.EngineerfromDoToBo(doEngineer));
+                            select Tools.EngineerFromDoToBo(doEngineer));
         if (filter != null)
         {
             return listEngineer.Where(filter);

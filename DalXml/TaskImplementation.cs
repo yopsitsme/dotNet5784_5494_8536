@@ -94,12 +94,13 @@ internal class TaskImplementation : ITask
         if (newTask == null)
         { throw new DalDoesNotExistException($"Task with ID={item.Id} does Not exist"); }
         Delete(item.Id);
+        xmlTask = XMLTools.LoadListFromXMLSerializer<Task>("tasks");
         xmlTask.Add(item);
         XMLTools.SaveListToXMLSerializer<Task>(xmlTask, "tasks");
     }
     public void Reset()
     {
-        XMLTools.ResetFile("tasks");
+        XMLTools.ResetFile("tasks","Task");
     }
 
 }

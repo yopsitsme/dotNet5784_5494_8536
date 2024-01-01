@@ -1,4 +1,4 @@
-﻿using BlApi;
+﻿namespace BlApi;
 
 // Factory class for creating an instance of the business logic layer.
 public static class Factory

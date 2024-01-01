@@ -20,9 +20,7 @@ internal class Program
     {
         try
         {
-            //רק בשביל להריץ
-            s_bl.Task.creatD();
-            s_bl.Task.printd();
+         
             Console.Write("Would you like to create Initial data? (Y/N)");
             string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
             if (ans == "Y")
@@ -41,11 +39,11 @@ internal class Program
                     throw new InvalidInputException("Invalid date format or date must be later than the current date.");
                 if (startDateTime > endDateTime)
                     throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
-                Tools.initDateScheduleTime(startDateTime, endDateTime);
+                Tools.InitDateScheduleTime(startDateTime, endDateTime);
             }
-            catch (InvalidInputException ex)
+            catch (Exception ex)
             {
-                throw ex;
+                Console.WriteLine(ex.ToString());
             }
 
             DisplayMainMenu();
@@ -199,7 +197,6 @@ internal class Program
     {
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
-        //DateTime start = GetDateTimeInput("Enter the task start date and time (YYYY-MM-DD HH:mm:ss): ");
         DateTime createdAtDate = DateTime.Now.AddDays(-s_rand.Next(0, 100));
         string deliverables = GetInput("Enter the task deliverables: ");
         string remarks = GetInput("Enter the task Remarks: ");
@@ -213,8 +210,7 @@ internal class Program
             RequierdEffortTime =days==null?null: TimeSpan.FromDays(days??0),
             Deliverables = deliverables,
             Remarks = remarks,
-            //Engineer = new EngineerInTask { Id = EngineerId, Name = EngineerName },
-            //ComplexityLevel = complexityLevel
+         
         };
         try
         {
@@ -397,6 +393,10 @@ internal class Program
                 Id = task.Id,
                 Description = description != "" ? description : task.Description,
                 Alias = alias != "" ? alias : task.Alias,
+                CreatedAtDate=task.CreatedAtDate,
+                RequierdEffortTime=task.RequierdEffortTime,
+                Status = task.Status,
+                Milestone = task.Milestone,
                 StartDate = start ?? task.StartDate,
                 ScheduledStartDate = scheduled ?? task.ScheduledStartDate,
                 ForeCastDate = forecas ?? task.ForeCastDate,
@@ -556,7 +556,6 @@ internal class Program
     static void createMilestones()
     {
         s_bl.Milestone.Create();
-        s_bl.Task.printd();
     }
     static void readMilestone()
     {

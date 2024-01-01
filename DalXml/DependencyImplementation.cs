@@ -49,9 +49,8 @@ internal class DependencyImplementation : IDependency
         XElement xmlDependency = XMLTools.LoadListFromXMLElement("dependencies");
 
         // Find the Dependency with the specified ID
-        XElement? XmlElement = xmlDependency.Descendants("dependency")
+        XElement? XmlElement = xmlDependency.Descendants("")
             .FirstOrDefault(elmn => Convert.ToInt32(elmn.Attribute("Id")!.Value).Equals(id));
-
         // If the Dependency is not found, return null; otherwise, create and return a new Dependency
         if (XmlElement == null)
             return null;
@@ -145,6 +144,6 @@ internal class DependencyImplementation : IDependency
     }
     public void Reset()
 {
-    XMLTools.ResetFile("dependencies");
+    XMLTools.ResetFile("dependencies", "dependency");
 }
 }

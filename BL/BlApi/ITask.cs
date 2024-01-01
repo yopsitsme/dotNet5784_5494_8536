@@ -17,10 +17,4 @@ public interface ITask
 
     // Deletes a task from the system based on its ID.
     public void Delete(int id);
-
-    // Creates sample tasks and dependencies for testing purposes.
-    public void creatD();
-
-    // Prints the dependencies in the system for testing and debugging.
-    public void printd();
 }

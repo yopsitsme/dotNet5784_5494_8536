@@ -80,7 +80,7 @@ public class TaskImplementation : BlApi.ITask
     {
 
         var listTask = _dal.Task.ReadAll()
-                 .Where(doTask=> doTask?.IsMilestone??false)
+                 .Where(doTask=> !doTask?.IsMilestone??false)
                 .Select(doTask => Tools.TaskFromDoToBo(doTask));
         return filter == null ? listTask : listTask.Where(filter);
     }
@@ -91,7 +91,12 @@ public class TaskImplementation : BlApi.ITask
     /// <param name="boTask">The business object representing the task to be updated.</param>
     public void Update(Task boTask)
     {
-        if (boTask.Id < 0 || boTask.Alias == ""|| _dal.Engineer.Read(boTask?.Engineer?.Id??0) == null)
+        if(boTask?.Engineer?.Id!=null)
+        {
+          if(  _dal.Engineer.Read(boTask?.Engineer?.Id ?? 0) == null)
+                throw new BO.InvalidInputException("Invalid input");
+        }
+        if (boTask.Id < 0 )
             throw new BO.InvalidInputException("Invalid input");
         try
         {
@@ -107,45 +112,5 @@ public class TaskImplementation : BlApi.ITask
             throw new BO.BlDoesNotExistException($"Task with ID={boTask?.Id} already exists", ex);
         }
     }
-
-    /// <summary>
-    /// Creates sample tasks and dependencies for testing purposes.
-    /// </summary>
-    public void creatD()
-    {
-        Random s_rand = new();
-
-        for (int i = 0; i < 5; i++)
-        {
-          
-            DO.Task doTask = new DO.Task(0,$"{i}","cfgv",DateTime.Now, TimeSpan.FromDays(s_rand.Next(10,50)));
-            _dal.Task.Create(doTask);
-        }
-        DO.Dependency doDependency = new DO.Dependency(0, 1002, 1001);
-        _dal.Dependency.Create(doDependency);
-        DO.Dependency doDependency1 = new DO.Dependency(0, 1002, 1000);
-        _dal.Dependency.Create(doDependency1);
-        DO.Dependency doDependency2 = new DO.Dependency(0, 1003, 1002);
-        _dal.Dependency.Create(doDependency2);
-        DO.Dependency doDependency3 = new DO.Dependency(0, 1004, 1002);
-        _dal.Dependency.Create(doDependency3);
-
-    }
-
-    /// <summary>
-    /// Prints all dependencies to the console for testing purposes.
-    /// </summary>
-    public void printd()
-    {
-      var d=  _dal.Dependency.ReadAll();
-        foreach (var item in d.ToList())
-        {
-            Console.WriteLine(item);
-        }
-    }
-
-
-
-
 }
 

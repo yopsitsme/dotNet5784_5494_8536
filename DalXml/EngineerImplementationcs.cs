@@ -99,13 +99,14 @@ internal class EngineerImplementationcs : IEngineer
         if (newEngineer == null)
         { throw new DalDoesNotExistException($"Engineer with ID={item.Id} does Not exist"); }
         Delete(item.Id);
+        xmlEngineer = XMLTools.LoadListFromXMLSerializer<Engineer>("engineers");
         xmlEngineer.Add(item);
         XMLTools.SaveListToXMLSerializer<Engineer>(xmlEngineer, "engineers");
 
     }
     public void Reset()
     {
-        XMLTools.ResetFile("engineers");
+        XMLTools.ResetFile("engineers", "Engineer");
     }
 
 }

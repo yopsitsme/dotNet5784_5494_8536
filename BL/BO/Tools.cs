@@ -14,6 +14,12 @@ public static class Tools
 {
     private static DalApi.IDal _dal = DalApi.Factory.Get;
     static BlApi.IBl s_bl = BlApi.Factory.Get();
+    public static void ressss()
+    {
+        _dal.Dependency.Reset();
+        _dal.Task.Reset();
+        _dal.Engineer.Reset();
+    }
     // <summary>
     /// Retrieves a list of dependent tasks for a given task ID.
     /// </summary>
@@ -190,23 +196,7 @@ public static class Tools
     /// <returns>The data object representation of the task.</returns>
     internal static DO.Task TaskfromBoToDo(BO.Task boTask)
     {
-        //return new DO.Task
-        //{
-        //   Id=  boTask.Id,
-        //   Alias= boTask.Alias,
-        //  Description= boTask.Description,
-        //  CreatedAtDate=  boTask.CreatedAtDate,
-        //   RequierdEffortTime= boTask.RequierdEffortTime,
-        // IsMilestone=   false,
-        //  CompleteDate=  boTask.CompleteDate,
-        //  StartDate=   boTask.StartDate,
-        //   ScheduledDate=  boTask.ScheduledStartDate,
-        //    DeadLineDate= boTask.DeadLineDate,
-        //   Deliverables=  boTask.Deliverables,
-        //  Remarks=   boTask.Remarks,
-        //   EngineerId= boTask.Engineer.Id,
-        //   ComplexityLevel=  (DO.EngineerExperience)boTask.ComplexityLevel
-        //};
+
         return new DO.Task
         (
            boTask.Id,
@@ -438,7 +428,6 @@ public static class Tools
             {
                 DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
                 DateTime? deadLineDate = currentTask?.DeadLineDate - currentTask?.RequierdEffortTime;
-
                 if (!task.IsMilestone || (task.IsMilestone && (task.DeadLineDate == null || deadLineDate < task.DeadLineDate)))
                 {
                     DO.Task updatedTask = task with { DeadLineDate = deadLineDate };
@@ -472,17 +461,16 @@ public static class Tools
                 DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
                 DateTime? scheduledDate = currentTask?.ScheduledDate + currentTask?.RequierdEffortTime;
 
-                if (scheduledDate > task.DeadLineDate)
-                    throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
-
+                
                 if (currentTask.DeadLineDate + task.RequierdEffortTime > task.DeadLineDate)
                     throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
 
-                if (!task.IsMilestone || (task.IsMilestone && (task.DeadLineDate == null || scheduledDate > task.ScheduledDate)))
+                if (!task.IsMilestone || (task.IsMilestone && (task.ScheduledDate == null || scheduledDate > task.ScheduledDate)))
                 {
                     DO.Task updatedTask = task with { ScheduledDate = scheduledDate };
                     _dal.Task.Update(updatedTask);
                 }
+                
 
                 UpdateScheduledDateTime(taskId, idOfEndMilestone, dependenciesList);
             }
