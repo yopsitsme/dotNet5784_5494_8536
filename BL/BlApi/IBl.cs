@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BlApi;
 
-namespace BlApi;
-
+// The main interface for the business logic layer.
 public interface IBl
 {
-    public IEngineer Engineer { get; }  
-    public IMilestone Milestone { get; }
-    public ITask Task { get; }
+    // Gets the interface for managing engineers in the system.
+    public IEngineer Engineer { get; }
 
+    // Gets the interface for managing milestones in the system.
+    public IMilestone Milestone { get; }
+
+    // Gets the interface for managing tasks in the system.
+    public ITask Task { get; }
 }

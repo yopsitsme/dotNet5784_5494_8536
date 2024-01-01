@@ -1,8 +1,6 @@
 ﻿namespace BlImplementation;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Resources;
 using BlApi;
 using BO;
 using DalApi;

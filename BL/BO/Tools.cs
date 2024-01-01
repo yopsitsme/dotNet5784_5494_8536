@@ -47,6 +47,14 @@ public static class Tools
                                                     : task.CompleteDate == null ? 3
                                                     : 4);
     }
+
+    /// <summary>
+    /// Creates a milestone based on the provided dependencies, start date, and end date.
+    /// </summary>
+    /// <param name="dependencies">List of dependencies.</param>
+    /// <param name="startPro">Start date of the project.</param>
+    /// <param name="endPro">End date of the project.</param>
+    /// <returns>List of dependencies representing the created milestone.</returns>
     internal static List<DO.Dependency> CreateMileStone(List<DO.Dependency ?> dependencies, DateTime? startPro, DateTime? endPro)
     {
         if (dependencies == null)
@@ -266,7 +274,12 @@ public static class Tools
     /// </summary>
     /// <param name="doEngineer">The data object engineer to convert.</param>
     /// <returns>The business object representation of the engineer.</returns>
-    internal static BO.Engineer EngineerfromDoToBo(DO.Engineer doEngineer)
+    /// <summary>
+    /// Converts a DO.Engineer object to a BO.Engineer object.
+    /// </summary>
+    /// <param name="doEngineer">The DO.Engineer object to convert.</param>
+    /// <returns>The corresponding BO.Engineer object.</returns>
+    internal static BO.Engineer EngineerFromDoToBo(DO.Engineer doEngineer)
     {
         return new BO.Engineer
         {
@@ -275,25 +288,39 @@ public static class Tools
             Email = doEngineer.Email,
             Level = (BO.EngineerExperience)doEngineer.Level,
             Cost = doEngineer.Cost,
-            Task = TaskinEngineer(doEngineer.Id)
+            Task = TaskInEngineer(doEngineer.Id)
         };
     }
-    internal static TaskinEngineer? TaskinEngineer(int Id)
+
+    /// <summary>
+    /// Retrieves the tasks associated with an engineer.
+    /// </summary>
+    /// <param name="id">The ID of the engineer.</param>
+    /// <returns>The tasks associated with the engineer.</returns>
+    internal static TaskinEngineer? TaskInEngineer(int id)
     {
         return (from DO.Task doTask in _dal.Task.ReadAll()
-                where doTask.EngineerId == Id
+                where doTask.EngineerId == id
                 select new TaskinEngineer
                 {
                     Id = doTask.Id,
                     Alias = doTask.Alias
-                }).FirstOrDefault();// FirstOrDefaultכתוב בתיאור הכללי שמהנדס יכול לעבוד על משימה אחת בו אבל גם יתכן שךא מוגדרת לו אף משימה ולכן ניתן לןהשתמש בפונקציה 
+                }).FirstOrDefault();
     }
+
+    /// <summary>
+    /// Checks if a task depends on another task.
+    /// </summary>
+    /// <param name="id">The ID of the task to check.</param>
+    /// <returns>True if the task depends on another task; otherwise, false.</returns>
     internal static bool DependsTask(int id)
     {
         var flagDependsTask = _dal.Dependency.ReadAll()
-         .FirstOrDefault(d => d!.DependentTask == id);
+            .FirstOrDefault(d => d!.DependentTask == id);
+
         return (flagDependsTask != null);
     }
+
     internal static BO.MilestoneInTask? milestoneInTask(int id)
     {
         BO.MilestoneInTask? milestoneInTask = Tools.depndentTesks(id)
@@ -383,67 +410,78 @@ public static class Tools
         UpdateDeadLineDateTime(idEndMilston, idFirstMilston, dependencies);
         UpdateScheduledDateTime(idFirstMilston, idEndMilston, dependencies);
     }
-
+    /// <summary>
+    /// Recursively updates the DeadLineDate property of dependent tasks based on the given task's information.
+    /// </summary>
+    /// <param name="idOfTask">The ID of the task.</param>
+    /// <param name="idOfStartMilestone">The ID of the start milestone.</param>
+    /// <param name="dependenciesList">The list of dependencies for the task.</param>
     private static void UpdateDeadLineDateTime(int? idOfTask, int idOfStartMilestone, List<DO.Dependency?> dependenciesList)
     {
         if (idOfTask == idOfStartMilestone)
             return;
 
-        DO.Task? currentTask = _dal.Task.Read(idOfTask ?? throw new BlNullPropertyException("their is no value")) ?? throw new BlNullPropertyException($"task with {idOfTask} id does not exsist");
-        var dependenciesListId = _dal!.Dependency.ReadAll((d) => d.DependentTask == idOfTask)
-            .Select(d=>d?.DependsTask).ToList();
-        if (dependenciesListId !=null)
+        DO.Task? currentTask = _dal.Task.Read(idOfTask ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
+        var dependenciesListId = _dal.Dependency.ReadAll((d) => d.DependentTask == idOfTask)
+            .Select(d => d?.DependsTask).ToList();
+
+        if (dependenciesListId != null)
         {
             foreach (var taskId in dependenciesListId)
             {
-                DO.Task task = _dal.Task.Read(taskId??throw new BlNullPropertyException("their is no value"))?? throw new BlNullPropertyException($"task with {idOfTask} id does not exsist");
+                DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
                 DateTime? deadLineDate = currentTask?.DeadLineDate - currentTask?.RequierdEffortTime;
-                if (!task.IsMilestone || (task.IsMilestone  && (task.DeadLineDate ==null || deadLineDate < task.DeadLineDate)))
-                {
-   
-                    DO.Task updatedTask = task with { DeadLineDate = deadLineDate };
 
+                if (!task.IsMilestone || (task.IsMilestone && (task.DeadLineDate == null || deadLineDate < task.DeadLineDate)))
+                {
+                    DO.Task updatedTask = task with { DeadLineDate = deadLineDate };
                     _dal.Task.Update(updatedTask);
                 }
-                    UpdateDeadLineDateTime(taskId, idOfStartMilestone, dependenciesList);
-                
+
+                UpdateDeadLineDateTime(taskId, idOfStartMilestone, dependenciesList);
             }
         }
-
     }
 
+    /// <summary>
+    /// Recursively updates the ScheduledDate property of dependent tasks based on the given task's information.
+    /// </summary>
+    /// <param name="idOfTask">The ID of the task.</param>
+    /// <param name="idOfEndMilestone">The ID of the end milestone.</param>
+    /// <param name="dependenciesList">The list of dependencies for the task.</param>
     private static void UpdateScheduledDateTime(int? idOfTask, int idOfEndMilestone, List<DO.Dependency?> dependenciesList)
     {
         if (idOfTask == idOfEndMilestone)
             return;
-        DO.Task? currentTask = _dal.Task.Read(idOfTask ?? throw new BlNullPropertyException("their is no value")) ?? throw new BlNullPropertyException($"task with {idOfTask} id does not exsist");
-        var dependenciesListId = _dal!.Dependency.ReadAll((d) => d?.DependsTask == idOfTask)
+
+        DO.Task? currentTask = _dal.Task.Read(idOfTask ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
+        var dependenciesListId = _dal.Dependency.ReadAll((d) => d?.DependsTask == idOfTask)
             .Select(d => d?.DependentTask).ToList();
-        if(dependenciesListId!=null)
+
+        if (dependenciesListId != null)
         {
-            foreach(var taskId in dependenciesListId) 
+            foreach (var taskId in dependenciesListId)
             {
-                DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("their is no value")) ?? throw new BlNullPropertyException($"task with {idOfTask} id does not exsist");
+                DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
                 DateTime? scheduledDate = currentTask?.ScheduledDate + currentTask?.RequierdEffortTime;
 
                 if (scheduledDate > task.DeadLineDate)
-                    throw new BlInvalidDataInTheSchedule("ther is not enght time to finish the task");
-                if(currentTask.DeadLineDate+task.RequierdEffortTime > task.DeadLineDate)
-                    throw new BlInvalidDataInTheSchedule("ther is not enght time to finish the task");
+                    throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
 
-                if (!task.IsMilestone || (task.IsMilestone  && (task.DeadLineDate == null || scheduledDate > task.ScheduledDate)))
+                if (currentTask.DeadLineDate + task.RequierdEffortTime > task.DeadLineDate)
+                    throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
+
+                if (!task.IsMilestone || (task.IsMilestone && (task.DeadLineDate == null || scheduledDate > task.ScheduledDate)))
                 {
-
                     DO.Task updatedTask = task with { ScheduledDate = scheduledDate };
-
                     _dal.Task.Update(updatedTask);
                 }
-                UpdateScheduledDateTime(taskId, idOfEndMilestone, dependenciesList);
 
+                UpdateScheduledDateTime(taskId, idOfEndMilestone, dependenciesList);
             }
         }
-
     }
+
 
     /// <summary>
     /// Checks whether two lists of dependencies are equal.
@@ -495,7 +533,12 @@ public static class Tools
         return true;
     }
 
-    public static void initDateScheduleTime(DateTime start, DateTime end)
+    /// <summary>
+    /// Initializes the start and end dates for project scheduling.
+    /// </summary>
+    /// <param name="start">The start date of the project.</param>
+    /// <param name="end">The end date of the project.</param>
+    public static void InitDateScheduleTime(DateTime start, DateTime end)
     {
         _dal.StartProject = start;
         _dal.EndProject = end;
