@@ -20,13 +20,13 @@ public class MilestoneImplementation : IMilestone
         DateTime? endProject = _dal.EndProject;
         if (startProject != null && endProject != null)
         {
-            List<DO.Dependency > newDependencies = Tools.CreateMileStone(_dal?.Dependency?.ReadAll()?.ToList(), startProject, endProject);
+            List<DO.Dependency > newDependencies = Tools.CreateMileStone(_dal.Dependency.ReadAll().ToList(), startProject, endProject);
             _dal.Dependency.Reset();
             foreach (DO.Dependency depent in newDependencies)
             {
                 _dal.Dependency.Create(depent);
             }
-            Tools.CalculationTimes(_dal.Dependency.ReadAll()?.ToList(), startProject ?? DateTime.Now, endProject??DateTime.Now);
+            Tools.CalculationTimes(_dal.Dependency.ReadAll().ToList(), startProject ?? DateTime.Now, endProject??DateTime.Now);
         }
         else { throw new BlNoDatesForProject("the program is missing a start or end date for the project"); }
 

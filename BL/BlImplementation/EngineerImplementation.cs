@@ -22,7 +22,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <exception cref="BO.BlAlreadyExistsException">Thrown if an engineer with the same ID already exists.</exception>
     public int Create(BO.Engineer boEngineer)
     {
-        if (boEngineer.Name == null || boEngineer.Email == null || boEngineer.Cost == null)
+        if (boEngineer.Name == null || boEngineer.Email == null || boEngineer?.Cost == null)
             throw new BO.BlNullPropertyException("you can not send a null property");
         string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         Regex regex = new Regex(emailPattern);
@@ -109,7 +109,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <exception cref="BO.BlDoesNotExistException">Thrown if the engineer with the specified ID does not exist.</exception>
     public void Update(BO.Engineer boEngineer)
     {
-        if(boEngineer.Name == null || boEngineer.Email == null|| boEngineer.Cost==null)
+        if(boEngineer.Name == null || boEngineer.Email == null|| boEngineer?.Cost ==null)
             throw new BO.BlNullPropertyException("you can not send a null property");
         string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         Regex regex = new Regex(emailPattern);

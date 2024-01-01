@@ -1,5 +1,5 @@
 ﻿
 namespace DalApi;
 using DO;
-public interface ITask : ICrud<Task> { public void Reset(); }
+public interface ITask : ICrud<Task> { }
 

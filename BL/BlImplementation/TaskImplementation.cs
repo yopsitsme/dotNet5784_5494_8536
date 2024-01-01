@@ -80,7 +80,7 @@ public class TaskImplementation : BlApi.ITask
     {
 
         var listTask = _dal.Task.ReadAll()
-                 .Where(doTask=> !doTask.IsMilestone)
+                 .Where(doTask=> doTask?.IsMilestone??false)
                 .Select(doTask => Tools.TaskFromDoToBo(doTask));
         return filter == null ? listTask : listTask.Where(filter);
     }
@@ -91,17 +91,20 @@ public class TaskImplementation : BlApi.ITask
     /// <param name="boTask">The business object representing the task to be updated.</param>
     public void Update(Task boTask)
     {
-        if (boTask.Id < 0 || boTask.Alias == ""|| _dal.Engineer.Read(boTask.Engineer.Id) == null)
+        if (boTask.Id < 0 || boTask.Alias == ""|| _dal.Engineer.Read(boTask?.Engineer?.Id??0) == null)
             throw new BO.InvalidInputException("Invalid input");
         try
         {
-            DO.Task doTask = Tools.TaskfromBoToDo(boTask);
-            _dal.Task.Update(doTask);
+            if (boTask != null)
+            {
+                DO.Task doTask = Tools.TaskfromBoToDo(boTask);
+                _dal.Task.Update(doTask);
+            }
 
         }
         catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlDoesNotExistException($"Task with ID={boTask.Id} already exists", ex);
+            throw new BO.BlDoesNotExistException($"Task with ID={boTask?.Id} already exists", ex);
         }
     }
 

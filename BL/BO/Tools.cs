@@ -74,21 +74,22 @@ public static class Tools
          );
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
 
-        var list = dependencies.GroupBy(d => d.DependentTask).ToList();
+        var list = dependencies.GroupBy(d => d?.DependentTask).ToList();
         var sortedList = list.OrderBy(comparer => comparer.Key);
-        foreach (DO.Task task in _dal.Task.ReadAll())
+        foreach (DO.Task? task in _dal.Task.ReadAll())
         {
-
-            var isTaskIdInList = sortedList.Any(group => group.Any(item => item.DependentTask == task.Id));
-            if (!isTaskIdInList && task.Id != idfirstMilestone)
+            if (task != null)
             {
-                newDependencies.Add(new DO.Dependency()
+                var isTaskIdInList = sortedList.Any(group => group.Any(item => item?.DependentTask == task.Id));
+                if (!isTaskIdInList && task?.Id != idfirstMilestone)
                 {
-                    DependentTask = task.Id,
-                    DependsTask = idfirstMilestone
-                });
+                    newDependencies.Add(new DO.Dependency()
+                    {
+                        DependentTask = task?.Id??0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק אם המשימה null 
+                        DependsTask = idfirstMilestone
+                    });
+                }
             }
-
         }
         foreach (var group in list)
         {
@@ -98,7 +99,7 @@ public static class Tools
 
             foreach (var m in allMilestones)
             {
-                List<DO.Dependency> allDependencies = newDependencies?.Where(d => d!.DependentTask == m.Id)?.ToList();
+                List<DO.Dependency >? allDependencies = newDependencies.Where(d => d.DependentTask == m!.Id)?.ToList();
                 flagExsistMileStone = AreGroupsEqual(allDependencies, group.ToList());
                 if (flagExsistMileStone)
                 {
@@ -121,18 +122,24 @@ public static class Tools
 
                 foreach (var depend in group)
                 {
-                    newDependencies.Add(new DO.Dependency()
+                    if (depend?.DependsTask != null)
                     {
-                        DependentTask = id,
-                        DependsTask = depend.DependsTask
-                    });
+                        newDependencies.Add(new DO.Dependency()
+                        {
+                            DependentTask = id,
+                            DependsTask = depend?.DependsTask ?? 0//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק לפני שהוא לא null
+                        });
+                    }
                 }
             }
-            newDependencies.Add(new DO.Dependency()
+            if (group.Key != null)
             {
-                DependentTask = group.Key,
-                DependsTask = id
-            });
+                newDependencies.Add(new DO.Dependency()
+                {
+                    DependentTask = group.Key ??0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק לפני שהוא לא null
+                    DependsTask = id
+                });
+            }
 
         }
         DO.Task endMilestone = new(
@@ -171,7 +178,7 @@ public static class Tools
         double sum = 0;
         for (int i = 0; i < listTask.Count; i++)
         {
-            sum += (int)listTask[i].Status * 100 / 4;
+            sum += ((int?)listTask[i].Status)==null?0: (int)listTask[i]!.Status! * 100 / 4;
         }
         return sum / listTask.Count;
 
@@ -255,7 +262,7 @@ public static class Tools
             return null;
         var engineerInTask = _dal.Engineer.ReadAll()
                       .Where(e => e!.Id == id)
-                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name }).First();
+                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name??"" }).First();
         return engineerInTask;
     }
 
@@ -368,13 +375,13 @@ public static class Tools
         // Get all properties of the entity using reflection
         PropertyInfo[] properties = typeof(T).GetProperties();
 
-        foreach (PropertyInfo property in properties)
+        foreach (PropertyInfo  property in properties)
         {
             // Check if the property is a collection
             if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))
             {
                 // Handle collections
-                IEnumerable collection = (IEnumerable)property.GetValue(entity);
+                IEnumerable  collection = (IEnumerable)property.GetValue(entity);
                 if (collection != null)
                 {
                     sb.AppendLine($"{property.Name}:");
@@ -403,12 +410,12 @@ public static class Tools
     internal static void CalculationTimes(List<DO.Dependency?> dependencies, DateTime startPro, DateTime stendPro)
     {
         
-        DO.Task? firstMilston = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MStart");
-        int idFirstMilston = firstMilston?.Id??throw new BlDoesNotExistException("start milston doesnt exsist");
-        DO.Task? endMilston = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MEnd");
-        int idEndMilston = endMilston?.Id ?? throw new BlDoesNotExistException("End milston doesnt exsist");
-        UpdateDeadLineDateTime(idEndMilston, idFirstMilston, dependencies);
-        UpdateScheduledDateTime(idFirstMilston, idEndMilston, dependencies);
+        DO.Task? firstMilestone = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MStart");
+        int idFirstMilestone = firstMilestone?.Id??throw new BlDoesNotExistException("start Milestone doesnt exsist");
+        DO.Task? endMilestone = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MEnd");
+        int idEndMilestone = endMilestone?.Id ?? throw new BlDoesNotExistException("End milston doesnt exsist");
+        UpdateDeadLineDateTime(idEndMilestone, idFirstMilestone, dependencies);
+        UpdateScheduledDateTime(idFirstMilestone, idEndMilestone, dependencies);
     }
     /// <summary>
     /// Recursively updates the DeadLineDate property of dependent tasks based on the given task's information.
@@ -489,7 +496,7 @@ public static class Tools
     /// <param name="list1">The first list of dependencies to compare.</param>
     /// <param name="list2">The second list of dependencies to compare.</param>
     /// <returns>True if the lists are equal, false otherwise.</returns>
-    internal static bool AreGroupsEqual(List<DO.Dependency>? list1, List<DO.Dependency>? list2)
+    internal static bool AreGroupsEqual(List<DO.Dependency>? list1, List<DO.Dependency ?> list2)
     {
         // Check if both lists are null
         if (list1 == null && list2 == null)
@@ -517,13 +524,13 @@ public static class Tools
 
         // Sort both lists to ensure the order of elements is the same for comparison
         list1.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
-        list2.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
+        list2.Sort((d1, d2) => d1?.Id??0.CompareTo(d2?.Id));//אם הוא ערך null אז הוא אף פעם לא שווה 
 
         // Compare each element in both lists
         for (int i = 0; i < list1.Count; i++)
         {
             // Return false if any elements are not equal
-            if (list1[i].DependsTask != list2[i].DependsTask)
+            if (list1[i].DependsTask != list2[i]?.DependsTask)
             {
                 return false;
             }
