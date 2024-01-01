@@ -158,7 +158,6 @@ public class Program
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
         DO.Task task = new DO.Task(  0, description, alias,  DateTime.Now ,new TimeSpan(0) ,false);
-        //DO.Task task = new DO.Task {Id=0, Description = description, Alias= alias, IsMilestone= false, CreatedAtDate= DateTime.Now };
         s_dal!.Task.Create(task);
     }
 

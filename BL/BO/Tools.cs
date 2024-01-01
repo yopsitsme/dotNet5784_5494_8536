@@ -61,10 +61,10 @@ public static class Tools
     /// <param name="startPro">Start date of the project.</param>
     /// <param name="endPro">End date of the project.</param>
     /// <returns>List of dependencies representing the created milestone.</returns>
-    internal static List<DO.Dependency> CreateMileStone(List<DO.Dependency ?> dependencies, DateTime? startPro, DateTime? endPro)
+    internal static List<DO.Dependency> CreateMileStone(List<DO.Dependency?> dependencies, DateTime? startPro, DateTime? endPro)
     {
         if (dependencies == null)
-            dependencies = new List<DO.Dependency ?>();
+            dependencies = new List<DO.Dependency?>();
         List<DO.Dependency> newDependencies = new List<DO.Dependency>();
         int count = 0;
 
@@ -91,7 +91,7 @@ public static class Tools
                 {
                     newDependencies.Add(new DO.Dependency()
                     {
-                        DependentTask = task?.Id??0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק אם המשימה null 
+                        DependentTask = task?.Id ?? 0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק אם המשימה null 
                         DependsTask = idfirstMilestone
                     });
                 }
@@ -105,7 +105,7 @@ public static class Tools
 
             foreach (var m in allMilestones)
             {
-                List<DO.Dependency >? allDependencies = newDependencies.Where(d => d.DependentTask == m!.Id)?.ToList();
+                List<DO.Dependency>? allDependencies = newDependencies.Where(d => d.DependentTask == m!.Id)?.ToList();
                 flagExsistMileStone = AreGroupsEqual(allDependencies, group.ToList());
                 if (flagExsistMileStone)
                 {
@@ -142,7 +142,7 @@ public static class Tools
             {
                 newDependencies.Add(new DO.Dependency()
                 {
-                    DependentTask = group.Key ??0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק לפני שהוא לא null
+                    DependentTask = group.Key ?? 0,//אף פעם לא יגיע לאופציה השניה כי יש תנאי שבודק לפני שהוא לא null
                     DependsTask = id
                 });
             }
@@ -157,7 +157,7 @@ public static class Tools
                                       true,
                                       null,
                                          endPro,
-                                         endPro  );
+                                         endPro);
         int idendMilestone = _dal.Task.Create(endMilestone);
 
         var DependonsonEnd = (from DO.Task t in _dal.Task.ReadAll()
@@ -184,7 +184,7 @@ public static class Tools
         double sum = 0;
         for (int i = 0; i < listTask.Count; i++)
         {
-            sum += ((int?)listTask[i].Status)==null?0: (int)listTask[i]!.Status! * 100 / 4;
+            sum += ((int?)listTask[i].Status) == null ? 0 : (int)listTask[i]!.Status! * 100 / 4;
         }
         return sum / listTask.Count;
 
@@ -252,7 +252,7 @@ public static class Tools
             return null;
         var engineerInTask = _dal.Engineer.ReadAll()
                       .Where(e => e!.Id == id)
-                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name??"" }).First();
+                      .Select(en => new EngineerInTask { Id = id ?? 0, Name = en?.Name ?? "" }).First();
         return engineerInTask;
     }
 
@@ -365,13 +365,17 @@ public static class Tools
         // Get all properties of the entity using reflection
         PropertyInfo[] properties = typeof(T).GetProperties();
 
-        foreach (PropertyInfo  property in properties)
+        foreach (PropertyInfo property in properties)
         {
+            if (property.GetValue(entity) == null)
+            {
+                sb.AppendLine($"{property.Name}: null");
+            }
             // Check if the property is a collection
-            if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))
+            else if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))
             {
                 // Handle collections
-                IEnumerable  collection = (IEnumerable)property.GetValue(entity);
+                IEnumerable collection = (IEnumerable)property.GetValue(entity);
                 if (collection != null)
                 {
                     sb.AppendLine($"{property.Name}:");
@@ -384,13 +388,27 @@ public static class Tools
             else
             {
                 // Handle regular properties
-                sb.AppendLine($"{property.Name}: {property.GetValue(entity)}");
+                if (property.PropertyType == typeof(TimeSpan))
+                {
+                    // Special handling for TimeSpan
+                    var timeSpanValue = (TimeSpan)property.GetValue(entity);
+                    sb.AppendLine($"{property.Name}: {FormatTimeSpan(timeSpanValue)}");
+                }
+                else
+                {
+                    sb.AppendLine($"{property.Name}: {property.GetValue(entity)}");
+                }
             }
         }
 
         return sb.ToString();
     }
 
+    private static string FormatTimeSpan(TimeSpan timeSpan)
+    {
+        // Customize the format as needed
+        return $"{timeSpan.Days} days, {timeSpan.Hours} hours, {timeSpan.Minutes} minutes, {timeSpan.Seconds} seconds";
+    }
     /// <summary>
     /// Calculates and updates task deadlines based on project end date.
     /// </summary>
@@ -399,9 +417,9 @@ public static class Tools
     /// <param name="tasks">The list of tasks.</param>
     internal static void CalculationTimes(List<DO.Dependency?> dependencies, DateTime startPro, DateTime stendPro)
     {
-        
+
         DO.Task? firstMilestone = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MStart");
-        int idFirstMilestone = firstMilestone?.Id??throw new BlDoesNotExistException("start Milestone doesnt exsist");
+        int idFirstMilestone = firstMilestone?.Id ?? throw new BlDoesNotExistException("start Milestone doesnt exsist");
         DO.Task? endMilestone = _dal.Task.Read((t) => t.IsMilestone && t.Description == "MEnd");
         int idEndMilestone = endMilestone?.Id ?? throw new BlDoesNotExistException("End milston doesnt exsist");
         UpdateDeadLineDateTime(idEndMilestone, idFirstMilestone, dependencies);
@@ -461,16 +479,19 @@ public static class Tools
                 DO.Task task = _dal.Task.Read(taskId ?? throw new BlNullPropertyException("There is no value")) ?? throw new BlNullPropertyException($"Task with {idOfTask} ID does not exist");
                 DateTime? scheduledDate = currentTask?.ScheduledDate + currentTask?.RequierdEffortTime;
 
-                
+
                 if (currentTask.DeadLineDate + task.RequierdEffortTime > task.DeadLineDate)
                     throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
+                if (scheduledDate > task.DeadLineDate)
+                    throw new BlInvalidDataInTheSchedule("There is not enough time to finish the task");
+
 
                 if (!task.IsMilestone || (task.IsMilestone && (task.ScheduledDate == null || scheduledDate > task.ScheduledDate)))
                 {
                     DO.Task updatedTask = task with { ScheduledDate = scheduledDate };
                     _dal.Task.Update(updatedTask);
                 }
-                
+
 
                 UpdateScheduledDateTime(taskId, idOfEndMilestone, dependenciesList);
             }
@@ -484,7 +505,7 @@ public static class Tools
     /// <param name="list1">The first list of dependencies to compare.</param>
     /// <param name="list2">The second list of dependencies to compare.</param>
     /// <returns>True if the lists are equal, false otherwise.</returns>
-    internal static bool AreGroupsEqual(List<DO.Dependency>? list1, List<DO.Dependency ?> list2)
+    internal static bool AreGroupsEqual(List<DO.Dependency>? list1, List<DO.Dependency?> list2)
     {
         // Check if both lists are null
         if (list1 == null && list2 == null)
@@ -512,7 +533,7 @@ public static class Tools
 
         // Sort both lists to ensure the order of elements is the same for comparison
         list1.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
-        list2.Sort((d1, d2) => d1?.Id??0.CompareTo(d2?.Id));//אם הוא ערך null אז הוא אף פעם לא שווה 
+        list2.Sort((d1, d2) => d1?.Id ?? 0.CompareTo(d2?.Id));//אם הוא ערך null אז הוא אף פעם לא שווה 
 
         // Compare each element in both lists
         for (int i = 0; i < list1.Count; i++)
