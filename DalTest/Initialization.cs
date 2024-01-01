@@ -131,35 +131,37 @@ public static class Initialization
         {
             string[] words = _description.Split(' ');
             string _alias = words[0];
-
             DateTime _create = DateTime.Now.AddDays(-s_rand.Next(0, 50));
-
+            TimeSpan timeSpan = TimeSpan.FromDays(s_rand.Next(10, 50));
             i++;
-            DO.Task newTask = new DO.Task ( 0,  _description, _alias,  _create );
-
-            //DO. Task newTask = new DO.Task{ Id=0,Description= _description, Alias=_alias, CreatedAtDate= _create };
+            DO.Task newTask = new DO.Task ( 0,  _description, _alias,  _create , timeSpan);
             int id = s_dal!.Task.Create(newTask);
         }
 
     }
     private static void creatDependency()
-    {
+    {     
         List<DO.Task?> tasks = s_dal!.Task.ReadAll().ToList();
-        for (int i = 0; i < 40; i++)
+        //for (int i = 0; i < 40; i++)
+        //{
+
+        //    int indexTask1 = s_rand.Next(0, tasks.Count - 1);
+        //    int _dependentTask = tasks[indexTask1]!.Id;
+        //    int indexTask2 = s_rand.Next(0, tasks.Count - 1);
+        //    while (indexTask2 == indexTask1)
+        //    {
+        //        indexTask2 = s_rand.Next(0, tasks.Count - 1);
+        //    }
+        //    int _dependsTask = tasks[indexTask2]!.Id;
+        //    Dependency newDependency = new(0, _dependentTask, _dependsTask);
+        //    int id = s_dal!.Dependency.Create(newDependency);
+        //}
+        for (int i = 0; i < 5; i++) 
         {
-
-            int indexTask1 = s_rand.Next(0, tasks.Count - 1);
-            int _dependentTask = tasks[indexTask1]!.Id;
-            int indexTask2 = s_rand.Next(0, tasks.Count - 1);
-            while (indexTask2 == indexTask1)
-            {
-                indexTask2 = s_rand.Next(0, tasks.Count - 1);
-            }
-            int _dependsTask = tasks[indexTask2]!.Id;
-            Dependency newDependency = new(0, _dependentTask, _dependsTask);
+             Dependency newDependency = new(0, i , i+5 );
             int id = s_dal!.Dependency.Create(newDependency);
-
         }
+
     }
 
     public static void Do() //stage 4
