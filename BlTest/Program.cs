@@ -18,7 +18,6 @@ internal class Program
    
    static void Main(string[] args)
     {
-        Tools.ressss();
         try
         {
          
