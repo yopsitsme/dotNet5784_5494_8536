@@ -73,9 +73,10 @@ public class MilestoneImplementation : IMilestone
         { throw new BO.InvalidInputException("InvalidInput"); }
 
         DO.Task? task = _dal.Task.Read(id);
-        DO.Task? newTask= task with { Alias=alias,Description=description, Remarks=remarks };
         if (task == null)
             throw new BO.BlDoesNotExistException($"DoesNotExist milestone whith{id}");
+        DO.Task? newTask = task with { Alias = alias, Description = description, Remarks = remarks };
+
         _dal.Task.Update(newTask);
 
         return new BO.Milestone();
