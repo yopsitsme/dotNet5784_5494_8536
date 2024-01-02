@@ -27,6 +27,7 @@ public class MilestoneImplementation : IMilestone
                 _dal.Dependency.Create(depent);
             }
             Tools.CalculationTimes(_dal.Dependency.ReadAll().ToList(), startProject ?? DateTime.Now, endProject??DateTime.Now);
+            Tools.significantNames();
         }
         else { throw new BlNoDatesForProject("the program is missing a start or end date for the project"); }
       
@@ -72,8 +73,11 @@ public class MilestoneImplementation : IMilestone
         { throw new BO.InvalidInputException("InvalidInput"); }
 
         DO.Task? task = _dal.Task.Read(id);
+        DO.Task? newTask= task with { Alias=alias,Description=description, Remarks=remarks };
         if (task == null)
             throw new BO.BlDoesNotExistException($"DoesNotExist milestone whith{id}");
+        _dal.Task.Update(newTask);
+
         return new BO.Milestone();
     }
 

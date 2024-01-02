@@ -14,12 +14,6 @@ public static class Tools
 {
     private static DalApi.IDal _dal = DalApi.Factory.Get;
     static BlApi.IBl s_bl = BlApi.Factory.Get();
-    public static void ressss()
-    {
-        _dal.Dependency.Reset();
-        _dal.Task.Reset();
-        _dal.Engineer.Reset();
-    }
     // <summary>
     /// Retrieves a list of dependent tasks for a given task ID.
     /// </summary>
@@ -558,6 +552,21 @@ public static class Tools
     {
         _dal.StartProject = start;
         _dal.EndProject = end;
+    }
+    public  static void significantNames()
+    {
+        var a = _dal.Task.ReadAll(t=> t.IsMilestone).ToList();
+        foreach (var t in a)
+        {
+           var depndents = depndentTesks(t?.Id??0);
+            string newAlias = "";
+            foreach (var s in depndents)
+            {
+                newAlias += s.Ailas;
+            }
+            s_bl.Milestone.Update(t?.Id??0, newAlias==""?t!.Alias: newAlias, t?.Description??"",t?.Remarks);
+           
+        }
     }
 
 }

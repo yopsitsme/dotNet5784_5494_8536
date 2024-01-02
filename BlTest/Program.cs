@@ -27,24 +27,7 @@ internal class Program
             {
                 Initialization.Do();
             }
-            try
-            {
-                Console.WriteLine("Enter the programs start date and time (yyyy-MM-dd):");
-                string ? userInput = Console.ReadLine();
-                if (!(DateTime.TryParse(userInput, out DateTime startDateTime) && startDateTime > DateTime.Now))
-                    throw new InvalidInputException("Invalid date format or date must be later than the current date.");
-                Console.WriteLine("Enter the programs end date and time (yyyy-MM-dd):");
-                 userInput = Console.ReadLine();
-                if (!(DateTime.TryParse(userInput, out DateTime endDateTime) && startDateTime > DateTime.Now))
-                    throw new InvalidInputException("Invalid date format or date must be later than the current date.");
-                if (startDateTime > endDateTime)
-                    throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
-                Tools.InitDateScheduleTime(startDateTime, endDateTime);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+        
 
             DisplayMainMenu();
         }
@@ -555,6 +538,24 @@ internal class Program
     //}
     static void createMilestones()
     {
+        try
+        {
+            Console.WriteLine("Enter the programs start date and time (yyyy-MM-dd):");
+            string? userInput = Console.ReadLine();
+            if (!(DateTime.TryParse(userInput, out DateTime startDateTime) && startDateTime > DateTime.Now))
+                throw new InvalidInputException("Invalid date format or date must be later than the current date.");
+            Console.WriteLine("Enter the programs end date and time (yyyy-MM-dd):");
+            userInput = Console.ReadLine();
+            if (!(DateTime.TryParse(userInput, out DateTime endDateTime) && startDateTime > DateTime.Now))
+                throw new InvalidInputException("Invalid date format or date must be later than the current date.");
+            if (startDateTime > endDateTime)
+                throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
+            Tools.InitDateScheduleTime(startDateTime, endDateTime);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
         s_bl.Milestone.Create();
     }
     static void readMilestone()
