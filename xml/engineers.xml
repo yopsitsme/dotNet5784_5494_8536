@@ -42,4 +42,46 @@
     <Level>Competent</Level>
     <Cost>157.2</Cost>
   </Engineer>
+  <Engineer>
+    <Id>259244457</Id>
+    <Name>Dani Levi</Name>
+    <Email>259244457@gmail.com</Email>
+    <Level>Competent</Level>
+    <Cost>93.6</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>269434782</Id>
+    <Name>Eli Amar</Name>
+    <Email>269434782@gmail.com</Email>
+    <Level>Competent</Level>
+    <Cost>156</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>261595944</Id>
+    <Name>Yair Cohen</Name>
+    <Email>261595944@gmail.com</Email>
+    <Level>Novice</Level>
+    <Cost>106.8</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>362413868</Id>
+    <Name>Ariela Levin</Name>
+    <Email>362413868@gmail.com</Email>
+    <Level>Proficient</Level>
+    <Cost>98.4</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>267786613</Id>
+    <Name>Dina Klein</Name>
+    <Email>267786613@gmail.com</Email>
+    <Level>Proficient</Level>
+    <Cost>123.6</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>240704899</Id>
+    <Name>Shira Israelof</Name>
+    <Email>240704899@gmail.com</Email>
+    <Level>Competent</Level>
+    <Cost>153.6</Cost>
+  </Engineer>
 </ArrayOfEngineer>
