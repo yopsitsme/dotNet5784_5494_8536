@@ -4,7 +4,7 @@ using BO;
 namespace BlImplementation;
 
 // Business logic implementation class that implements the IBl interface.
-internal class Bl : IBl
+public class Bl : IBl
 {
     // Property to access the engineer-related functionality in the system.
     public IEngineer Engineer => new EngineerImplementation();
@@ -14,4 +14,9 @@ internal class Bl : IBl
 
     // Property to access the task-related functionality in the system.
     public ITask Task => new TaskImplementation();
+    //a function that inits the data base
+    public void InitializeDB() => DalTest.Initialization.Do();
+    //a function that resets the all data base
+    public void ResetDB() => DalTest.Initialization.Reset();
+
 }

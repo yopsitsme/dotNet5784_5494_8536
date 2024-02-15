@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Engineer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,18 +21,35 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public MainWindow()
         {
             InitializeComponent();
         }
 
+     
+
+        private void clickHandelEngineer(object sender, RoutedEventArgs e)
+        {
+            new EngineerListWindow().Show();
+        }
         private void clickInitDb(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("are you sure you want to init db ", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                DalTest.Initialization.Do();
+                s_bl.InitializeDB();
 
+            }
+        }
+
+
+        private void clickResetDb(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("are you sure you want to reset db ", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                s_bl.ResetDB();
             }
         }
     }

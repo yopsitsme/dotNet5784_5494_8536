@@ -19,7 +19,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="3" Click="clickInitDb" FontWeight="Bold" FontSize="40" Content="init DB"></Button>
+            <Button Grid.Column="0" Click="clickHandelEngineer"  Content="handel engineer"></Button>
+            <Button Grid.Column="2" Click="clickResetDb" Content="reset DB"></Button>
+            <Button Grid.Column="3" Click="clickInitDb" Content="init DB"></Button>
         </Grid>
     </Grid>
 </Window>

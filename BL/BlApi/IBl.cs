@@ -11,4 +11,7 @@ public interface IBl
 
     // Gets the interface for managing tasks in the system.
     public ITask Task { get; }
+
+    public void InitializeDB();
+    public void ResetDB();
 }

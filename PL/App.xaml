@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:EngineerExperienceCollection x:Key="EngineerExperienceCollectionKey" />
+        <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
+        <local:ConvertIdToIsEnabled x:Key="ConverIdToIsEnabledKey"/>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"  Value ="32"/>
+            <Setter Property="FontWeight"  Value ="Bold"/>
+        </Style>
     </Application.Resources>
 </Application>

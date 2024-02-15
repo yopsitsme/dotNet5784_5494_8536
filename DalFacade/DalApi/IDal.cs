@@ -10,6 +10,5 @@ public interface IDal
     //IDate ProjectDate { get; }
     
     DateTime? StartProject { get;  set; }
-    DateTime? EndProject { get; set; }
-    
+    DateTime? EndProject { get; set; }    
 }

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Implementation of the <see cref="IEngineer"/> interface providing operations for engineers.
 /// </summary>
-internal class EngineerImplementation : BlApi.IEngineer
+public class EngineerImplementation : BlApi.IEngineer
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
     /// <summary>

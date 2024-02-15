@@ -3,13 +3,13 @@ namespace BO;
 
 // decleration of EngineerExperience‏ enum
 public enum EngineerExperience‏
-
 {
     Novice,
     AdvancedBeginner,
     Competent,
     Proficient,
-    Expert
+    Expert,
+    All
 }
 public enum Status
 {
