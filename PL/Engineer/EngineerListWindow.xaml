@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 <!--סינון לפי רמת מהנדס -->
-            <Label Grid.Column="0"/>
+            <Label Grid.Column="0" Content="sortetd by"/>
             <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
                       SelectedValue="{Binding experience, Mode=TwoWay}"
                       SelectionChanged="sortByEngineerExperience"

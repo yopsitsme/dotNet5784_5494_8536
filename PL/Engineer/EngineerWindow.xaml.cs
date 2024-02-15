@@ -59,12 +59,13 @@ public partial class EngineerWindow : Window
                 s_bl.Engineer.Update(ContentEngineer);
                 MessageBox.Show("Engineer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            this.Close();
         }
         catch (Exception ex)
         {
             MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-            this.Close();
+           
     }
 
 }

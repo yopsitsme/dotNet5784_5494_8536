@@ -20,43 +20,42 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Id -->
         <Label Grid.Column="0" Grid.Row="0" Content="Id:"/>
-        <TextBox Text="{Binding ContentEngineer.Id,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Id,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
          Grid.Column="1" Grid.Row="0"
-                 IsEnabled="{Binding ContentEngineer.Id ,Mode=OneTime,Converter={StaticResource ConverIdToIsEnabledKey}}"/>
+                 IsEnabled="{Binding Id ,Mode=OneTime,Converter={StaticResource ConverIdToIsEnabledKey}}"/>
 
         <!-- Name -->
         <Label Grid.Column="0" Grid.Row="1" Content="Name:"/>
-        <TextBox Text="{Binding ContentEngineer.Name,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Name,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
                  Grid.Column="1" Grid.Row="1"/>
 
         <!-- Email -->
         <Label Grid.Column="0" Grid.Row="2" Content="Email:"/>
-        <TextBox Text="{Binding ContentEngineer.Email,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Email,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
             Grid.Column="1" Grid.Row="2"/>
 
         <!-- Level -->
         <Label Grid.Column="0" Grid.Row="3" Content="Level:"/>
         <ComboBox Grid.Column="1" Grid.Row="3" 
             ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
-                  SelectedValue="{Binding ContentEngineer.Level, Mode=TwoWay, NotifyOnValidationError=true, 
+                  SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=true, 
 ValidatesOnExceptions=true}"
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <!-- Cost -->
         <Label Grid.Column="0" Grid.Row="4" Content="Cost:"/>
-        <TextBox Text="{Binding ContentEngineer.Cost,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
+        <TextBox Text="{Binding Cost,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
             Grid.Column="1" Grid.Row="4"/>
 
         <!-- Save Button -->
         <Button
-            Content="{Binding ContentEngineer.Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}"
+            Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}"
             Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" 
-            Click="save_click"
-            />
+            Click="save_click" />
     </Grid>
 </Window>

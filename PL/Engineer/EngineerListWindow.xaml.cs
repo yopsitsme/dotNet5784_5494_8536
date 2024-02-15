@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,13 @@ public partial class EngineerListWindow : Window
     public EngineerListWindow()
     {
         InitializeComponent();
-        EngineerList = s_bl?.Engineer.ReadAll()!;
+        EngineerList = new ObservableCollection<BO.Engineer>( s_bl?.Engineer.ReadAll())!;
 
     }
 
-    public IEnumerable<BO.Engineer> EngineerList
+    public ObservableCollection<BO.Engineer> EngineerList
     {
-        get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
+        get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
         set { SetValue(EngineerListProperty, value); }
     }
 
@@ -40,8 +41,8 @@ public partial class EngineerListWindow : Window
 
     private void sortByEngineerExperience(object sender, SelectionChangedEventArgs e)
     {
-        EngineerList = (experience == BO.EngineerExperience.All) ?
-s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level == experience)!;
+        EngineerList = new ObservableCollection<BO.Engineer>((experience == BO.EngineerExperience.All) ?
+s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level == experience)!);
 
     }
 
