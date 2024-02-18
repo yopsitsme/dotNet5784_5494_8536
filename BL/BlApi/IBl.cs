@@ -9,6 +9,8 @@ public interface IBl
     // Gets the interface for managing milestones in the system.
     public IMilestone Milestone { get; }
 
+    public IMilestoneInList MilestoneInList { get; }
+
     // Gets the interface for managing tasks in the system.
     public ITask Task { get; }
 

@@ -12,12 +12,14 @@ public class EngineerExperienceCollection : IEnumerable
 {
     static readonly IEnumerable<BO.EngineerExperience> e_enums =
 (Enum.GetValues(typeof(BO.EngineerExperience)) as IEnumerable<BO.EngineerExperience>)!;
-
-
-    //    {
-    //    static readonly IEnumerable e_enums = Enum.GetValues(typeof(BO.EngineerExperience));
-
     public IEnumerator GetEnumerator() => e_enums.GetEnumerator();
 }
 
+
+public class Status : IEnumerable
+{
+    static readonly IEnumerable<BO.Status> s_enums =
+(Enum.GetValues(typeof(BO.Status)) as IEnumerable<BO.Status>)!;
+    public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
+}
 
