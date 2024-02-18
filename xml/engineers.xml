@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Engineer>
-    <Id>254153282</Id>
-    <Name>Eli Amar</Name>
-    <Email>254153282@gmail.com</Email>
-    <Level>Novice</Level>
-    <Cost>91.19999999999999</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>337312195</Id>
-    <Name>Yair Cohen</Name>
-    <Email>337312195@gmail.com</Email>
-    <Level>Novice</Level>
-    <Cost>145.2</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>324124812</Id>
-    <Name>Ariela Levin</Name>
-    <Email>324124812@gmail.com</Email>
-    <Level>AdvancedBeginner</Level>
-    <Cost>158.4</Cost>
-  </Engineer>
-  <Engineer>
     <Id>391828792</Id>
     <Name>Dina Klein</Name>
     <Email>391828792@gmail.com</Email>
@@ -83,5 +62,40 @@
     <Email>370802421@gmail.com</Email>
     <Level>AdvancedBeginner</Level>
     <Cost>166.8</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>0</Id>
+    <Name>tzipi</Name>
+    <Email>tz@gmail.com</Email>
+    <Level>AdvancedBeginner</Level>
+    <Cost>0</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>74154226</Id>
+    <Name>cp</Name>
+    <Email>cp@gmail.com</Email>
+    <Level>Proficient</Level>
+    <Cost>852</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>254153282</Id>
+    <Name>Eli A</Name>
+    <Email>254153282@gmail.com</Email>
+    <Level>Novice</Level>
+    <Cost>91</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>337312195</Id>
+    <Name>Yair Co</Name>
+    <Email>337312195@gmail.com</Email>
+    <Level>Novice</Level>
+    <Cost>145.2</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>324124812</Id>
+    <Name>Ariela </Name>
+    <Email>324124812@gmail.com</Email>
+    <Level>AdvancedBeginner</Level>
+    <Cost>158.4</Cost>
   </Engineer>
 </ArrayOfEngineer>

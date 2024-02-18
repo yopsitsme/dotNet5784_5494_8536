@@ -27,7 +27,6 @@ public partial class EngineerListWindow : Window
     {
         InitializeComponent();
         EngineerList = new ObservableCollection<BO.Engineer>( s_bl?.Engineer.ReadAll())!;
-
     }
 
     public ObservableCollection<BO.Engineer> EngineerList
@@ -48,7 +47,7 @@ s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level == experie
 
     private void AddEngineer_click(object sender, RoutedEventArgs e)
     {
-        new EngineerWindow().ShowDialog();
+        new EngineerWindow(EngineerList).ShowDialog();
     }
 
     private void Engineer_dubbleClick(object sender, MouseButtonEventArgs e)
@@ -56,7 +55,7 @@ s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level == experie
         BO.Engineer? EngineerInList = (sender as ListView)?.SelectedItem as BO.Engineer;
         if (EngineerInList != null)
         {
-            EngineerWindow ew= new EngineerWindow(EngineerInList.Id);
+            EngineerWindow ew= new EngineerWindow(EngineerList, EngineerInList.Id);
             ew.ShowDialog();
         }
 
