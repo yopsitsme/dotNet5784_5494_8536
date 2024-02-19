@@ -21,13 +21,13 @@ namespace PL.UserEngineer
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-        public string TaskTitle;
-        public string TaskDescription;  
+        public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }  
         public userEngineerWindow(int id)
         {
            BO.Engineer e= s_bl.Engineer.Read(id);
-            TaskTitle = (e.Task?.Id).ToString() ?? "no task";
-            TaskDescription = e.Task?.Alias ?? "no task";
+            TaskTitle = e.Task == null ? "no task" :( e.Task.Id).ToString();
+            TaskDescription = e.Task == null ? "no task" : (e.Task.Alias).ToString();
             InitializeComponent();
 
         }
