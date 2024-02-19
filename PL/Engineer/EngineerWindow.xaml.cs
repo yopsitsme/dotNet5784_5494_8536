@@ -15,90 +15,89 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer
+namespace PL.Engineer;
+
+/// <summary>
+/// Window class for creating/updating engineers in a WPF application.
+/// </summary>
+public partial class EngineerWindow : Window
 {
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
+    static int idState = 0;
+    public ObservableCollection<BO.Engineer> engineerList = null; // List of engineers
+
     /// <summary>
-    /// Window class for creating/updating engineers in a WPF application.
+    /// Dependency property representing the content engineer being displayed or edited.
     /// </summary>
-    public partial class EngineerWindow : Window
+    public BO.Engineer ContentEngineer
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
-        static int idState = 0;
-        public ObservableCollection<BO.Engineer> engineerList = null; // List of engineers
+        get { return (BO.Engineer)GetValue(EngineerProperty); }
+        set { SetValue(EngineerProperty, value); }
+    }
 
-        /// <summary>
-        /// Dependency property representing the content engineer being displayed or edited.
-        /// </summary>
-        public BO.Engineer ContentEngineer
+    public static readonly DependencyProperty EngineerProperty =
+        DependencyProperty.Register("ContentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
+
+    /// <summary>
+    /// Constructor for EngineerWindow.
+    /// </summary>
+    /// <param name="listEngineer">ObservableCollection of Engineer objects.</param>
+    /// <param name="Id">Optional parameter for engineer ID.</param>
+    public EngineerWindow(ObservableCollection<BO.Engineer> listEngineer, int Id = 0)
+    {
+        InitializeComponent();
+        engineerList = listEngineer;
+        if (Id == 0)
         {
-            get { return (BO.Engineer)GetValue(EngineerProperty); }
-            set { SetValue(EngineerProperty, value); }
+            ContentEngineer = new BO.Engineer();
         }
-
-        public static readonly DependencyProperty EngineerProperty =
-            DependencyProperty.Register("ContentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Constructor for EngineerWindow.
-        /// </summary>
-        /// <param name="listEngineer">ObservableCollection of Engineer objects.</param>
-        /// <param name="Id">Optional parameter for engineer ID.</param>
-        public EngineerWindow(ObservableCollection<BO.Engineer> listEngineer, int Id = 0)
+        else
         {
-            InitializeComponent();
-            engineerList = listEngineer;
-            if (Id == 0)
+            ContentEngineer = s_bl.Engineer.Read(Id);
+            idState = Id;
+        }
+    }
+
+    /// <summary>
+    /// Event handler for the save button click event.
+    /// </summary>
+    private void save_click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (idState == 0)
             {
-                ContentEngineer = new BO.Engineer();
+                // Creating a new engineer
+                s_bl.Engineer.Create(ContentEngineer);
+                engineerList.Add(ContentEngineer);
+                MessageBox.Show("Engineer created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                ContentEngineer = s_bl.Engineer.Read(Id);
-                idState = Id;
+                // Updating an existing engineer
+                s_bl.Engineer.Update(ContentEngineer);
+                BO.Engineer engineerToUpdate = engineerList.First(e => e.Id == idState);
+                engineerList.Remove(engineerToUpdate);
+                engineerList.Add(ContentEngineer);
+                MessageBox.Show("Engineer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            this.Close();
         }
-
-        /// <summary>
-        /// Event handler for the save button click event.
-        /// </summary>
-        private void save_click(object sender, RoutedEventArgs e)
+        catch (BlNullPropertyException ex)
         {
-            try
-            {
-                if (idState == 0)
-                {
-                    // Creating a new engineer
-                    s_bl.Engineer.Create(ContentEngineer);
-                    engineerList.Add(ContentEngineer);
-                    MessageBox.Show("Engineer created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    // Updating an existing engineer
-                    s_bl.Engineer.Update(ContentEngineer);
-                    BO.Engineer engineerToUpdate = engineerList.First(e => e.Id == idState);
-                    engineerList.Remove(engineerToUpdate);
-                    engineerList.Add(ContentEngineer);
-                    MessageBox.Show("Engineer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                this.Close();
-            }
-            catch (BlNullPropertyException ex)
-            {
-                MessageBox.Show($"You must fill in name, email, and cost", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (InvalidInputException ex)
-            {
-                MessageBox.Show($"Invalid input: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (BlAlreadyExistsException ex)
-            {
-                MessageBox.Show($"An engineer with such ID already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            MessageBox.Show($"You must fill in name, email, and cost", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (InvalidInputException ex)
+        {
+            MessageBox.Show($"Invalid input: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (BlAlreadyExistsException ex)
+        {
+            MessageBox.Show($"An engineer with such ID already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
