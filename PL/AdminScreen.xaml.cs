@@ -1,4 +1,5 @@
 ﻿using PL.Engineer;
+using PL.Milestone;
 using PL.task;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,7 @@ public partial class AdminScreen : Window
 
     private void click_milestones(object sender, RoutedEventArgs e)
     {
-
+      var s=  new MilestoneListWindow();
+        s.Show();
     }
 }

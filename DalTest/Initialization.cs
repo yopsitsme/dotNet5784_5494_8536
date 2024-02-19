@@ -184,9 +184,9 @@ public static class Initialization
     }
     public static void Reset() //stage 5
     {
-        s_dal!.Dependency.Reset();
-        s_dal.Task.Reset();
-        s_dal.Engineer.Reset();
+        s_dal?.Dependency?.Reset();
+        s_dal?.Task?.Reset();
+        s_dal?.Engineer?.Reset();
     }
 
 }

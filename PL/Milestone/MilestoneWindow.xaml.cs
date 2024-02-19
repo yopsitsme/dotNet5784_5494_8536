@@ -24,7 +24,7 @@ public partial class MilestoneWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     static int idState = 0;
-    public ObservableCollection<BO.Milestone> milestoneList = null; // List of engineers
+    public ObservableCollection<BO.MilestoneInList> milestoneList = null; // List of engineers
     public BO.Milestone ContentMilestone
     {
         get { return (BO.Milestone)GetValue(MilestoneProperty); }
@@ -39,6 +39,7 @@ public partial class MilestoneWindow : Window
         if (Id == 0)
         {
             ContentMilestone = new BO.Milestone();
+            milestoneList = listMilestone;
         }
         else
         {
@@ -53,25 +54,25 @@ public partial class MilestoneWindow : Window
         {
             if (idState == 0)
             {
-                // Creating a new engineer
-                s_bl.Milestone.Create(ContentMilestone);
-                milestoneList.Add(ContentMilestone);
+                //  s_bl.Milestone.Create(ContentMilestone);
+                BO.MilestoneInList milestoneToAdd = Tools.fromMilestoneToMilestoneInList(ContentMilestone);
+                milestoneList.Add(milestoneToAdd);
                 MessageBox.Show("Engineer created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                // Updating an existing engineer
-                s_bl.Milestone.Update(ContentMilestone);
-                BO.Milestone engineerToUpdate = milestoneList.First(m => m.Id == idState);
-                milestoneList.Remove(ContentMilestone);
-                milestoneList.Add(ContentMilestone);
+                s_bl.Milestone.Update(ContentMilestone.Id, ContentMilestone.Alias, ContentMilestone.Description, ContentMilestone.Remarks);
+                BO.MilestoneInList MilestoneToUpdate = milestoneList.First(m => m.Id == idState);
+                milestoneList.Remove(MilestoneToUpdate);
+                BO.MilestoneInList milestoneToAdd = Tools.fromMilestoneToMilestoneInList(ContentMilestone);
+                milestoneList.Add(milestoneToAdd);
                 MessageBox.Show("Engineer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             this.Close();
         }
         catch (BlNullPropertyException ex)
         {
-            MessageBox.Show($"You must fill in name, email, and cost", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"You must fill in ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (InvalidInputException ex)
         {
@@ -79,7 +80,7 @@ public partial class MilestoneWindow : Window
         }
         catch (BlAlreadyExistsException ex)
         {
-            MessageBox.Show($"An engineer with such ID already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+          //  MessageBox.Show($"An engineer with such ID already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception ex)
         {

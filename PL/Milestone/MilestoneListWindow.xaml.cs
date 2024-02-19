@@ -20,7 +20,7 @@ namespace PL.Milestone;
 /// <summary>
 /// Interaction logic for MailStoneListWindow.xaml
 /// </summary>
-public partial class MilestoneListWindow : Page
+public partial class MilestoneListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     public BO.Status status { get; set; } = BO.Status.All; // Engineer experience level

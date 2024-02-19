@@ -581,7 +581,11 @@ internal static BO.MilestoneInList fromDoTaskToMilestonInList(DO.Task task)
 
         }
     }
-
+    public static MilestoneInList fromMilestoneToMilestoneInList(Milestone m)
+    {
+        MilestoneInList newMilestoneInList = new() { Id = m.Id , Description=m.Description,Ailas=m.Alias, Status=m.Status, CompletionPercentage=m.CompletionPercentage };
+        return newMilestoneInList;
+    }
 }
 
 

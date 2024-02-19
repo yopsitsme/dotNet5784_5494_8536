@@ -15,4 +15,5 @@ public class MilestoneInList
     public double? CompletionPercentage { get; set; }
     public override string ToString() => this.ToStringProperty();
 
+
 }

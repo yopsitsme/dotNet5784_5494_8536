@@ -5,7 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:EngineerExperienceCollection x:Key="EngineerExperienceCollectionKey" />
-        <!--<local:StatusCollection x:Key="StatusCollectionKey" />-->
+        <local:StatusCollection x:Key="StatusCollectionKey" />
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToIsEnabled x:Key="ConverIdToIsEnabledKey"/>
         <local:ConvertcreateSToVisible x:Key="ConvertcreateSToVisiblekey"/>
