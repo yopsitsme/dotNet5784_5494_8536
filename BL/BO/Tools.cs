@@ -204,6 +204,18 @@ public static class Tools
            boTask.ComplexityLevel == null ? null : (DO.EngineerExperience)boTask.ComplexityLevel
         );
     }
+internal static BO.MilestoneInList fromDoTaskToMilestonInList(DO.Task task)
+    {
+        return new BO.MilestoneInList
+        {
+            Id = task.Id,
+            Description = task.Description,
+            Ailas = task.Alias,
+            Status = Tools.myStatus(task),
+            CompletionPercentage = Tools.completionPercentage(Tools.depndentTesks(task.Id))
+        };
+    }
+
     /// <summary>
     /// Converts a data object representation of a task to a business object representation.
     /// </summary>

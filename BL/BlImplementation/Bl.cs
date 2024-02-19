@@ -12,6 +12,8 @@ public class Bl : IBl
     // Property to access the milestone-related functionality in the system.
     public IMilestone Milestone => new MilestoneImplementation();
 
+    public IMilestoneInList MilestoneInList => new MilestoneInListImplementation();
+
     // Property to access the task-related functionality in the system.
     public ITask Task => new TaskImplementation();
     //a function that inits the data base

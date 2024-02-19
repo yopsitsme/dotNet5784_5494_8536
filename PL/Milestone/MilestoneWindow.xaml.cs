@@ -1,5 +1,5 @@
-﻿using BO; // Business Objects
-using DO; // Data Objects
+﻿using BO;
+using PL.Engineer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,52 +15,38 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer;
+namespace PL.Milestone;
 
 /// <summary>
-/// Window class for creating/updating engineers in a WPF application.
+/// Interaction logic for MilestoneWindow.xaml
 /// </summary>
-public partial class EngineerWindow : Window
+public partial class MilestoneWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     static int idState = 0;
-    public ObservableCollection<BO.Engineer> engineerList = null; // List of engineers
-
-    /// <summary>
-    /// Dependency property representing the content engineer being displayed or edited.
-    /// </summary>
-    public BO.Engineer ContentEngineer
+    public ObservableCollection<BO.Milestone> milestoneList = null; // List of engineers
+    public BO.Milestone ContentMilestone
     {
-        get { return (BO.Engineer)GetValue(EngineerProperty); }
-        set { SetValue(EngineerProperty, value); }
+        get { return (BO.Milestone)GetValue(MilestoneProperty); }
+        set { SetValue(MilestoneProperty, value); }
     }
 
-    public static readonly DependencyProperty EngineerProperty =
-        DependencyProperty.Register("ContentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
-
-    /// <summary>
-    /// Constructor for EngineerWindow.
-    /// </summary>
-    /// <param name="listEngineer">ObservableCollection of Engineer objects.</param>
-    /// <param name="Id">Optional parameter for engineer ID.</param>
-    public EngineerWindow(ObservableCollection<BO.Engineer> listEngineer, int Id = 0)
+    public static readonly DependencyProperty MilestoneProperty =
+        DependencyProperty.Register("ContentMilestone", typeof(BO.Milestone), typeof(MilestoneWindow), new PropertyMetadata(null));
+    public MilestoneWindow(ObservableCollection<BO.MilestoneInList> listMilestone, int Id = 0)
     {
         InitializeComponent();
-        engineerList = listEngineer;
         if (Id == 0)
         {
-            ContentEngineer = new BO.Engineer();
+            ContentMilestone = new BO.Milestone();
         }
         else
         {
-            ContentEngineer = s_bl.Engineer.Read(Id);
+            ContentMilestone = s_bl.Milestone.Read(Id);
             idState = Id;
         }
     }
 
-    /// <summary>
-    /// Event handler for the save button click event.
-    /// </summary>
     private void save_click(object sender, RoutedEventArgs e)
     {
         try
@@ -68,17 +54,17 @@ public partial class EngineerWindow : Window
             if (idState == 0)
             {
                 // Creating a new engineer
-                s_bl.Engineer.Create(ContentEngineer);
-                engineerList.Add(ContentEngineer);
+                s_bl.Milestone.Create(ContentMilestone);
+                milestoneList.Add(ContentMilestone);
                 MessageBox.Show("Engineer created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 // Updating an existing engineer
-                s_bl.Engineer.Update(ContentEngineer);
-                BO.Engineer engineerToUpdate = engineerList.First(e => e.Id == idState);
-                engineerList.Remove(engineerToUpdate);
-                engineerList.Add(ContentEngineer);
+                s_bl.Milestone.Update(ContentMilestone);
+                BO.Milestone engineerToUpdate = milestoneList.First(m => m.Id == idState);
+                milestoneList.Remove(ContentMilestone);
+                milestoneList.Add(ContentMilestone);
                 MessageBox.Show("Engineer updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             this.Close();
