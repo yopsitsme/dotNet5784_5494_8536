@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-          <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="3">
@@ -19,9 +19,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Click="clickHandelEngineer"  Content="handel engineer"></Button>
-            <Button Grid.Column="2" Click="clickResetDb" Content="reset DB"></Button>
-            <Button Grid.Column="3" Click="clickInitDb" Content="init DB"></Button>
+            <Button Grid.Column="0" Click="click_EngineerEntry"  Content="Engineer"></Button>
+            <Button Grid.Column="3" Click="click_AdminEntry"  Content="Admin"></Button>
+
+
         </Grid>
+        <TextBlock Text=" helo" FontSize="45" Grid.Row="1"/>
+
     </Grid>
 </Window>

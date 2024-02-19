@@ -1,10 +1,5 @@
-﻿
-
-using BlApi;
-using DalApi;
-using System;
+﻿using System.Collections;
 using System.Reflection;
-using System.Collections;
 using System.Text;
 namespace BO;
 /// <summary>
@@ -548,24 +543,30 @@ public static class Tools
     /// </summary>
     /// <param name="start">The start date of the project.</param>
     /// <param name="end">The end date of the project.</param>
-    public static void InitDateScheduleTime(DateTime start, DateTime end)
+    public static void InitDateScheduleTime(DateTime startDateTime, DateTime endDateTime)
     {
-        _dal.StartProject = start;
-        _dal.EndProject = end;
+        if (startDateTime < DateTime.Now)
+            throw new InvalidInputException(" date must be later than the current date.");
+        if (endDateTime < DateTime.Now)
+            throw new InvalidInputException(" date must be later than the current date.");
+        if (startDateTime > endDateTime)
+            throw new InvalidInputException(" the endDateTime smaller then the startDateTime");
+        _dal.StartProject = startDateTime;
+        _dal.EndProject = endDateTime;
     }
-    public  static void significantNames()
+    public static void significantNames()
     {
-        var a = _dal.Task.ReadAll(t=> t.IsMilestone).ToList();
+        var a = _dal.Task.ReadAll(t => t.IsMilestone).ToList();
         foreach (var t in a)
         {
-           var depndents = depndentTesks(t?.Id??0);
+            var depndents = depndentTesks(t?.Id ?? 0);
             string newAlias = "";
             foreach (var s in depndents)
             {
                 newAlias += s.Ailas;
             }
-            s_bl.Milestone.Update(t?.Id??0, newAlias==""?t!.Alias: newAlias, t?.Description??"",t?.Remarks);
-           
+            s_bl.Milestone.Update(t?.Id ?? 0, newAlias == "" ? t!.Alias : newAlias, t?.Description ?? "", t?.Remarks);
+
         }
     }
 

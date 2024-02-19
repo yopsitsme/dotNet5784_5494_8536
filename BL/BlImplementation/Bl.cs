@@ -18,5 +18,6 @@ public class Bl : IBl
     public void InitializeDB() => DalTest.Initialization.Do();
     //a function that resets the all data base
     public void ResetDB() => DalTest.Initialization.Reset();
+    
 
 }

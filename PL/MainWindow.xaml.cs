@@ -52,5 +52,17 @@ namespace PL
                 s_bl.ResetDB();
             }
         }
+
+        private void click_EngineerEntry(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void click_AdminEntry(object sender, RoutedEventArgs e)
+        {
+            new AdminScreen().Show();
+            this.Close();
+
+        }
     }
 }

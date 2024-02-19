@@ -7,9 +7,16 @@
         <local:EngineerExperienceCollection x:Key="EngineerExperienceCollectionKey" />
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToIsEnabled x:Key="ConverIdToIsEnabledKey"/>
+        <local:ConvertcreateSToVisible x:Key="ConvertcreateSToVisiblekey"/>
+        <local:ConvertSeeMilestoneToVisible x:Key="ConvertSeeMilestoneToVisiblekey"/>
+
+
         <Style TargetType="Button">
             <Setter Property="FontSize"  Value ="32"/>
             <Setter Property="FontWeight"  Value ="Bold"/>
+            <Setter Property="Height"  Value ="100"/>
+            <Setter Property="Width"  Value ="200"/>
+
         </Style>
     </Application.Resources>
 </Application>
