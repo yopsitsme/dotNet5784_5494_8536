@@ -42,7 +42,7 @@ public partial class MilestoneListWindow : Window
         DependencyProperty.Register("MilestoneList", typeof(IEnumerable<BO.MilestoneInList>), typeof(MilestoneListWindow), new PropertyMetadata(null));
 
 
-    private void sortByMilstoneStatus(object sender, SelectionChangedEventArgs e)
+    private void SortByMilestoneStatus(object sender, SelectionChangedEventArgs e)
     {
         MilestoneList = new ObservableCollection<BO.MilestoneInList>((status == BO.Status.All) ?
             s_bl?.MilestoneInList.ReadAll()! : s_bl?.MilestoneInList.ReadAll(item => item.Status == status)!);
@@ -59,5 +59,11 @@ public partial class MilestoneListWindow : Window
             MilestoneWindow ew = new MilestoneWindow(MilestoneList, MilestoneInList.Id);
             ew.ShowDialog();
         }
+    }
+
+    private void sortByMilestoneStatus(object sender, SelectionChangedEventArgs e)
+    {
+        MilestoneList = new ObservableCollection<BO.MilestoneInList>((status == BO.Status.All) ?
+            s_bl?.MilestoneInList.ReadAll()! : s_bl.MilestoneInList.ReadAll(item => item.Status == status)!);
     }
 }
