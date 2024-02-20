@@ -14,7 +14,7 @@ public static class Tools
     /// </summary>
     /// <param name="id">The ID of the task.</param>
     /// <returns>A list of dependent tasks represented as <see cref="TaskInList"/>.</returns>
-    internal static List<BO.TaskInList> depndentTesks(int id)
+    public static List<BO.TaskInList> depndentTesks(int id)
     {
         var listId = _dal!.Dependency.ReadAll((d) => d.DependentTask == id);
         var dependencies = (from d in listId.ToList()

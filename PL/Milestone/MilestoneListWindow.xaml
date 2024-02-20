@@ -21,11 +21,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--סינון לפי סטטוס המשימה-->
-            <!--<Label Grid.Column="0" Content="sortetd by"/>
+            <Label Grid.Column="0" Content="sortetd by"/>
             <ComboBox ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
                       SelectedValue="{Binding status, Mode=TwoWay}"
-                      SelectionChanged="sortBy"
-                      Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
+                      SelectionChanged="sortByMilstoneStatus"
+                      Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
         <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding MilestoneList}" MouseDoubleClick="Milestone_dubbleClick"/>
         <Button Click="AddMilestone_click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>

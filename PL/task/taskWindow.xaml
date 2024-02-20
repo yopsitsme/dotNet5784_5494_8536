@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.task"
         mc:Ignorable="d"
-        Title="taskWindow" Height="450" Width="800">
+        Title="taskWindow" Height="450" Width="800"
+          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
-        
+
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding dependencies}" Visibility="{ Binding idState, Converter={StaticResource ConvertcreateSToVisiblekey}}" MouseDoubleClick="Task_dubbleClick"/>
     </Grid>
 </Window>

@@ -18,8 +18,11 @@ namespace PL
     /// <summary>
     /// Interaction logic for CreatingScheduleWindow.xaml
     /// </summary>
+    /// 
+   
     public partial class CreatingScheduleWindow : Window
     {
+       
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
         public DateTime? StartDate { get; set; } = null;
@@ -44,7 +47,7 @@ namespace PL
                     Tools.InitDateScheduleTime(StartDate??DateTime.Now, EndDate?? DateTime.Now);
                     s_bl.Milestone.Create();
                     MessageBox.Show("Operation completed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                    createMileseton.iscreated=true;
                     this.Close();
                 }
                 catch (Exception ex)

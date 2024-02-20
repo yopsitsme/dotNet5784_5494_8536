@@ -14,18 +14,18 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
@@ -37,47 +37,47 @@
 
         <!-- Description -->
         <Label Grid.Column="0" Grid.Row="1" Content="Description:"/>
-        <TextBox Text="{Binding Description,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Description,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
                  Grid.Column="1" Grid.Row="1"/>
 
         <!-- Alias -->
         <Label Grid.Column="0" Grid.Row="2" Content="Alias:"/>
-        <TextBox Text="{Binding Alias,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Alias,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
             Grid.Column="1" Grid.Row="2"/>
 
         <!-- CreatedAtDate -->
-        <Label Grid.Column="0" Grid.Row="2" Content="CreatedAtDate:"/>
-        <TextBox Text="{Binding CreatedAtDate,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <Label Grid.Column="0" Grid.Row="3" Content="CreatedAtDate:"/>
+        <TextBox Text="{Binding CreatedAtDate,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
      Grid.Column="1" Grid.Row="3"/>
 
         <!-- Status -->
-        <Label Grid.Column="0" Grid.Row="3" Content="Status:"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Status:"/>
         <ComboBox Grid.Column="1" Grid.Row="4" 
             ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
-                  SelectedValue="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, 
+                  SelectedValue="{Binding Status, Mode=OneTime, NotifyOnValidationError=true, 
 ValidatesOnExceptions=true}"
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <!-- ForeCastDate -->
-        <Label Grid.Column="0" Grid.Row="4" Content="ForeCastDate:"/>
-        <TextBox Text="{Binding ForeCastDate,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
+        <Label Grid.Column="0" Grid.Row="5" Content="ForeCastDate:"/>
+        <TextBox Text="{Binding ForeCastDate,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
             Grid.Column="1" Grid.Row="5"/>
 
         <!-- CompleteDate -->
-        <Label Grid.Column="0" Grid.Row="4" Content="CompleteDate:"/>
-        <TextBox Text="{Binding CompleteDate,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
+        <Label Grid.Column="0" Grid.Row="6" Content="CompleteDate:"/>
+        <TextBox Text="{Binding CompleteDate,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
     Grid.Column="1" Grid.Row="6"/>
         <!-- DeadLineDate -->
-        <Label Grid.Column="0" Grid.Row="4" Content="DeadLineDate:"/>
-        <TextBox Text="{Binding DeadLineDate,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
+        <Label Grid.Column="0" Grid.Row="7" Content="DeadLineDate:"/>
+        <TextBox Text="{Binding DeadLineDate,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
     Grid.Column="1" Grid.Row="7"/>
         <!-- CompletionPercentage -->
-        <Label Grid.Column="0" Grid.Row="4" Content="CompletionPercentage:"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="CompletionPercentage:"/>
         <TextBox Text="{Binding CompletionPercentage,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
     Grid.Column="1" Grid.Row="8"/>
         <!-- Remarks -->
-        <Label Grid.Column="0" Grid.Row="4" Content="Remarks:" Margin="0,0,0,-66" Grid.RowSpan="8"/>
-        <TextBox Text="{Binding Remarks,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
+        <Label Grid.Column="0" Grid.Row="9" Content="Remarks:" Margin="0,0,0,-66" Grid.RowSpan="8"/>
+        <TextBox Text="{Binding Remarks,  Mode=OneTime, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" 
     Grid.Column="1" Grid.Row="9"/>
 
         <!-- Save Button -->

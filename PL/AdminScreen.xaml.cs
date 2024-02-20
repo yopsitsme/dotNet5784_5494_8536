@@ -36,14 +36,15 @@ public partial class AdminScreen : Window
     {
         new EngineerListWindow().Show();
     }
-    public bool createScheduleFlag
-    {
-        get { return (bool)GetValue(createScheduleFlagProperty); }
-        set { SetValue(createScheduleFlagProperty, value); }
-    }
+    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
+    //public bool createScheduleFlag
+    //{
+    //    get { return (bool)GetValue(createScheduleFlagProperty); }
+    //    set { SetValue(createScheduleFlagProperty, value); }
+    //}
 
-    public static readonly DependencyProperty createScheduleFlagProperty =
-        DependencyProperty.Register("createScheduleFlag", typeof(bool), typeof(AdminScreen), new PropertyMetadata(null));
+    //public static readonly DependencyProperty createScheduleFlagProperty =
+    //    DependencyProperty.Register("createScheduleFlag", typeof(bool), typeof(AdminScreen), new PropertyMetadata(null));
 
 
     private void click_tasks(object sender, RoutedEventArgs e)
@@ -77,7 +78,7 @@ public partial class AdminScreen : Window
     private void click_createSchedule(object sender, RoutedEventArgs e)
     {
         new CreatingScheduleWindow().Show();
-        createScheduleFlag = true;
+        
     }
 
     private void click_milestones(object sender, RoutedEventArgs e)
