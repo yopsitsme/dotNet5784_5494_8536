@@ -53,8 +53,6 @@ public class MilestoneImplementation : IMilestone
         {
             throw new BlDoesNotExistException("", ex);
         }
-
-
     }
 
     /// <summary>

@@ -208,7 +208,7 @@ public static class Tools
            boTask.ComplexityLevel == null ? null : (DO.EngineerExperience)boTask.ComplexityLevel
         );
     }
-internal static BO.MilestoneInList fromDoTaskToMilestonInList(DO.Task task)
+internal static BO.MilestoneInList fromDoTaskToMilestoneInList(DO.Task task)
     {
         return new BO.MilestoneInList
         {

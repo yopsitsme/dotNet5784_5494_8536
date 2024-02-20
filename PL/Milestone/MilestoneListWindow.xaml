@@ -24,11 +24,12 @@
             <Label Grid.Column="0" Content="sortetd by"/>
             <ComboBox ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
                       SelectedValue="{Binding status, Mode=TwoWay}"
-                      SelectionChanged="sortByMilstoneStatus"
+                      SelectionChanged="SortByMilestoneStatus"
                       Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
         <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding MilestoneList}" MouseDoubleClick="Milestone_dubbleClick"/>
-        <Button Click="AddMilestone_click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Click="AddMilestone_click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"
+               Visibility="{Binding createScheduleFlag, Mode=TwoWay, Converter={StaticResource ConvertcreateSToVisiblekey}}"/>
 
 
     </Grid>
