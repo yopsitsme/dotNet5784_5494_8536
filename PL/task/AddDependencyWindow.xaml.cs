@@ -20,7 +20,7 @@ namespace PL.task
     /// </summary>
     public partial class AddDependencyWindow : Window
     {
-        public EventHandler eventDependency;
+        public event EventHandler eventDependency;
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
 
         int id = 0;

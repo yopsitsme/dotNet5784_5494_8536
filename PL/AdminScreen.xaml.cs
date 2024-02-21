@@ -46,8 +46,8 @@ public partial class AdminScreen : Window
         try
         {
             var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
-            s_bl.Task.Read(3794);
-            new taskWindow(w, 3794).Show();
+            s_bl.Task.Read(3797);
+            new taskWindow(w, 3797).Show();
         }
         catch(Exception ex) {
             var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
