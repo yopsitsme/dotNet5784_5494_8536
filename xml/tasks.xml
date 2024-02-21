@@ -131,7 +131,7 @@
     <Alias>Develop a machine learning mod</Alias>
     <Description>Develop</Description>
     <CreatedAtDate>2024-01-04T14:02:55.0336402+02:00</CreatedAtDate>
-    <RequierdEffortTime xsi:nil="true" />
+    <RequierdEffortTime>P12D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
     <ScheduledDate xsi:nil="true" />
