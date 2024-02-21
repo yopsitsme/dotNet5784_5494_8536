@@ -28,8 +28,16 @@ public partial class taskWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
 
-    public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
+    //public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
 
+    public ObservableCollection<BO.TaskInList> Dependencies
+    {
+        get { return (ObservableCollection<BO.TaskInList>)GetValue(DependenciesProperty); }
+        set { SetValue(DependenciesProperty, value); }
+    }
+
+    public static readonly DependencyProperty DependenciesProperty =
+        DependencyProperty.Register("Dependencies", typeof(ObservableCollection<BO.TaskInList>), typeof(taskWindow), new PropertyMetadata(null));
 
     public BO.Task ContentTask
     {
@@ -65,14 +73,19 @@ public partial class taskWindow : Window
         {
             taskWindow ew = new taskWindow(Dependencies, TaskInList.Id);
             ew.ShowDialog();
+
         }
     }
 
     private void click_addDependency(object sender, RoutedEventArgs e)
     {
-        BO.TaskInList? TaskInList = sender as BO.TaskInList;
-        new AddDependencyWindow(TaskInList.Id).ShowDialog();
         
+        new AddDependencyWindow(idState).ShowDialog();   
+
+    }
+    private void OnWindowActivated(object? sender, EventArgs e)
+    {
+        Dependencies = new ObservableCollection<BO.TaskInList>(Tools.depndentTesks(idState));
 
     }
 

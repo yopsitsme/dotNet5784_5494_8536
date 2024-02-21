@@ -25,8 +25,8 @@
 
 
         <Label  Grid.Column="1"  Grid.Row="0"  > dependncies in me</Label>
-        <ListView Grid.Column="1"  Grid.Row="1" ItemsSource="{Binding Dependencies, Mode=OneTime}"
-                  Visibility="{ Binding idState, Converter={StaticResource ConvertIdToVisbiltykey}, Mode=OneTime}" 
+        <ListView Grid.Column="1"  Grid.Row="1" ItemsSource="{Binding Dependencies, Mode=TwoWay}"
+                  Visibility="{ Binding idState, Converter={StaticResource ConvertIdToVisbiltykey}, Mode=TwoWay}" 
                   MouseDoubleClick="Task_dubbleClick"/>
         
         <Grid Grid.Row="1" Grid.Column="0" DataContext="{Binding ContentTask, Mode=TwoWay}">
@@ -72,13 +72,13 @@
         <Label Content="Status:" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
         <TextBox Text="{Binding Status , Mode=TwoWay}" IsEnabled="False"  Margin="5" Grid.Column="1" Grid.Row="6"/>
         <Label Content="Milestone:" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
-        <TextBox Text="{Binding Milestone.Id , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="7"/>
+        <TextBox Text="{Binding Milestone.Id , Mode=TwoWay}" IsEnabled="False" Margin="5" Grid.Column="1" Grid.Row="7"/>
         <Label Content="Start Date:" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
         <TextBox Text="{Binding StartDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="8"/>
         <Label Content="Scheduled Start Date:" Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
-        <TextBox Text="{Binding ScheduledStartDate , Mode=TwoWay}" Grid.Column="1" Margin="5" Grid.Row="9"/>
+        <TextBox Text="{Binding ScheduledStartDate , Mode=TwoWay}"  IsEnabled="False" Grid.Column="1" Margin="5" Grid.Row="9"/>
         <Label Content="Forecast Date:" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
-        <TextBox Text="{Binding ForeCastDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="10"/>
+        <TextBox Text="{Binding ForeCastDate , Mode=TwoWay}"  IsEnabled="False" Margin="5" Grid.Column="1" Grid.Row="10"/>
         <Label Content="Complete Date:" Grid.Row="11" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
         <TextBox Text="{Binding CompleteDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="11"/>
         <Label Content="Deadline Date:" Grid.Row="12" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
