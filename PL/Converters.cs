@@ -35,7 +35,7 @@ class ConvertIdToIsEnabled : IValueConverter
         throw new NotImplementedException();
     }
 }
-class ConvertcreateSToVisible : IValueConverter
+class ConvertCreateSToVisible : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

@@ -24,6 +24,7 @@ namespace PL;
 public partial class AdminScreen : Window
 {
 
+    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public AdminScreen()
@@ -36,7 +37,6 @@ public partial class AdminScreen : Window
     {
         new EngineerListWindow().Show();
     }
-    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
     //public bool createScheduleFlag
     //{
     //    get { return (bool)GetValue(createScheduleFlagProperty); }
@@ -78,7 +78,9 @@ public partial class AdminScreen : Window
     private void click_createSchedule(object sender, RoutedEventArgs e)
     {
         new CreatingScheduleWindow().Show();
-        
+        createScheduleFlag = true;
+
+
     }
 
     private void click_milestones(object sender, RoutedEventArgs e)
