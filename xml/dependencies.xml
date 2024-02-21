@@ -13,4 +13,9 @@
   <dependency Id="0" DependentTask="3799" DependsTask="0" />
   <dependency Id="0" DependentTask="3796" DependsTask="0" />
   <dependency Id="0" DependentTask="3794" DependsTask="3797" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3799" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3799" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3798" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3797" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3798" />
 </ArrayOfDependency>

@@ -76,25 +76,28 @@ public partial class taskWindow : Window
 
         }
     }
+    private void dependenciesHaveChanged(object sender, EventArgs e)
+    {
+        BO.TaskInList ?task=sender as BO.TaskInList;
+        if (task != null) { Dependencies.Add(task); }  
+
+    }
 
     private void click_addDependency(object sender, RoutedEventArgs e)
     {
-        
-        new AddDependencyWindow(idState).ShowDialog();   
 
+        var w = new AddDependencyWindow(idState);
+        w.eventDependency += dependenciesHaveChanged;
+        w.ShowDialog();
     }
-    private void OnWindowActivated(object? sender, EventArgs e)
-    {
-        Dependencies = new ObservableCollection<BO.TaskInList>(Tools.depndentTesks(idState));
-
-    }
-
+    
     private void save_click(object sender, RoutedEventArgs e)
     {
         try
         {
             if (idState == 0)
             {
+                s_bl.Engineer.Read(ContentTask?.Engineer?.Id ?? 0);
                 s_bl.Task.Create(ContentTask);
                 BO.TaskInList taskToAdd = new BO.TaskInList { Id = ContentTask.Id, Ailas = ContentTask.Alias, Description = ContentTask.Description, Status = Status.Unscheduled };
                 taskList.Add(taskToAdd);
