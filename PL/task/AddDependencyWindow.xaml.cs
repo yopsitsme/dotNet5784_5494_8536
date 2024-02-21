@@ -20,30 +20,40 @@ namespace PL.task
     /// </summary>
     public partial class AddDependencyWindow : Window
     {
+        public EventHandler eventDependency;
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
 
         int id = 0;
         public List<BO.TaskInList> allTask { get; set; }
-        public AddDependencyWindow(int Id)
+        public AddDependencyWindow(int Id )
         {
-            id= Id; 
-            InitializeComponent();
+            id= Id;
             allTask = s_bl.TaskInList.ReadAll().ToList();
+            InitializeComponent();
         }
         private void Chossen_dubbleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                BO.TaskInList t = sender as BO.TaskInList;
-                Tools.addDependency(id, t.Id);
+               
+                BO.TaskInList  t = (sender as ListView)?.SelectedItem as BO.TaskInList;
+                if (Tools.depndentTesks(id).FindAll(d => d.Id == t.Id) == null)
+                    throw new BlAlreadyExistsException($"A task with {t.Id} already depends on the task with {id}");
+                 Tools.addDependency(t.Id,id);
+                eventDependency(t, e);
                 this.Close();
                 MessageBox.Show("dependency add successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
+            }
+            catch (BlAlreadyExistsException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex) {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
+           
 
 
         }

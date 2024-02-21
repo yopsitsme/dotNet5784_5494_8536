@@ -56,15 +56,16 @@ namespace PL
 
         private void click_EngineerEntry(object sender, RoutedEventArgs e)
         {
-
-           new engineerIdWindow().Show();
             
+            new engineerIdWindow().Show();
+            this.Close();
         }
 
         private void click_AdminEntry(object sender, RoutedEventArgs e)
         {
+           
             new AdminScreen().Show();
-
+            this.Close();
         }
     }
 }

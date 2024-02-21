@@ -7,4 +7,16 @@
   <dependency Id="4891" DependentTask="3798" DependsTask="3802" />
   <dependency Id="4892" DependentTask="3803" DependsTask="3800" />
   <dependency Id="4893" DependentTask="3795" DependsTask="3796" />
+  <dependency Id="0" DependentTask="3796" DependsTask="0" />
+  <dependency Id="0" DependentTask="0" DependsTask="3797" />
+  <dependency Id="0" DependentTask="0" DependsTask="3797" />
+  <dependency Id="0" DependentTask="3799" DependsTask="0" />
+  <dependency Id="0" DependentTask="3796" DependsTask="0" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3797" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3799" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3799" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3798" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3797" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3798" />
+  <dependency Id="0" DependentTask="3794" DependsTask="3797" />
 </ArrayOfDependency>

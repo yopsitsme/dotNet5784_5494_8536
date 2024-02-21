@@ -28,8 +28,16 @@ public partial class taskWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
 
-    public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
+    //public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
 
+    public ObservableCollection<BO.TaskInList> Dependencies
+    {
+        get { return (ObservableCollection<BO.TaskInList>)GetValue(DependenciesProperty); }
+        set { SetValue(DependenciesProperty, value); }
+    }
+
+    public static readonly DependencyProperty DependenciesProperty =
+        DependencyProperty.Register("Dependencies", typeof(ObservableCollection<BO.TaskInList>), typeof(taskWindow), new PropertyMetadata(null));
 
     public BO.Task ContentTask
     {
@@ -65,23 +73,31 @@ public partial class taskWindow : Window
         {
             taskWindow ew = new taskWindow(Dependencies, TaskInList.Id);
             ew.ShowDialog();
+
         }
+    }
+    private void dependenciesHaveChanged(object sender, EventArgs e)
+    {
+        BO.TaskInList ?task=sender as BO.TaskInList;
+        if (task != null) { Dependencies.Add(task); }  
+
     }
 
     private void click_addDependency(object sender, RoutedEventArgs e)
     {
-        BO.TaskInList? TaskInList = sender as BO.TaskInList;
-        new AddDependencyWindow(TaskInList.Id).ShowDialog();
-        
 
+        var w = new AddDependencyWindow(idState);
+        w.eventDependency += dependenciesHaveChanged;
+        w.ShowDialog();
     }
-
+    
     private void save_click(object sender, RoutedEventArgs e)
     {
         try
         {
             if (idState == 0)
             {
+                s_bl.Engineer.Read(ContentTask?.Engineer?.Id ?? 0);
                 s_bl.Task.Create(ContentTask);
                 BO.TaskInList taskToAdd = new BO.TaskInList { Id = ContentTask.Id, Ailas = ContentTask.Alias, Description = ContentTask.Description, Status = Status.Unscheduled };
                 taskList.Add(taskToAdd);

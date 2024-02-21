@@ -6,16 +6,19 @@
         xmlns:local="clr-namespace:PL.task"
         mc:Ignorable="d"
         Title="AddDependencyWindow" Height="450" Width="800"
-                  DataContext="{Binding   RelativeSource={RelativeSource Mode=Self}}">
- 
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Label>Double click and add the task to the dependent list</Label>
-        <ListView Margin="5" Grid.Row="1"
-                  ItemsSource="{Binding allTask }" 
-                  MouseDoubleClick="Chossen_dubbleClick"/>
+
+        <!-- הקפץ את ה- ListView בתוך ScrollViewer -->
+        <ScrollViewer Grid.Row="1" Margin="5">
+            <ListView ItemsSource="{Binding allTask}" MouseDoubleClick="Chossen_dubbleClick"/>
+        </ScrollViewer>
     </Grid>
 </Window>

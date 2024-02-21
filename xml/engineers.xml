@@ -84,4 +84,11 @@
     <Level>Competent</Level>
     <Cost>169.2</Cost>
   </Engineer>
+  <Engineer>
+    <Id>3456746</Id>
+    <Name>rtyuru</Name>
+    <Email>erter@gmail.com</Email>
+    <Level>Proficient</Level>
+    <Cost>0</Cost>
+  </Engineer>
 </ArrayOfEngineer>
