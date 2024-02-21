@@ -8,39 +8,40 @@ using System.Windows;
 using System.Windows.Data;
 
 
-namespace PL;
-
-class ConvertIdToContent : IValueConverter
+namespace PL
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+
+    class ConvertIdToContent : IValueConverter
     {
-        return (int)value == 0 ? "Add" : "Update";
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value == 0 ? "Add" : "Update";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    class ConvertIdToVisbilty : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    class ConvertIdToIsEnabled : IValueConverter
     {
-        throw new NotImplementedException();
-    }
-}
-class ConvertIdToVisbilty: IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return (int)value == 0 ?Visibility.Collapsed :Visibility.Visible;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-class ConvertIdToIsEnabled : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return (int)value == 0 ? true : false;
-    }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value == 0 ? true : false;
+        }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -54,21 +55,22 @@ class ConvertCreateSToVisible : IValueConverter
         return (bool)value == false ? Visibility.Visible : Visibility.Hidden;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
-}
-class ConvertBoolSeeMilestoneToVisible : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    class ConvertBoolSeeMilestoneToVisible : IValueConverter
     {
-        return (bool)value == true ? Visibility.Visible : Visibility.Collapsed;
-    }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value == true ? Visibility.Visible : Visibility.Collapsed;
+        }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

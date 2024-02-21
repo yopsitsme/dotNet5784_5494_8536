@@ -37,7 +37,7 @@ public partial class AdminScreen : Window
     {
         new EngineerListWindow().ShowDialog();
     }
-    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
+    //public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
    
 
 
@@ -46,9 +46,15 @@ public partial class AdminScreen : Window
         try
         {
             var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
-            new taskWindow(w, 3610).Show();
+            s_bl.Task.Read(3794);
+            new taskWindow(w, 3794).Show();
         }
-        catch(Exception ex) { }
+        catch(Exception ex) {
+            var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
+
+            new taskWindow(w).Show();
+            this.Close();
+        }
         // new taskListWindow().ShowDialog();
        
     }

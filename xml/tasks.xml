@@ -1,254 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <Id>3768</Id>
-    <Alias>Optimize the network configuration for a distributed system</Alias>
-    <Description>Optimize</Description>
-    <CreatedAtDate>2024-01-14T21:04:19.2310299+02:00</CreatedAtDate>
-    <RequierdEffortTime>P31D</RequierdEffortTime>
-    <IsMilestone>false</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-09T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3769</Id>
-    <Alias>Implement a data encryption algorithm for sensitive information</Alias>
-    <Description>Implement</Description>
-    <CreatedAtDate>2024-01-18T21:04:19.2421326+02:00</CreatedAtDate>
-    <RequierdEffortTime>P29D</RequierdEffortTime>
-    <IsMilestone>false</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-09-03T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3765</Id>
-    <Alias>Create a data pipeline for processing and analyzing large datasets</Alias>
-    <Description>Create</Description>
-    <CreatedAtDate>2024-01-20T21:04:19.1981583+02:00</CreatedAtDate>
-    <RequierdEffortTime>P36D</RequierdEffortTime>
-    <IsMilestone>false</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-09T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3764</Id>
+    <Id>3795</Id>
     <Alias>Implement a caching mechanism to improve application performance</Alias>
     <Description>Implement</Description>
-    <CreatedAtDate>2024-01-09T21:04:19.1847548+02:00</CreatedAtDate>
-    <RequierdEffortTime>P43D</RequierdEffortTime>
+    <CreatedAtDate>2024-01-24T14:02:55.0827146+02:00</CreatedAtDate>
+    <RequierdEffortTime>P11D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-04-26T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-21T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3772</Id>
-    <Alias>Design and implement a content management system </Alias>
-    <Description>Design</Description>
-    <CreatedAtDate>2024-01-06T21:04:19.2700746+02:00</CreatedAtDate>
-    <RequierdEffortTime>P35D</RequierdEffortTime>
-    <IsMilestone>false</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-21T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3770</Id>
-    <Alias>Create a fault detection mechanism for a distributed system</Alias>
+    <Id>3796</Id>
+    <Alias>Create a data pipeline for processing and analyzing large datasets</Alias>
     <Description>Create</Description>
-    <CreatedAtDate>2024-02-02T21:04:19.2514373+02:00</CreatedAtDate>
-    <RequierdEffortTime>P10D</RequierdEffortTime>
+    <CreatedAtDate>2024-02-02T14:02:55.0927303+02:00</CreatedAtDate>
+    <RequierdEffortTime>P26D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-05T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3766</Id>
+    <Id>3797</Id>
     <Alias>Perform system capacity planning for a growing infrastructure</Alias>
     <Description>Perform</Description>
-    <CreatedAtDate>2024-01-06T21:04:19.2101614+02:00</CreatedAtDate>
-    <RequierdEffortTime>P16D</RequierdEffortTime>
+    <CreatedAtDate>2024-01-03T14:02:55.09606+02:00</CreatedAtDate>
+    <RequierdEffortTime>P44D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-02T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-21T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3771</Id>
-    <Alias>Develop a monitoring system for tracking application performance</Alias>
-    <Description>Develop</Description>
-    <CreatedAtDate>2024-01-30T21:04:19.2604984+02:00</CreatedAtDate>
-    <RequierdEffortTime>P34D</RequierdEffortTime>
-    <IsMilestone>false</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-02T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3767</Id>
+    <Id>3798</Id>
     <Alias>Design and implement an automated testing framework</Alias>
     <Description>Design</Description>
-    <CreatedAtDate>2024-01-23T21:04:19.2213872+02:00</CreatedAtDate>
-    <RequierdEffortTime>P28D</RequierdEffortTime>
+    <CreatedAtDate>2024-02-20T14:02:55.0983274+02:00</CreatedAtDate>
+    <RequierdEffortTime>P13D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-26T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-30T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3763</Id>
-    <Alias>Develop a machine learning model for image recognition</Alias>
-    <Description>Develop</Description>
-    <CreatedAtDate>2024-02-18T21:04:19.1699237+02:00</CreatedAtDate>
-    <RequierdEffortTime>P22D</RequierdEffortTime>
+    <Id>3799</Id>
+    <Alias>Optimize the network configuration for a distributed system</Alias>
+    <Description>Optimize</Description>
+    <CreatedAtDate>2024-01-29T14:02:55.1008929+02:00</CreatedAtDate>
+    <RequierdEffortTime>P44D</RequierdEffortTime>
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-04-23T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-21T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3779</Id>
-    <Alias>M12</Alias>
-    <Description>MEnd</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.1306392+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
+    <Id>3800</Id>
+    <Alias>Implement a data encryption algorithm for sensitive information</Alias>
+    <Description>Implement</Description>
+    <CreatedAtDate>2024-01-06T14:02:55.1031578+02:00</CreatedAtDate>
+    <RequierdEffortTime>P47D</RequierdEffortTime>
+    <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-11-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-21T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>
   <Task>
-    <Id>3773</Id>
-    <Alias>M0</Alias>
-    <Description>MStart</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.0188149+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-08-05T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3776</Id>
-    <Alias>M6</Alias>
-    <Description>M4</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.0769245+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-21T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-09-03T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3775</Id>
-    <Alias>M4</Alias>
-    <Description>M3</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.058018+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-04-26T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-09T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3777</Id>
-    <Alias>M8</Alias>
-    <Description>M5</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.0970513+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-02T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-11-05T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3778</Id>
-    <Alias>M10</Alias>
-    <Description>M6</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.1117084+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-03-26T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-02T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3774</Id>
-    <Alias>M2</Alias>
-    <Description>M2</Description>
-    <CreatedAtDate>2024-02-20T21:04:33.0375076+02:00</CreatedAtDate>
-    <RequierdEffortTime>PT0S</RequierdEffortTime>
-    <IsMilestone>true</IsMilestone>
-    <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-04-23T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-10-30T00:00:00</DeadLineDate>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId xsi:nil="true" />
-    <ComplexityLevel>Novice</ComplexityLevel>
-  </Task>
-  <Task>
-    <Id>3282</Id>
+    <Id>3801</Id>
     <Alias>Create a fault detection mechanism for a distributed system</Alias>
     <Description>Create</Description>
-    <CreatedAtDate>2024-02-16T19:10:49.9722494+02:00</CreatedAtDate>
+    <CreatedAtDate>2024-02-16T14:02:55.1059351+02:00</CreatedAtDate>
+    <RequierdEffortTime>P27D</RequierdEffortTime>
+    <IsMilestone>false</IsMilestone>
+    <StartDate xsi:nil="true" />
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <CompleteDate xsi:nil="true" />
+    <EngineerId xsi:nil="true" />
+    <ComplexityLevel>Novice</ComplexityLevel>
+  </Task>
+  <Task>
+    <Id>3802</Id>
+    <Alias>Develop a monitoring system for tracking application performance</Alias>
+    <Description>Develop</Description>
+    <CreatedAtDate>2024-01-24T14:02:55.108369+02:00</CreatedAtDate>
+    <RequierdEffortTime>P21D</RequierdEffortTime>
+    <IsMilestone>false</IsMilestone>
+    <StartDate xsi:nil="true" />
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <CompleteDate xsi:nil="true" />
+    <EngineerId xsi:nil="true" />
+    <ComplexityLevel>Novice</ComplexityLevel>
+  </Task>
+  <Task>
+    <Id>3803</Id>
+    <Alias>Design and implement a content management system </Alias>
+    <Description>Design</Description>
+    <CreatedAtDate>2024-02-16T14:02:55.1107942+02:00</CreatedAtDate>
+    <RequierdEffortTime>P42D</RequierdEffortTime>
+    <IsMilestone>false</IsMilestone>
+    <StartDate xsi:nil="true" />
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <CompleteDate xsi:nil="true" />
+    <EngineerId xsi:nil="true" />
+    <ComplexityLevel>Novice</ComplexityLevel>
+  </Task>
+  <Task>
+    <Id>3794</Id>
+    <Alias>Develop a machine learning model for image recognition</Alias>
+    <Description>Develop</Description>
+    <CreatedAtDate>2024-01-04T14:02:55.0336402+02:00</CreatedAtDate>
     <RequierdEffortTime xsi:nil="true" />
     <IsMilestone>false</IsMilestone>
     <StartDate xsi:nil="true" />
-    <ScheduledDate>2024-02-20T00:00:00</ScheduledDate>
-    <DeadLineDate>2025-02-08T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
+    <Deliverables>xdcfgv</Deliverables>
     <EngineerId xsi:nil="true" />
     <ComplexityLevel>Novice</ComplexityLevel>
   </Task>

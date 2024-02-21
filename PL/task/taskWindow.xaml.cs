@@ -24,7 +24,7 @@ public partial class taskWindow : Window
 {
    
     public  int idState { get; set; } =0;
-    public bool AddDependencyState { get; set; } = createMileseton.iscreated;
+    public bool AddDependencyState { get; set; } = createMileseton.iscreated==false;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
 
@@ -41,12 +41,12 @@ public partial class taskWindow : Window
         DependencyProperty.Register("ContentTask", typeof(BO.Task), typeof(taskWindow), new PropertyMetadata(null));
     public taskWindow(ObservableCollection<BO.TaskInList>? listTask,int Id=0)
     {
-        InitializeComponent();
+       
         taskList = listTask;
         if (Id == 0)
         {
             ContentTask = new BO.Task();
-            AddDependencyState = true;
+            AddDependencyState = false;
         }
         else
         {
@@ -55,6 +55,7 @@ public partial class taskWindow : Window
             idState = Id;
             Dependencies= new ObservableCollection<BO.TaskInList>(Tools.depndentTesks(Id));
         }
+        InitializeComponent();
 
     }
     private void Task_dubbleClick(object sender, MouseButtonEventArgs e)
@@ -82,7 +83,7 @@ public partial class taskWindow : Window
             if (idState == 0)
             {
                 s_bl.Task.Create(ContentTask);
-                BO.TaskInList taskToAdd =s_bl.TaskInList.read(ContentTask.Id);
+                BO.TaskInList taskToAdd = new BO.TaskInList { Id = ContentTask.Id, Ailas = ContentTask.Alias, Description = ContentTask.Description, Status = Status.Unscheduled };
                 taskList.Add(taskToAdd);
                 MessageBox.Show("task created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
