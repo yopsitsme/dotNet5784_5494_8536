@@ -5,10 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.task"
         mc:Ignorable="d"
-        Title="taskWindow" Height="450" Width="800"
-          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        Title="taskWindow" Height="900" Width="800"
+        DataContext="{Binding  RelativeSource={RelativeSource Mode=Self} }">
+ 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
 
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding dependencies}" Visibility="{ Binding idState, Converter={StaticResource ConvertcreateSToVisiblekey}}" MouseDoubleClick="Task_dubbleClick"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <!-- ListView for Dependencies -->
+        
+        <Label Grid.Column="0" Grid.Row="0" Content="Id:"/>
+
+        <TextBox Text="{Binding idState,  Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }" Grid.Column="1" Grid.Row="0"
+          IsEnabled="{Binding idState ,Mode=OneTime,Converter={StaticResource ConverIdToIsEnabledKey}}"/>
+        <ListView  Margin="5" Grid.Row="1" ItemsSource="{Binding Dependencies, Mode=OneTime}"
+                  Visibility="{ Binding idState, Converter={StaticResource ConvertIdToVisbiltykey}, Mode=OneTime}" 
+                  MouseDoubleClick="Task_dubbleClick"/>
+        <Label Content="Description:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding  ContentTask.Description, Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="2" />
+        <Label Content="Alias:" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding ContentTask.Alias, Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="3"/>
+        <Label Content="Created At:" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding CreatedAtDate, Mode=TwoWay}" IsEnabled="{Binding Id ,Mode=OneTime,Converter={StaticResource ConverIdToIsEnabledKey}}" Margin="5" Grid.Column="1" Grid.Row="4"/>
+        <Label Content="Required Effort Time:" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding RequierdEffortTime , Mode=TwoWay}"  Margin="5" Grid.Column="1" Grid.Row="5"/>
+        <Label Content="Status:" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding Status , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="6"/>
+        <Label Content="Milestone:" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding Milestone.Id , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="7"/>
+        <Label Content="Start Date:" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding StartDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="8"/>
+        <Label Content="Scheduled Start Date:" Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding ScheduledStartDate , Mode=TwoWay}" Grid.Column="1" Margin="5" Grid.Row="9"/>
+        <Label Content="Forecast Date:" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding ForeCastDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="10"/>
+        <Label Content="Complete Date:" Grid.Row="11" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding CompleteDate , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="11"/>
+        <Label Content="Deadline Date:" Grid.Row="12" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding DeadLineDate , Mode=TwoWay}" Margin="5" Grid.Column="1"  Grid.Row="12"/>
+        <Label Content="Deliverables:" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding Deliverables , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="13"/>
+        <Label Content="Remarks:" Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding Remarks , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="14"/>
+        <Label Content="Complexity Level:" Grid.Row="15" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding Engineer , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="15"/>
+        <Label Content="Engineer:" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Text="{Binding ComplexityLevel , Mode=TwoWay}" Grid.Column="1" Margin="5" Grid.Row="16"/>
+        <Button Grid.Row="17" Grid.Column="0" Click="click_addDependency" Margin="20"  Width="300" Visibility="{Binding AddDependencyState , Converter={StaticResource ConvertSeeMilestoneToVisiblekey},Mode=OneTime}">Add dependency</Button>
+        <Button Content="{Binding idState, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" Grid.Column="1" Grid.Row="17"   Click="save_click" />
     </Grid>
 </Window>

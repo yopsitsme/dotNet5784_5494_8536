@@ -35,26 +35,27 @@ public partial class AdminScreen : Window
 
     private void click_engineers(object sender, RoutedEventArgs e)
     {
-        new EngineerListWindow().Show();
+        new EngineerListWindow().ShowDialog();
     }
-    //public bool createScheduleFlag
-    //{
-    //    get { return (bool)GetValue(createScheduleFlagProperty); }
-    //    set { SetValue(createScheduleFlagProperty, value); }
-    //}
-
-    //public static readonly DependencyProperty createScheduleFlagProperty =
-    //    DependencyProperty.Register("createScheduleFlag", typeof(bool), typeof(AdminScreen), new PropertyMetadata(null));
+    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
+   
 
 
     private void click_tasks(object sender, RoutedEventArgs e)
     {
-        new taskListWindow().Show();
+        try
+        {
+            var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
+            new taskWindow(w, 3610).Show();
+        }
+        catch(Exception ex) { }
+        // new taskListWindow().ShowDialog();
+       
     }
 
     private void click_gant(object sender, RoutedEventArgs e)
     {
-        new ganttChartWindow().Show();
+        new ganttChartWindow().ShowDialog();
     }
     
     private void click_InitDb(object sender, RoutedEventArgs e)
@@ -77,15 +78,13 @@ public partial class AdminScreen : Window
 
     private void click_createSchedule(object sender, RoutedEventArgs e)
     {
-        new CreatingScheduleWindow().Show();
-        createScheduleFlag = true;
-
-
+        new CreatingScheduleWindow().ShowDialog();
+        
     }
 
     private void click_milestones(object sender, RoutedEventArgs e)
     {
       var s=  new MilestoneListWindow();
-        s.Show();
+        s.ShowDialog();
     }
 }

@@ -22,11 +22,13 @@ namespace PL.task;
 /// </summary>
 public partial class taskWindow : Window
 {
-    int idState = 0;
-    
+   
+    public  int idState { get; set; } =0;
+    public bool AddDependencyState { get; set; } = createMileseton.iscreated;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
-    public ObservableCollection<BO.TaskInList> taskList = null; // List of engineers
-    public ObservableCollection<BO.TaskInList>? dependencies { get; set; } = null;// List of engineers
+    public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
+
+    public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
 
 
     public BO.Task ContentTask
@@ -44,12 +46,14 @@ public partial class taskWindow : Window
         if (Id == 0)
         {
             ContentTask = new BO.Task();
+            AddDependencyState = true;
         }
         else
         {
+
             ContentTask = s_bl.Task.Read(Id);
             idState = Id;
-            dependencies= new ObservableCollection<BO.TaskInList>(Tools.depndentTesks(Id));
+            Dependencies= new ObservableCollection<BO.TaskInList>(Tools.depndentTesks(Id));
         }
 
     }
@@ -58,8 +62,56 @@ public partial class taskWindow : Window
         BO.TaskInList? TaskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         if (TaskInList != null)
         {
-            taskWindow ew = new taskWindow(dependencies, TaskInList.Id);
+            taskWindow ew = new taskWindow(Dependencies, TaskInList.Id);
             ew.ShowDialog();
+        }
+    }
+
+    private void click_addDependency(object sender, RoutedEventArgs e)
+    {
+        BO.TaskInList? TaskInList = sender as BO.TaskInList;
+        new AddDependencyWindow(TaskInList.Id).ShowDialog();
+        
+
+    }
+
+    private void save_click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (idState == 0)
+            {
+                s_bl.Task.Create(ContentTask);
+                BO.TaskInList taskToAdd =s_bl.TaskInList.read(ContentTask.Id);
+                taskList.Add(taskToAdd);
+                MessageBox.Show("task created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                s_bl.Task.Update(ContentTask);
+                BO.TaskInList TasktoUpdate = taskList.First(t => t.Id == idState);
+                taskList.Remove(TasktoUpdate);
+                BO.TaskInList taskToAdd = s_bl.TaskInList.read(ContentTask.Id);
+                taskList.Add(taskToAdd);
+                MessageBox.Show("task updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+                this.Close();
+        }
+        catch (BlNullPropertyException ex)
+        {
+            MessageBox.Show($"You must fill in id , Alias", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (InvalidInputException ex)
+        {
+            MessageBox.Show($"Invalid input: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (BlAlreadyExistsException ex)
+        {
+            MessageBox.Show($"An task with such ID already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

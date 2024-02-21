@@ -34,13 +34,17 @@ public static class Tools
     /// </summary>
     /// <param name="task">The task for which to determine the status.</param>
     /// <returns>The status of the task as <see cref="BO.Status"/>.</returns>
-    internal static Status myStatus(DO.Task task)
+    public static Status myStatus(DO.Task task)
     {
         return (BO.Status)(task.ScheduledDate == null ? 0
                                                      : task.DeadLineDate?.AddDays(-5) == DateTime.Now ? 2
                                                      : task.StartDate == null ? 1
                                                     : task.CompleteDate == null ? 3
                                                     : 4);
+    }
+    internal static BO.TaskInList TaskInListFromTask(DO.Task doTask)
+    {
+        return new TaskInList { Id = doTask.Id, Ailas = doTask.Alias, Description = doTask.Description, Status = Tools.myStatus(doTask) };
     }
 
     /// <summary>
@@ -318,7 +322,11 @@ internal static BO.MilestoneInList fromDoTaskToMilestoneInList(DO.Task task)
 
         return (flagDependsTask != null);
     }
-
+    public static void addDependency(int idDependsTask, int idDependentTask)
+    {
+        DO.Dependency dependency=new DO.Dependency() { DependentTask=idDependentTask ,DependsTask= idDependsTask };
+        _dal.Dependency.AddDependency(dependency);
+    }
     internal static BO.MilestoneInTask? milestoneInTask(int id)
     {
         BO.MilestoneInTask? milestoneInTask = Tools.depndentTesks(id)

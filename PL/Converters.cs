@@ -22,6 +22,18 @@ class ConvertIdToContent : IValueConverter
         throw new NotImplementedException();
     }
 }
+class ConvertIdToVisbilty: IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (int)value == 0 ?Visibility.Collapsed :Visibility.Visible;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
 
 class ConvertIdToIsEnabled : IValueConverter
 {
@@ -39,7 +51,7 @@ class ConvertCreateSToVisible : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return (bool)value == false ? Visibility.Visible : Visibility.Hidden;
+        return (bool)value == false ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -47,11 +59,11 @@ class ConvertCreateSToVisible : IValueConverter
         throw new NotImplementedException();
     }
 }
-class ConvertSeeMilestoneToVisible : IValueConverter
+class ConvertBoolSeeMilestoneToVisible : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return (bool)value == true ? Visibility.Visible : Visibility.Hidden;
+        return (bool)value == true ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
