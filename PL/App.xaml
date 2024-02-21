@@ -8,7 +8,7 @@
         <local:StatusCollection x:Key="StatusCollectionKey" />
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToIsEnabled x:Key="ConverIdToIsEnabledKey"/>
-        <local:ConvertcreateBoolSToVisible x:Key="ConvertcreateSToVisiblekey"/>
+        <local:ConvertCreateBoolSToVisible x:Key="ConvertcreateSToVisiblekey"/>
         <local:ConvertBoolSeeMilestoneToVisible x:Key="ConvertSeeMilestoneToVisiblekey"/>
         <local:ConvertIdToVisbilty x:Key="ConvertIdToVisbiltykey"/>
 
