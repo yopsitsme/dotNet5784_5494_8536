@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BO;
+using PL.Engineer;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,16 +15,44 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.task
+namespace PL.task;
+
+/// <summary>
+/// Interaction logic for taskListWindow.xaml
+/// </summary>
+public partial class taskListWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for taskListWindow.xaml
-    /// </summary>
-    public partial class taskListWindow : Window
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
+    public BO.Status status { get; set; } = BO.Status.All; // task status
+    public ObservableCollection<BO.TaskInList> TaskList
     {
-        public taskListWindow()
+        get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
+        set { SetValue(TaskListProperty, value); }
+    }
+
+    public static readonly DependencyProperty TaskListProperty =
+        DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(taskListWindow), new PropertyMetadata(null));
+    public taskListWindow()
+    {
+        InitializeComponent();
+        TaskList = new ObservableCollection<BO.TaskInList>(s_bl?.TaskInList.ReadAll())!;
+    }
+    private void SortByMilestoneStatus(object sender, SelectionChangedEventArgs e)
+    {
+        TaskList = new ObservableCollection<BO.TaskInList>((status == BO.Status.All) ?
+            s_bl?.TaskInList.ReadAll()! : s_bl?.TaskInList.ReadAll(item => item.Status == status)!);
+    }
+    private void Task_doubleClick(object sender, MouseButtonEventArgs e)
+    {
+        BO.TaskInList? TaskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
+        if (TaskInList != null)
         {
-            InitializeComponent();
+            taskWindow ew = new taskWindow(TaskList, TaskInList.Id);
+            ew.ShowDialog();
         }
+    }
+    private void AddTask_click(object sender, RoutedEventArgs e)
+    {
+        new taskWindow(TaskList).ShowDialog();
     }
 }

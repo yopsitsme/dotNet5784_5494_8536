@@ -43,19 +43,8 @@ public partial class AdminScreen : Window
 
     private void click_tasks(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
-            s_bl.Task.Read(3794);
-            new taskWindow(w, 3794).Show();
-        }
-        catch(Exception ex) {
-            var w = new ObservableCollection<BO.TaskInList>(s_bl.TaskInList.ReadAll());
 
-            new taskWindow(w).Show();
-            this.Close();
-        }
-        // new taskListWindow().ShowDialog();
+            new taskListWindow().ShowDialog();
        
     }
 
@@ -90,7 +79,6 @@ public partial class AdminScreen : Window
 
     private void click_milestones(object sender, RoutedEventArgs e)
     {
-      var s=  new MilestoneListWindow();
-        s.ShowDialog();
+      new MilestoneListWindow().ShowDialog();
     }
 }

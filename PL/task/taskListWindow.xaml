@@ -8,26 +8,26 @@
         Title="taskListWindow" Height="450" Width="800"
          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
-        <!--<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        --><!--Internal, Upper Grid--><!--
+        <!--Internal, Upper Grid-->
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            --><!--סינון לפי רמת מהנדס --><!--
+            <!--סינון לפי רמת מהנדס--> 
             <Label Grid.Column="0" Content="sortetd by"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
-                      SelectedValue="{Binding experience, Mode=TwoWay}"
-                      SelectionChanged="sortByEngineerExperience"
+            <ComboBox ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
+                      SelectedValue="{Binding status, Mode=TwoWay}"
+                      SelectionChanged="SortByMilestoneStatus"
                       Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding EngineerList}" MouseDoubleClick="Engineer_dubbleClick"/>
-        <Button Click="AddEngineer_click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>-->
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="Task_doubleClick"/>
+        <Button Click="AddTask_click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
 
 
     </Grid>
