@@ -10,6 +10,7 @@ public record Task
     string Description,
     DateTime CreatedAtDate,
     TimeSpan? RequierdEffortTime = null,
+    int? EngineerId = null,
     bool IsMilestone = false,
     DateTime? StartDate = null,
     DateTime? ScheduledDate = null,
@@ -17,7 +18,6 @@ public record Task
     DateTime? CompleteDate = null,
     string? Deliverables = null,
     string? Remarks = null,
-    int? EngineerId = null,
     EngineerExperience‏? ComplexityLevel = EngineerExperience.Novice
 
     )
@@ -26,6 +26,6 @@ public record Task
 {
 
 
-    public Task() : this(0, "", "", DateTime.Now, null, false, null, null, null, null, null, null, null, EngineerExperience.Novice) { }
+    public Task() : this(0, "", "", DateTime.Now,null, null, false, null, null, null, null, null, null, EngineerExperience.Novice) { }
 
 }

@@ -24,6 +24,22 @@ public partial class taskListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
     public BO.Status status { get; set; } = BO.Status.All; // task status
+    private void TaskChanged(object sender, EventArgs e)
+    {
+        AddOrUpdateEvent changeEvent=e as AddOrUpdateEvent;
+
+        if (changeEvent.EventState == "Add")
+        {
+            TaskList.Add(sender as BO.TaskInList);
+        }
+        else
+        {
+            BO.TaskInList taskToUpdate=sender as BO.TaskInList;
+            BO.TaskInList TasktoUpdate = TaskList.First(t => t.Id == taskToUpdate.Id);
+            TaskList.Remove(TasktoUpdate);
+            TaskList.Add(taskToUpdate);
+        }
+    }
     public ObservableCollection<BO.TaskInList> TaskList
     {
         get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
@@ -47,12 +63,15 @@ public partial class taskListWindow : Window
         BO.TaskInList? TaskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         if (TaskInList != null)
         {
-            taskWindow ew = new taskWindow(TaskList, TaskInList.Id);
+            taskWindow ew = new taskWindow(TaskInList.Id);
+            ew.TaskChanged += TaskChanged;
             ew.ShowDialog();
         }
     }
     private void AddTask_click(object sender, RoutedEventArgs e)
     {
-        new taskWindow(TaskList).ShowDialog();
+        taskWindow ew = new taskWindow();
+        ew.TaskChanged += TaskChanged;
+        ew.ShowDialog();
     }
 }

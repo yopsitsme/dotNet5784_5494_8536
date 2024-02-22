@@ -30,7 +30,8 @@
             <StackPanel Grid.Row="1" Margin="20">
                 <TextBlock Text="Navigation Options" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
                 <Button Content=" Engineer's Tasks" Width="300" Margin="0,0,0,5" Click="ViewEngineerTasks_Click"/>
-            <Button Content="Update Task" Width="300" Margin="0,0,0,5" Click="UpdateTaskDetails_Click"/>
+            <Button Content="View Task" Width="300" Margin="0,0,0,5" Click="ViewTask_Click"
+                    Visibility="{Binding TaskFlag, Mode=OneTime, Converter={StaticResource ConvertCreateSToVisiblekey}}"/>
             </StackPanel>
         </Grid>
     

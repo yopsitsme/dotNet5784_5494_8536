@@ -133,8 +133,10 @@ public static class Initialization
             string _alias = words[0];
             DateTime _create = DateTime.Now.AddDays(-s_rand.Next(0, 50));
             TimeSpan timeSpan = TimeSpan.FromDays(s_rand.Next(10, 50));
+            var engineerList = s_dal.Engineer.ReadAll().ToList();
+            int engineerId = engineerList[ s_rand.Next(0, engineerList.Count())].Id;
             i++;
-            DO.Task newTask = new DO.Task ( 0,  _description, _alias,  _create , timeSpan);
+            DO.Task newTask = new DO.Task ( 0,  _description, _alias,  _create , timeSpan, engineerId);
             int id = s_dal!.Task.Create(newTask);
         }
 
@@ -184,9 +186,11 @@ public static class Initialization
     }
     public static void Reset() //stage 5
     {
-        s_dal?.Dependency?.Reset();
-        s_dal?.Task?.Reset();
-        s_dal?.Engineer?.Reset();
+        s_dal = DalApi.Factory.Get;
+
+        s_dal.Dependency.Reset();
+        s_dal.Task.Reset();
+        s_dal.Engineer.Reset();
     }
 
 }

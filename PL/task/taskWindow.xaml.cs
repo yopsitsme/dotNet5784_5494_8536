@@ -26,7 +26,9 @@ public partial class taskWindow : Window
     public  int idState { get; set; } =0;
     public bool AddDependencyState { get; set; } = createMileseton.iscreated==false;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
-    public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
+    //public ObservableCollection<BO.TaskInList> ?taskList = null; // List of engineers
+    public event EventHandler TaskChanged;
+
 
     //public ObservableCollection<BO.TaskInList>? Dependencies { get; set; } = null;// List of engineers
 
@@ -47,10 +49,9 @@ public partial class taskWindow : Window
 
     public static readonly DependencyProperty TaskProperty =
         DependencyProperty.Register("ContentTask", typeof(BO.Task), typeof(taskWindow), new PropertyMetadata(null));
-    public taskWindow(ObservableCollection<BO.TaskInList>? listTask,int Id=0)
+    public taskWindow(int Id=0)
     {
        
-        taskList = listTask;
         if (Id == 0)
         {
             ContentTask = new BO.Task();
@@ -71,7 +72,7 @@ public partial class taskWindow : Window
         BO.TaskInList? TaskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         if (TaskInList != null)
         {
-            taskWindow ew = new taskWindow(Dependencies, TaskInList.Id);
+            taskWindow ew = new taskWindow( TaskInList.Id);
             ew.ShowDialog();
 
         }
@@ -100,16 +101,14 @@ public partial class taskWindow : Window
                 s_bl.Engineer.Read(ContentTask?.Engineer?.Id ?? 0);
                 s_bl.Task.Create(ContentTask);
                 BO.TaskInList taskToAdd = new BO.TaskInList { Id = ContentTask.Id, Ailas = ContentTask.Alias, Description = ContentTask.Description, Status = Status.Unscheduled };
-                taskList.Add(taskToAdd);
+                TaskChanged(taskToAdd, new AddOrUpdateEvent("Add"));
                 MessageBox.Show("task created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 s_bl.Task.Update(ContentTask);
-                BO.TaskInList TasktoUpdate = taskList.First(t => t.Id == idState);
-                taskList.Remove(TasktoUpdate);
-                BO.TaskInList taskToAdd = s_bl.TaskInList.read(ContentTask.Id);
-                taskList.Add(taskToAdd);
+                 BO.TaskInList taskToAdd = s_bl.TaskInList.read(ContentTask.Id);
+                TaskChanged(taskToAdd, new AddOrUpdateEvent("Update"));
                 MessageBox.Show("task updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
                 this.Close();

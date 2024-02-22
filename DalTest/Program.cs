@@ -157,7 +157,7 @@ public class Program
     {
         string description = GetInput("Enter the task description: ");
         string alias = GetInput("Enter the task alias: ");
-        DO.Task task = new DO.Task(  0, description, alias,  DateTime.Now ,new TimeSpan(0) ,false);
+        DO.Task task = new DO.Task(  0, description, alias,  DateTime.Now ,new TimeSpan(0) ,null,false);
         s_dal!.Task.Create(task);
     }
 
@@ -391,6 +391,7 @@ public class Program
                 description ?? task.Description,
               task.CreatedAtDate,
               task.RequierdEffortTime,
+                engineerId ?? task.EngineerId,
               task.IsMilestone,
                 start ?? task.StartDate,
                scheduled ?? task.ScheduledDate,
@@ -398,7 +399,6 @@ public class Program
                 complete ?? task.CompleteDate,
                  deliverables != "" ? deliverables : task.Deliverables,
                 remarks != "" ? remarks : task.Remarks,
-                engineerId ?? task.EngineerId,
                 complexityLevel ?? task.ComplexityLevel
                );
 

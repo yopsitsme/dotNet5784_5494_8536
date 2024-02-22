@@ -67,8 +67,8 @@ public static class Tools
          $"MStart",
          DateTime.Now,
          new TimeSpan(0),
-         true,//ismilestone
          null,
+         true,//ismilestone
          startPro
          );
         int idfirstMilestone = _dal.Task.Create(firstMilestone);
@@ -116,6 +116,7 @@ public static class Tools
                 $"M{count}",
                 DateTime.Now,
                TimeSpan.Zero,
+               null,
                 true);
                 id = _dal.Task.Create(milestone);
 
@@ -147,8 +148,8 @@ public static class Tools
                                    $"MEnd",
                                     DateTime.Now,
                                      new TimeSpan(0),
-                                      true,
                                       null,
+                                      true,
                                          endPro,
                                          endPro);
         int idendMilestone = _dal.Task.Create(endMilestone);
@@ -197,6 +198,7 @@ public static class Tools
             boTask.Description,
             boTask.CreatedAtDate,
             boTask.RequierdEffortTime,
+            boTask.Engineer?.Id ?? null,
             false,
             boTask.StartDate,
             boTask.ScheduledStartDate,
@@ -204,7 +206,6 @@ public static class Tools
             boTask.CompleteDate,
             boTask.Deliverables,
             boTask.Remarks,
-            boTask.Engineer?.Id ?? null,
            boTask.ComplexityLevel == null ? null : (DO.EngineerExperience)boTask.ComplexityLevel
         );
     }

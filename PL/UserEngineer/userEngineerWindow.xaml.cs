@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PL.task;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,26 +22,35 @@ namespace PL.UserEngineer
     public partial class userEngineerWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
         public string TaskTitle { get; set; }
         public string TaskDescription { get; set; }
+        public BO.Engineer e;
+        public bool TaskFlag
+        {
+            get { return (bool)GetValue(TaskFlagProperty); }
+            set { SetValue(TaskFlagProperty, value); }
+        }
+
+        public static readonly DependencyProperty TaskFlagProperty =
+            DependencyProperty.Register("TaskFlag", typeof(bool), typeof(taskWindow), new PropertyMetadata(null));
         public userEngineerWindow(int id)
         {
-           BO.Engineer e= s_bl.Engineer.Read(id);
+            e= s_bl.Engineer.Read(id);
+            TaskFlag = e.Task == null;
             TaskTitle = (e.Task?.Id).ToString() ?? "0";
             TaskDescription = e.Task?.Alias ?? "no task";
             InitializeComponent();
 
         }
 
-        private void UpdateTaskDetails_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ViewEngineerTasks_Click(object sender, RoutedEventArgs e)
         {
+            new TaskListToChooseWindoe();
+        }
 
+        private void ViewTask_Click(object sender, RoutedEventArgs ev)
+        {
+            new taskWindow(e.Task?.Id??0).ShowDialog();
         }
     }
 }

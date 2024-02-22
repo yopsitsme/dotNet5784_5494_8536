@@ -22,7 +22,7 @@ namespace PL
    
     public partial class CreatingScheduleWindow : Window
     {
-       
+       public event EventHandler CreatingScheduleChanged;
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
         public DateTime? StartDate { get; set; } = null;
@@ -48,6 +48,7 @@ namespace PL
                     s_bl.Milestone.Create();
                     MessageBox.Show("Operation completed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     createMileseton.iscreated=true;
+                    CreatingScheduleChanged(true, EventArgs.Empty);
                     this.Close();
                 }
                 catch (Exception ex)

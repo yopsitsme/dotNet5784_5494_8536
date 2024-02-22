@@ -24,13 +24,25 @@ namespace PL;
 public partial class AdminScreen : Window
 {
 
-    public bool createScheduleFlag { get; set; } = createMileseton.iscreated;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    private void CreatingScheduleChanged(object sender, EventArgs e)
+    {
+        createMileseton.iscreated = true;
+        CreateScheduleFlag =createMileseton.iscreated;
+    }
 
+    public bool CreateScheduleFlag
+    {
+        get { return (bool)GetValue(CreateScheduleFlagProperty); }
+        set { SetValue(CreateScheduleFlagProperty, value); }
+    }
+
+    public static readonly DependencyProperty CreateScheduleFlagProperty =
+        DependencyProperty.Register("CreateScheduleFlag", typeof(bool), typeof(AdminScreen), new PropertyMetadata(null));
     public AdminScreen()
     {
+        CreateScheduleFlag = createMileseton.iscreated;
         InitializeComponent();
-        
     }
 
     private void click_engineers(object sender, RoutedEventArgs e)
@@ -73,8 +85,9 @@ public partial class AdminScreen : Window
 
     private void click_createSchedule(object sender, RoutedEventArgs e)
     {
-        new CreatingScheduleWindow().ShowDialog();
-        
+        var csw = new CreatingScheduleWindow();
+        csw.CreatingScheduleChanged += CreatingScheduleChanged;
+        csw.ShowDialog();
     }
 
     private void click_milestones(object sender, RoutedEventArgs e)

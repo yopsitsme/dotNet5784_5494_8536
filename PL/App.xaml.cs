@@ -13,6 +13,6 @@ namespace PL
     /// </summary>
     public partial class App : Application
     {
-       
+       public static string UserState {  get; set; }    
     }
 }

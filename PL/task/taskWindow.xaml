@@ -92,7 +92,8 @@
          <ComboBox Grid.Column="1" Grid.Row="16" 
                    ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
                   SelectedValue="{Binding ComplexityLevel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"   ></ComboBox>  
-         <TextBox Text="{Binding Engineer , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="15"/>
+         <TextBox Text="{Binding Engineer , Mode=TwoWay}" Margin="5" Grid.Column="1" Grid.Row="15"
+                  IsEnabled="{Binding UserState}"/>
          <Label Content="Engineer id:" Grid.Row="15" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
         </Grid>
         <StackPanel  Grid.Column="2" Grid.Row="1">
