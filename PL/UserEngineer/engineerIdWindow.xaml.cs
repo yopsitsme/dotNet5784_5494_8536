@@ -13,34 +13,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.UserEngineer
+namespace PL.UserEngineer;
+
+/// <summary>
+/// Interaction logic for engineerIdWindow.xaml
+/// </summary>
+public partial class engineerIdWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for engineerIdWindow.xaml
-    /// </summary>
-    public partial class engineerIdWindow : Window
+    public int Id { get; set; }
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    public engineerIdWindow()
     {
-        public int Id { get; set; }
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        InitializeComponent();
+    }
 
-        public engineerIdWindow()
+    private void SubmitButton_Click(object sender, RoutedEventArgs e)
+    {
+       try
         {
-            InitializeComponent();
+            s_bl.Engineer.Read(Id);
+            new userEngineerWindow(Id).Show();
+            this.Close();
         }
-
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        catch (Exception ex) 
         {
-           try
-            {
-                s_bl.Engineer.Read(Id);
-                new userEngineerWindow(Id).Show();
-                this.Close();
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show("A user with such an ID does not exist in the system", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("A user with such an ID does not exist in the system", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            }
         }
     }
 }

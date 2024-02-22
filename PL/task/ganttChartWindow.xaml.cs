@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.task
+namespace PL.task;
+
+/// <summary>
+/// Interaction logic for ganttChartWindow.xaml
+/// </summary>
+public partial class ganttChartWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for ganttChartWindow.xaml
-    /// </summary>
-    public partial class ganttChartWindow : Window
+    public ganttChartWindow()
     {
-        public ganttChartWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
