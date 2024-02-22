@@ -20,7 +20,7 @@ namespace PL.task
     /// </summary>
     public partial class AddDependencyWindow : Window
     {
-        public EventHandler eventDependency;
+        public event EventHandler eventDependency;
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
 
         int id = 0;
@@ -37,7 +37,9 @@ namespace PL.task
             {
                
                 BO.TaskInList  t = (sender as ListView)?.SelectedItem as BO.TaskInList;
-                if (Tools.depndentTesks(id).FindAll(d => d.Id == t.Id) == null)
+               
+              
+                if (Tools.depndentTesks(id).FirstOrDefault(d => d.Id == t.Id) != null)
                     throw new BlAlreadyExistsException($"A task with {t.Id} already depends on the task with {id}");
                  Tools.addDependency(t.Id,id);
                 eventDependency(t, e);
