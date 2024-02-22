@@ -53,4 +53,5 @@
   <dependency Id="4977" DependentTask="3832" DependsTask="3794" />
   <dependency Id="4978" DependentTask="3813" DependsTask="3832" />
   <dependency Id="0" DependentTask="3797" DependsTask="3800" />
+  <dependency Id="0" DependentTask="3797" DependsTask="3796" />
 </ArrayOfDependency>

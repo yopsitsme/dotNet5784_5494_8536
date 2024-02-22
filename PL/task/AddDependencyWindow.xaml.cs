@@ -37,7 +37,9 @@ namespace PL.task
             {
                
                 BO.TaskInList  t = (sender as ListView)?.SelectedItem as BO.TaskInList;
-                if (Tools.depndentTesks(id).FindAll(d => d.Id == t.Id) == null)
+               
+              
+                if (Tools.depndentTesks(id).FirstOrDefault(d => d.Id == t.Id) != null)
                     throw new BlAlreadyExistsException($"A task with {t.Id} already depends on the task with {id}");
                  Tools.addDependency(t.Id,id);
                 eventDependency(t, e);
