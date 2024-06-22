@@ -24,16 +24,21 @@ namespace PL.UserEngineer
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Business Logic API
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            BO.Task taskToUpdate = sender as BO.Task;
-            taskToUpdate.CompleteDate= DateTime.Now;
-            s_bl.Task.Update(taskToUpdate);
+            //לא מושלם צריך לחשוב על הדרך
+            //BO.Task ? taskToUpdate = sender as BO.Task;
+            var t = (sender).GetType();
+           // BO.Task ? taskToUpdate=s_bl.Task.Read()
+            //taskToUpdate.CompleteDate= DateTime.Now;
+            //s_bl.Task.Update(taskToUpdate);
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            BO.Task taskToUpdate = sender as BO.Task;
-            taskToUpdate.CompleteDate = null;
-            s_bl.Task.Update(taskToUpdate);
+            //לא מושלם צריך לחשוב על הדרך
+
+            //BO.Task taskToUpdate = sender as BO.Task;
+            //taskToUpdate.CompleteDate = null;
+            //s_bl.Task.Update(taskToUpdate);
         }
 
         public ObservableCollection<BO.Task> TasksOfEnginner

@@ -89,7 +89,7 @@ public partial class AdminScreen : Window
         csw.CreatingScheduleChanged += CreatingScheduleChanged;
         csw.ShowDialog();
     }
-
+   
     private void click_milestones(object sender, RoutedEventArgs e)
     {
       new MilestoneListWindow().ShowDialog();
