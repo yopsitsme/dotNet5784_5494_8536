@@ -11,7 +11,7 @@
         <local:ConvertCreateSToVisible x:Key="ConvertCreateSToVisiblekey"/>
         <local:ConvertBoolSeeMilestoneToVisible x:Key="ConvertSeeMilestoneToVisiblekey"/>
         <local:ConvertIdToVisbilty x:Key="ConvertIdToVisbiltykey"/>
-        <!--<local:createMileseton x:Key="createScheduleFlagKey"/>-->
+        <local:ConvertStatusToIsChecked x:Key="ConvertStatusToIsCheckedKey"/>
 
         <Style TargetType="Button">
             <Setter Property="FontSize"  Value ="22"/>

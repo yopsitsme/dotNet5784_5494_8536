@@ -72,5 +72,17 @@ class ConvertCreateSToVisible : IValueConverter
             throw new NotImplementedException();
         }
     }
+    class ConvertStatusToIsChecked : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (BO.Status)value ==BO.Status.Done ?true:false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value==true?BO.Status.Done :BO.Status.Scheduled;
+        }
+    }
 }
 

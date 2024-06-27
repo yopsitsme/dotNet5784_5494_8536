@@ -24,7 +24,11 @@
 
 
         </Grid>
-        <TextBlock Text=" helo" FontSize="45" Grid.Row="1"/>
+        <TextBlock Text=" Welcome!!" FontSize="45" Grid.Row="1">
+            <TextBlock.Background>
+                <ImageBrush/>
+            </TextBlock.Background>
+        </TextBlock>
 
     </Grid>
 </Window>
