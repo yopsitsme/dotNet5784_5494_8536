@@ -226,3 +226,9 @@ The presentation layer is built using WPF and includes:
 ### Helper Entities
 - TaskInList (for dependency lists and task list screen)
 - MilestoneInList (for milestone list screen)
+
+
+## Contributors
+
+- Tsipi Wajsberg ([@tsw1212](https://github.com/tsw1212))
+- Chana Perel Kats ([@yopsitsme](https://github.com/yopsitsme))
