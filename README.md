@@ -63,7 +63,7 @@ To use the Project Management System:
 1. Launch the application.
 2. Log in as either a Project Manager or an Engineer.
 
-![Project Management System Interface](image\screenshot admain_screen.png)
+[Project Management System Interface](image\screenshot admain_screen.png)
 Screenshot: Main interface of the Project Management System
 [![Product Name Screen Shot][product-screenshot]](image\screenshot admain_screen.png)
 
