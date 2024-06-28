@@ -71,10 +71,7 @@ Screenshot: Admain interface of the Project Management System
 Screenshot: Task interface of the Project Management System
 ![Project Management System Interface](image/screenshot_update_task.png)
 Screenshot: Update task interface of the Project Management System
-![Project Management System Interface](image/screenshot_create_schdule.png)
-Screenshot: Create schdule interface of the Project Management System
-![Project Management System Interface](image/screenshot_engeneer_screen.png)
-Screenshot: Engneer interface of the Project Management System
+
 
 
 For Project Managers:
